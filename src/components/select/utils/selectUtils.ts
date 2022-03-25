@@ -1,6 +1,6 @@
 import { ISelectValue, IDataItem } from "../types"
 
-export const getInitialValue = (propsValue: ISelectValue, data: IDataItem[] = []) => {
+export const getInitialValue = (propsValue: ISelectValue, data: IDataItem[] = []): IDataItem[] => {
 
   switch (typeof propsValue) {
     case 'number':
@@ -17,13 +17,12 @@ export const getInitialValue = (propsValue: ISelectValue, data: IDataItem[] = []
           if (typeof item === 'object' && 'value' in item && 'title' in item) {
             return item
           } else {
-            const title = data.find(option => option.value === item)?.title
+            const title = data.find(option => option.value === item)?.title || ""
             return { value: item, title }
           }
         })
-      }
-      break;
+      } else return [propsValue]
     default:
-      throw new Error();
+      return []
   }
 }

@@ -1,48 +1,34 @@
 import { getInitialValue } from "./utils/selectUtils"
-import { ISelectProps, IDataItem, ISelectReducerState } from "./types"
+import { ISelectReducerState, ISelectReducerAction, ISelectReducerProps } from "./types"
 
-const initialState = {
-  value: [],
-  data: [],
-  dataUrl: "",
-  remoteMode: false,
-  filteredData: [],
-  loading: true,
-  filterValue: '',
-  inited: false,
-  hasErrorsOnFetch: false
-}
-
-export const reducer = function(state: ISelectReducerState, {type, payload}: {type: string, payload: any}) {
-  switch (type) {
+export const reducer = function(state: ISelectReducerState, action: ISelectReducerAction): ISelectReducerState {
+  switch (action.type) {
     case "setLoading":
-      return {...state, loading: payload}
+      return {...state, loading: action.loading}
     case "setValue":
-      return {...state, value: payload}
+      return {...state, value: action.value}
     case "setFilterValue":
-      return {...state, filterValue: payload}
+      return {...state, filterValue: action.filterValue}
     case "setFilteredData":
-      return {...state, filteredData: payload}
+      return {...state, filteredData: action.filteredData}
     default: 
-      throw new Error()
+      return state
   }
 }
 
-export const init = function({ remoteMode, dataUrl, minInputLength, data, filterable, value }: ISelectProps) {
+export const init = function({ minInputLength, data, filterable, value }: ISelectReducerProps): ISelectReducerState {
   let selectData = data
   let hasErrorsOnFetch = false
 
-  const filteredData: IDataItem[] = filterable && (minInputLength > 0) ? [] : selectData
+  const filteredData = filterable && (minInputLength > 0) ? [] : selectData
 
   return {
-    ...initialState,
     value: getInitialValue(value, filteredData),
     data: selectData,
     filteredData,
     inited: true,
     loading: false,
     hasErrorsOnFetch,
-    remoteMode,
-    dataUrl
+    filterValue: '',
   }
 }

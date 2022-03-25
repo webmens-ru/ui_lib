@@ -24,12 +24,11 @@ export const Select = ({
   const { ref, isShow, setShow } = useShowControl()
   const filterRef = useRef(null)
   const [select, dispatch] = useReducer(reducer, {
-    remoteMode,
     minInputLength,
     data,
     dataUrl,
     filterable,
-    value
+    value,
   }, init)
 
   console.log(select);
@@ -39,9 +38,9 @@ export const Select = ({
     const filterValue = evt.target.value
     // show loading if select need to get remote data
     if (remoteMode) {
-      dispatch({ type: 'setLoading', payload: true })
+      dispatch({ type: 'setLoading', loading: true })
     }
-    dispatch({ type: 'setFilterValue', payload: filterValue})
+    dispatch({ type: 'setFilterValue', filterValue })
 
     setTimeout(() => {
       if (filterValue !== evt.target.value) return
@@ -50,10 +49,10 @@ export const Select = ({
   }
 
   const updateFilteredData = async (filterValue: string) => {
-    let filteredData = []
+    let filteredData = data
 
     if (filterValue.length >= minInputLength) {
-      if (remoteMode && minInputLength > 0) {
+      if (remoteMode /*&& minInputLength > 0*/) {
         const selectQueryParams = new URLSearchParams({ 
           ...queryParams, 
           [queryTitleName]: filterValue.trim() 
@@ -68,15 +67,15 @@ export const Select = ({
       }
     }
 
-    dispatch({ type: 'setFilteredData', payload: filteredData })
-    dispatch({ type: 'setLoading', payload: false })
+    dispatch({ type: 'setFilteredData', filteredData })
+    dispatch({ type: 'setLoading', loading: false })
   }
 
   const handleFilterClick = (evt: React.MouseEvent) => {
     if (isShow) {
       evt.stopPropagation()
     } else if (select.filterValue) {
-      dispatch({ type: 'setLoading', payload: true })
+      dispatch({ type: 'setLoading', loading: true })
       updateFilteredData(select.filterValue)
     }
   }
@@ -91,7 +90,7 @@ export const Select = ({
       }
     }
 
-    dispatch({ type: 'setValue', payload: value })
+    dispatch({ type: 'setValue', value })
     onChange(value)
 
     if (closeOnSelect) setShow(false)
@@ -100,7 +99,7 @@ export const Select = ({
   const handleRemoveTag = (event: React.MouseEvent, tag: IDataItem) => {
     event.stopPropagation()
     const value = select.value.filter((item: IDataItem) => item !== tag)
-    dispatch({ type: 'setValue', payload: value })
+    dispatch({ type: 'setValue', value })
     onChange(select.value)
   }
 
@@ -115,7 +114,7 @@ export const Select = ({
       <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={() => setShow(!isShow)}>
         {select.hasErrorsOnFetch && <SelectErrorMsg children="Произошла ошибка при загрузке данных" />}
 
-        <SelectSuffix>
+        <SelectSuffix isShow={isShow}>
           <Suffix />
         </SelectSuffix>
 

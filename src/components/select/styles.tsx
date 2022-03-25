@@ -4,14 +4,17 @@ type SelectContainerProps = {
   width: string;
   isShow: boolean;
 }
+type SuffixProps = {
+  isShow: boolean;
+}
 
 /* SELECT BASE */
-export const SelectContainer = styled.div`
+export const SelectContainer = styled.div<SelectContainerProps>`
   font-family: 'Times New Roman', Times, serif;
   position: relative;
-  width: ${({width}: SelectContainerProps) => width || '100%'};
+  width: ${({width}) => width || '100%'};
   border: 1px solid transparent;
-  border-color: ${({isShow}: SelectContainerProps) => isShow ? '#66afe9' : 'rgba(83, 92, 105, 0.2)'};
+  border-color: ${({isShow}) => isShow ? '#66afe9' : 'rgba(83, 92, 105, 0.2)'};
   background: #fff;
   cursor: pointer;
   transition: border .3s ease,background-color .3s ease,color .3s ease,padding .3s ease;
@@ -64,14 +67,14 @@ export const SelectErrorMsg = styled.div`
 /* SELECT BASE */
 
 /* SELECT RIGHT ARROW */
-export const SelectSuffix = styled.span`
+export const SelectSuffix = styled.span<SuffixProps>`
   position: absolute;
   top: 0;
   right: 12px;
   display: inline-flex;
   height: 100%;
   align-items: center;
-  transform: ${({isShow}: SelectContainerProps) => isShow ? 'rotate(-180deg)' : 'none'};
+  transform: ${({isShow}) => isShow ? 'rotate(-180deg)' : 'none'};
   transition: transform 220ms ease;
   z-index: 100;
 `
