@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Grid } from "./Grid";
+import { Grid } from "../../src/components/grid/Grid";
 import {
   mockColumnGenerator,
   mockFooterGenerator,

@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Field } from ".";
+import { Field } from "../../src/components/field";
 
 export default {
   title: "Components/Field",

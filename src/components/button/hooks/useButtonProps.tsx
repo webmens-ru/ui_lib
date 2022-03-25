@@ -1,4 +1,4 @@
-import React, { RefObject, useMemo } from "react";
+import React, { RefObject, useMemo } from 'react';
 import {
   BlackArrow,
   BlackTriangle,
@@ -6,31 +6,30 @@ import {
   WhiteTriangle,
   SimpleWhiteTriangle,
   ButtonProps,
-} from "..";
-import { useShowControl } from "../../../hooks";
-import { defaultThemes } from "../style/defaultTheme";
-import { svg, svgBeforeList } from "../style/svgConfig";
+} from '..';
+import { useShowControl } from '../../../hooks';
+import { defaultThemes } from '../style/defaultTheme';
+import { svg, svgBeforeList } from '../style/svgConfig';
 
 export const useButtonProps = (
   {
-    color = "success",
-    variant = "default",
-    squareMode,
+    color = 'success',
+    variant = 'default',
     palette,
-    svgBefore = "without",
+    svgBefore = 'without',
     buttonProps,
     items = [],
     itemsProps,
-    dropdownDirection = "right",
-    dropdownWidth = "150px",
+    dropdownDirection = 'right',
+    dropdownWidth = '150px',
   }: ButtonProps,
-  propsRef: RefObject<HTMLDivElement>,
+  propsRef: RefObject<HTMLDivElement>
 ) => {
   const { ref, isShow, toggleShow } = useShowControl(propsRef);
 
   const completePalette = useMemo(
     () => ({ ...defaultThemes[color], ...palette }),
-    [color, palette],
+    [color, palette]
   );
 
   const afterSvgConfig = useMemo(
@@ -39,15 +38,15 @@ export const useButtonProps = (
       onClick: toggleShow,
       variant,
     }),
-    [completePalette, toggleShow, variant],
+    [completePalette, toggleShow, variant]
   );
 
   const defaultVariant = useMemo(() => {
     switch (color) {
-      case "success":
-      case "light":
+      case 'success':
+      case 'light':
         return <BlackTriangle {...afterSvgConfig} />;
-      case "primary":
+      case 'primary':
         return <WhiteTriangle {...afterSvgConfig} />;
       default:
         return null;
@@ -55,27 +54,28 @@ export const useButtonProps = (
   }, [afterSvgConfig, color]);
 
   const squareVariant = useMemo(() => {
-    switch (squareMode) {
+    switch (svgBefore) {
       case undefined:
+      case 'setting':
         return <SquareBtn {...afterSvgConfig} svg={svg.settingBlack} />;
-      case "mail":
+      case 'mail':
         return <SquareBtn {...afterSvgConfig} svg={svg.mailBlack} />;
-      case "phone":
+      case 'phone':
         return <SquareBtn {...afterSvgConfig} svg={svg.phoneCallBlack} />;
-      case "chat":
+      case 'chat':
         return <SquareBtn {...afterSvgConfig} svg={svg.chatBlack} />;
-      case "reload":
+      case 'reload':
         return <SquareBtn {...afterSvgConfig} svg={svg.reloadBlue} />;
       default:
         return null;
     }
-  }, [afterSvgConfig, squareMode]);
+  }, [afterSvgConfig, svgBefore]);
 
   const outsideAfterSvg = useMemo(() => {
     switch (variant) {
-      case "square":
+      case 'square':
         return squareVariant;
-      case "default":
+      case 'default':
         return defaultVariant;
       default:
         return null;
@@ -84,9 +84,9 @@ export const useButtonProps = (
 
   const insideAfter = useMemo(() => {
     switch (variant) {
-      case "dropdown":
+      case 'dropdown':
         return <BlackArrow />;
-      case "circle":
+      case 'circle':
         return <SimpleWhiteTriangle />;
       default:
         return null;
@@ -94,16 +94,16 @@ export const useButtonProps = (
   }, [variant]);
 
   const insideBefore = useMemo(
-    () => (variant !== "square" ? svgBeforeList[svgBefore] : null),
-    [svgBefore, variant],
+    () => (variant !== 'square' ? svgBeforeList[svgBefore] : null),
+    [svgBefore, variant]
   );
 
   const otherButtonProps = useMemo(
     () =>
-      variant === "dropdown" || variant === "circle"
+      variant === 'dropdown' || variant === 'circle'
         ? { onClick: toggleShow }
         : {},
-    [toggleShow, variant],
+    [toggleShow, variant]
   );
 
   return {

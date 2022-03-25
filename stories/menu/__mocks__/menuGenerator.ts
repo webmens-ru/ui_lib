@@ -1,4 +1,4 @@
-import { Item } from "../types";
+import { Item } from "../../../src/components/menu/types";
 
 export const mockTabsGenerator = (length: number): Item[] => {
   return Array(length)

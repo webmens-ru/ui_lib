@@ -1,4 +1,4 @@
-import { TFooterItem } from "../types";
+import { TFooterItem } from "../../../src/components/grid/types";
 
 export const mockFooter: TFooterItem[] = [
   {

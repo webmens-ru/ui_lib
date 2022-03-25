@@ -1,6 +1,6 @@
 {
   // see https://www.typescriptlang.org/tsconfig to better understand tsconfigs
-  "include": ["src", "types"],
+  "include": ["src", "types", "stories/title/Title.stories.tsx", "stories/modal/Modal.stories.tsx", "stories/menu/Menu.stories.tsx", "stories/loader/Loader.stories.tsx", "stories/grid/Grid.stories.tsx", "stories/grid/__mocks__", "stories/filter/Filter.stories.tsx", "stories/field/Field.stories.tsx", "stories/calendar/Calendar.stories.tsx", "stories/buttons/__mocks__"],
   "compilerOptions": {
     "module": "esnext",
     "lib": ["dom", "esnext"],
