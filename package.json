@@ -1,0 +1,87 @@
+{
+  "name": "@webmens-ru/ui_lib",
+  "version": "0.10.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
+    "sb": "start-storybook -p 6006",
+    "build-sb": "build-storybook"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webmens-ru/ui_lib.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webmens-ru/ui_lib/issues"
+  },
+  "homepage": "https://github.com/webmens-ru/ui_lib#readme",
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "author": "Philipp Zakharov",
+  "module": "dist/ui_lib.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/ui_lib.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/ui_lib.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@rollup/plugin-image": "^2.1.1",
+    "@rollup/plugin-url": "^6.1.0",
+    "@size-limit/preset-small-lib": "^7.0.8",
+    "@storybook/addon-essentials": "^6.4.19",
+    "@storybook/addon-info": "^5.3.21",
+    "@storybook/addon-links": "^6.4.19",
+    "@storybook/addons": "^6.4.19",
+    "@storybook/react": "^6.4.19",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
+    "@types/styled-components": "^5.1.24",
+    "babel-loader": "^8.2.4",
+    "husky": "^7.0.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-is": "^17.0.2",
+    "size-limit": "^7.0.8",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "@fontsource/open-sans": "^4.5.8",
+    "@webmens-ru/datepicker": "^2.2.7",
+    "styled-components": "^5.3.5"
+  }
+}
