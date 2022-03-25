@@ -1,23 +1,7 @@
-import React, { createContext, useReducer, useContext, useEffect } from "react";
+import React, { createContext, useReducer, useContext } from "react";
 import { Action, IContext, IState } from ".";
 import { IGridContext } from "../types";
-import { formatInitialProps } from "../utils/initial";
-
-const initialState = {
-  column: [],
-  row: [],
-  footer: [],
-  hoverId: -1,
-  scrollStep: 25,
-  scrollFactor: 0,
-  columnMutation: () => {},
-  burgerItems: [],
-  onBurgerItemClick: () => {},
-  isShowCheckboxes: false,
-  checkedRowsId: [],
-  onChangeCheckboxes: () => {},
-  onCellClick: () => {},
-};
+import { init } from "../utils/initial";
 
 const reducer = (state: IState, action: Action) => {
   switch (action.type) {
@@ -76,11 +60,7 @@ const reducer = (state: IState, action: Action) => {
 export const Context = createContext<IContext>({} as IContext);
 
 export function ContextProvider(props: IGridContext) {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    dispatch({ type: "INITIAL", props: formatInitialProps(props) });
-  }, [props]);
+  const [state, dispatch] = useReducer(reducer, props, init);
 
   return (
     <Context.Provider value={{ state, dispatch }}>

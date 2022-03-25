@@ -22,7 +22,6 @@ type Item = {
 export type ButtonProps = {
   color?: Color;
   variant?: Variant;
-  squareMode?: SquareMode;
   children?: string;
   palette?: Palette;
   svgBefore?: SvgBefore;

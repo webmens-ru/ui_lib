@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Filter } from ".";
+import { Filter } from "../../src/components/filter";
 
 export default {
   title: "Components/Filter",

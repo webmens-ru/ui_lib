@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Menu } from ".";
+import { Menu } from "../../src/components/menu";
 import { mockTabsGenerator } from "./__mocks__/menuGenerator";
 
 export default {

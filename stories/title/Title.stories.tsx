@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Title } from ".";
-import { ITitleProps } from "./types";
+import { Title } from "../../src/components/title";
+import { ITitleProps } from "../../src/components/title/types";
 
 export default {
   title: "Components/Title",
