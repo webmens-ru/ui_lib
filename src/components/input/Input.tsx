@@ -8,8 +8,8 @@ export const Input = ({
   placeholder = '', 
   readonly = false,
   iconPosition = "none",
-  iconLeftName = "",
-  iconRightName = "",
+  iconLeftName,
+  iconRightName,
   onChange = () => {},
 }: IInputProps) => {
   const [input, setInput] = useState({ value })
