@@ -20,5 +20,5 @@ const Template: ComponentStory<typeof Calendar> = (args) => (
 export const Simple = Template.bind({});
 Simple.args = {
   isShow: true,
-  isSelectTime: true
+  withTime: true
 };

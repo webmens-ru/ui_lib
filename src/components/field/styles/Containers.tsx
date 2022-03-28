@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const GreyBorderContainer = styled.div`
+  padding-left: 5px;
   position: relative;
   height: 40px;
   display: flex;

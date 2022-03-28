@@ -24,6 +24,11 @@ export function DatePicker({
     }
   }, [dateISO, onSelect]);
 
+  const calendarSelectHandler = (date: string) => {
+    setDateISO(date);
+    setShow(false);
+  };
+
   return (
     <DatePickerContainer ref={ref} fieldWidth={fieldWidth}>
       <Field
@@ -33,7 +38,12 @@ export function DatePicker({
         onClick={() => setShow(true)}
         onSelect={setDateISO}
       />
-      <Calendar isShow={isShow} dateISO={dateISO} onSelect={setDateISO} />
+      <Calendar
+        isShow={isShow}
+        dateISO={dateISO}
+        onSelect={calendarSelectHandler}
+        withTime={true}
+      />
     </DatePickerContainer>
   );
 }

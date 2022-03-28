@@ -3,16 +3,16 @@ import { GreyBorderContainer } from '../../styles/Containers';
 import { DateFieldProps } from './types';
 
 export function DateField({
-  placeholder = 'DD.MM.YYYY',
+  placeholder,
   dateISO,
   onSelect,
   readOnly = false,
+  format,
   ...props
 }: DateFieldProps) {
   const [data, setData] = useState<Data>({
     date: new Date(dateISO),
     value: dateToString(new Date(dateISO)),
-    placeholder,
   });
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,15 +46,13 @@ export function DateField({
       setData({
         date,
         value,
-        placeholder: placeholder.slice(value.length),
       });
     }
-    
+
     if (isErase(data.value, e.target.value)) {
       setData((data) => ({
         ...data,
         value,
-        placeholder: placeholder.slice(value.length),
       }));
     }
   };
@@ -62,13 +60,18 @@ export function DateField({
   useEffect(() => {
     setData((data) => ({
       ...data,
-      value: dateToString(new Date(dateISO)),
+      value: dateToString(new Date(dateISO), format),
     }));
-  }, [dateISO]);
+  }, [dateISO, format]);
 
   return (
     <GreyBorderContainer {...props}>
-      <input value={data.value} onChange={onChange} readOnly={readOnly} />
+      <input
+        value={data.value}
+        onChange={onChange}
+        readOnly={readOnly}
+        placeholder={placeholder}
+      />
     </GreyBorderContainer>
   );
 }
@@ -76,7 +79,6 @@ export function DateField({
 type Data = {
   date: Date;
   value: string;
-  placeholder: string;
 };
 
 const isPrint = (old: string, current: string) => {
@@ -87,7 +89,7 @@ const isErase = (old: string, current: string) => {
   return old.length > current.length;
 };
 
-const dateToString = (date: Date, format: string = 'DD.MM.YYYY') => {
+const dateToString = (date: Date, format: string = 'DD.MM.YYYY hh:mm') => {
   return format
     .replace('YYYY', `${date.getFullYear()}`)
     .replace('YY', `${date.getFullYear()}`.slice(-2))

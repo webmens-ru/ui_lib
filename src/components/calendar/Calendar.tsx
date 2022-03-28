@@ -10,7 +10,7 @@ import { useWindowBound } from "../../hooks/useWindowBound";
 
 export function Calendar({
   isShow,
-  isSelectTime,
+  withTime,
   dateISO,
   onSelect,
   ...props
@@ -31,7 +31,7 @@ export function Calendar({
           </HeaderContainer>
           <DaysOfWeek />
           <Body />
-          {isSelectTime && <Time />}
+          {withTime && <Time />}
         </CalendarContainer>
       </CalendarProvider>
     </StrictMode>

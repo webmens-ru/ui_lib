@@ -1,7 +1,7 @@
 export interface ICalendarProps {
   dateISO: string;
   isShow?: boolean;
-  isSelectTime?: boolean;
+  withTime?: boolean;
   top?: string;
   left?: string;
   bottom?: string;
