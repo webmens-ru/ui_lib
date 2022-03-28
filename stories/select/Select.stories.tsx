@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Select } from "./Select";
+import { Select } from "../../src/components/select/Select";
 import { generateMockData } from "./__mocks__";
 
 const getControlType = (type: string) => {

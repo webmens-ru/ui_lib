@@ -9,5 +9,5 @@ export { Loader } from "./components/loader/Loader";
 export { Menu } from "./components/menu/Menu";
 export { Modal } from "./components/modal/Modal";
 export { Title } from "./components/title/Title";
-export { ResetStyles } from "./components/resetStyles";
+export { ResetStyles } from "./components/reset_styles";
 export * as hooks from "./hooks";

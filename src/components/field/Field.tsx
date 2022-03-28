@@ -1,11 +1,11 @@
-import React, { StrictMode, useCallback } from "react";
-import { FieldProps } from ".";
-import { DateField } from "./field_types/date";
+import React, { StrictMode, useMemo } from 'react';
+import { FieldProps } from '.';
+import { DateField } from './field_types/date';
 
 export function Field({ type, variant, onSelect, ...props }: FieldProps) {
-  const switchField = useCallback(() => {
+  const switchField = useMemo(() => {
     switch (type) {
-      case "date":
+      case 'date':
         return (
           <DateField
             variant={variant}
@@ -18,5 +18,6 @@ export function Field({ type, variant, onSelect, ...props }: FieldProps) {
         return <p>type error</p>;
     }
   }, [onSelect, props, type, variant]);
-  return <StrictMode>{switchField()}</StrictMode>;
+
+  return <StrictMode>{switchField}</StrictMode>;
 }

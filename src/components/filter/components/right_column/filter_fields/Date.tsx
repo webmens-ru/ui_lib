@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   DateFieldContainer,
   DateInput,
   FilterFieldTitle,
-} from "../../../styles";
-import DatePicker from "@webmens-ru/datepicker";
+} from '../../../styles';
 import {
   dateDropDown,
   monthsDropDown,
@@ -14,17 +13,18 @@ import {
   TQuarter,
   TYear,
   yearsDropDown,
-} from "./const";
-import { useCustomContext } from "../../../store/Context";
-import DropDownWithAttr from "../../mini_components/dropdown/DropDownWithAttr";
-import DropDown from "../../mini_components/dropdown/DropDown";
-import { IField, IOneField, IThreeField, ITwoField } from "../../../types";
-import { useFieldsDraggable } from "../../../utils/useFieldsDraggble";
+} from './const';
+import { useCustomContext } from '../../../store/Context';
+import DropDownWithAttr from '../../mini_components/dropdown/DropDownWithAttr';
+import DropDown from '../../mini_components/dropdown/DropDown';
+import { IField, IOneField, IThreeField, ITwoField } from '../../../types';
+import { useFieldsDraggable } from '../../../utils/useFieldsDraggble';
+import { DatePicker } from '../../../../date_picker';
 
 export default function DateField({ item, updateField, ...props }: IField) {
   const [dropDownValue, setDropDownValue] = useState<TDateDropDown>(
     dateDropDown.find((dateItem) => dateItem.title === item.value[0]) ||
-      dateDropDown[0],
+      dateDropDown[0]
   );
   const { dispatch } = useCustomContext();
 
@@ -39,7 +39,7 @@ export default function DateField({ item, updateField, ...props }: IField) {
       value,
     };
     dispatch({
-      type: "SET_FILTER_FIELD_VALUE",
+      type: 'SET_FILTER_FIELD_VALUE',
       field,
     });
     updateField(field, 'value');
@@ -105,7 +105,6 @@ function OneField({ value, setValue }: IOneField) {
 }
 
 function TwoField({ value, setValue, updateValue, item }: ITwoField) {
-
   const setInputValueCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.match(/^\d*$/)) {
       updateValue([value.title, e.target.value]);
@@ -127,7 +126,7 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
   };
 
   const [selectYear, setSelectYear] = useState(
-    yearsDropDown[new Date().getFullYear() - 2000],
+    yearsDropDown[new Date().getFullYear() - 2000]
   );
 
   const setYear = (year: TYear) => {
@@ -135,8 +134,8 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
     updateValue([value.title, year.title]);
   };
 
-  const setDate = (date: number) => {
-    updateValue([value.title, `${date}`]);
+  const setDate = (date: string) => {
+    updateValue([value.title, date]);
   };
 
   const firstDropDown = (
@@ -166,11 +165,9 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
         <>
           {firstDropDown}
           <DatePicker
-            onChangeDate={setDate}
-            initialValue={+item.value[1] || new Date().getTime()}
-            mainWidth="49%"
-            isShowTime={false}
-            format="DD.MM.YYYY"
+            fieldWidth="49%"
+            onSelect={setDate}
+            initialValue={item.value[1]}
           />
         </>
       );
@@ -203,7 +200,7 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
   );
 
   const [selectYear, setSelectYear] = useState(
-    yearsDropDown[new Date().getFullYear() - 2000],
+    yearsDropDown[new Date().getFullYear() - 2000]
   );
 
   const setYear = (year: TYear) => {
@@ -221,7 +218,7 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
   );
 
   const [selectMonth, setSelectMonth] = useState(
-    monthsDropDown[new Date().getMonth()],
+    monthsDropDown[new Date().getMonth()]
   );
 
   const setMonth = (month: TMonth) => {
@@ -254,12 +251,12 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
     />
   );
 
-  const setFirstDate = (date: number) => {
-    updateValue([item.value[0], `${date}`, item.value[2]]);
+  const setFirstDate = (date: string) => {
+    updateValue([item.value[0], date, item.value[2]]);
   };
 
-  const setSecondDate = (date: number) => {
-    updateValue([item.value[0], item.value[1], `${date}`]);
+  const setSecondDate = (date: string) => {
+    updateValue([item.value[0], item.value[1], date]);
   };
 
   switch (value.id) {
@@ -284,18 +281,14 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
         <>
           {firstDropDown}
           <DatePicker
-            onChangeDate={setFirstDate}
-            initialValue={+item.value[1] || new Date().getTime()}
-            mainWidth="32%"
-            isShowTime={false}
-            format="DD.MM.YYYY"
+            onSelect={setFirstDate}
+            initialValue={item.value[1]}
+            fieldWidth="32%"
           />
           <DatePicker
-            onChangeDate={setSecondDate}
-            initialValue={+item.value[2] || new Date().getTime()}
-            mainWidth="32%"
-            isShowTime={false}
-            format="DD.MM.YYYY"
+            onSelect={setSecondDate}
+            initialValue={item.value[2]}
+            fieldWidth="32%"
           />
         </>
       );

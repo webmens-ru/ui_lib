@@ -40,9 +40,8 @@ export const CalendarContext = createContext<ICalendarContext>(
 
 export function CalendarProvider(props: IProviderProps) {
   const init = ({ dateISO }: IProviderProps) => {
-    const date = dateISO ? new Date(dateISO) : new Date();
     return {
-      date,
+      date: new Date(dateISO),
       onSelect: props.onSelect || ((date) => console.log(date)),
     };
   };

@@ -1,12 +1,13 @@
+import { IInputProps } from "components/input/types";
 import React from "react";
-import Icons from "../icon/icons";
+import Icons from "../../src/components/icon/icons";
 
-import { Input } from "./Input";
+import { Input } from "../../src/components/input/Input";
 
-const getControlType = type => {
+const getControlType = (type: string) => {
   return { type }
 }
-const getTableType = type => {
+const getTableType = (type: string) => {
   return { type: { summary: type } }
 }
 
@@ -63,6 +64,6 @@ const config = {
 
 export default config
 
-const Template = (args) => <Input {...args} />
+const Template = (args: JSX.IntrinsicAttributes & IInputProps) => <Input {...args} />
 
 export const BasicUsage = Template.bind({});

@@ -13,10 +13,10 @@ export const mockColumnGenerator = (length: number) => {
 export const mockRowGenerator = (columnLength: number, rowLength: number) => {
   let arrayInRow = Array(columnLength)
     .fill([])
-    .map((item, index) => ["column" + index, "Column №" + index + " Row №"]);
+    .map((_item, index) => ["column" + index, "Column №" + index + " Row №"]);
   return Array(rowLength)
     .fill({})
-    .map((item, index) => ({
+    .map((_item, index) => ({
       id: index + 1,
       ...Object.fromEntries(
         arrayInRow.map((item) => [item[0], item[1] + index]),
@@ -27,6 +27,6 @@ export const mockRowGenerator = (columnLength: number, rowLength: number) => {
 export const mockFooterGenerator = (length: number) => {
   const footerArray = Array(length)
     .fill([])
-    .map((item, index) => ["column" + index, "Some footer`s text" + index]);
+    .map((_item, index) => ["column" + index, "Some footer`s text" + index]);
   return [{ ...Object.fromEntries(footerArray) }];
 };

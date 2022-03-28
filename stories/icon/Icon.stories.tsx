@@ -1,8 +1,8 @@
 import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import Icons from "./icons";
+import Icons from "../../src/components/icon/icons";
 
-import { Icon } from "./Icon";
+import { Icon } from "../../src/components/icon/Icon";
 
 const getControlType = (type: string) => {
   return { type }
