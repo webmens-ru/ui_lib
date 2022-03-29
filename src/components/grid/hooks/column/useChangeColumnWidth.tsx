@@ -1,99 +1,64 @@
-import React, { useCallback, useReducer, useEffect } from "react";
-import styled from "styled-components";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
+import styled from 'styled-components';
 
 export const useChangeColumnWidth = (
   initialWidth: number,
-  updateWidth: (num: number) => void,
+  updateWidth: (num: number) => void
 ) => {
-  const [state, dispatch] = useReducer(reducer, initialWidth, init);
+  const popUpRef = useRef<HTMLDivElement>(null);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [width, setWidth] = useState(initialWidth);
 
-  const onMouseMove = (e: React.MouseEvent<HTMLSpanElement>) => {
-    if (state.isMouseDown) {
-      const shift = -state.startX + e.clientX;
-      if (state.width + shift > 100) {
-        dispatch({
-          type: "mouseMove",
-          x: e.clientX,
-          width: state.width + shift,
-        });
+  const onMouseMove = useCallback(
+    function (this: HTMLDivElement, e: MouseEvent) {
+      if (isMouseDown) {
+        if (width + e.movementX > 100) {
+          setWidth(width + e.movementX);
+        }
       }
-    }
-  };
+    },
+    [isMouseDown, width]
+  );
 
   const onMouseUp = useCallback(() => {
-    if (state.isMouseDown) {
-      updateWidth(state.width);
+    if (isMouseDown) {
+      updateWidth(width);
     }
-    dispatch({ type: "mouseUp" });
-  }, [state.isMouseDown, state.width, updateWidth]);
+    setIsMouseDown(false);
+  }, [isMouseDown, updateWidth, width]);
 
   useEffect(() => {
-    document.body.addEventListener("mouseup", onMouseUp);
+    const popUp = popUpRef.current;
+    if (popUp) {
+      popUp.addEventListener('mouseup', onMouseUp);
+      popUp.addEventListener('mousemove', onMouseMove);
+    }
+
     return () => {
-      document.body.removeEventListener("mouseup", onMouseUp);
+      if (popUp) {
+        popUp.removeEventListener('mouseup', onMouseUp);
+        popUp.removeEventListener('mousemove', onMouseMove);
+      }
     };
-  }, [onMouseUp]);
+  }, [onMouseMove, onMouseUp]);
 
-  const line = (
-    <Line
-      draggable={false}
-      onMouseDown={(e) => dispatch({ type: "mouseDown", x: e.clientX })}
-      onMouseMove={onMouseMove}
-    />
+  const line = useMemo(
+    () => <Line draggable={false} onMouseDown={() => setIsMouseDown(true)} />,
+    []
   );
-  return { line, width: state.width };
-};
 
-const init = (initialWidth: number): State => {
-  return {
-    isMouseDown: false,
-    startX: 0,
-    width: initialWidth,
-  };
-};
+  const popUp = useMemo(
+    () => isMouseDown && <PopUp ref={popUpRef} onMouseLeave={onMouseUp} />,
+    [isMouseDown, onMouseUp]
+  );
 
-type State = {
-  isMouseDown: boolean;
-  startX: number;
-  width: number;
-};
-
-type Action =
-  | {
-      type: "mouseDown";
-      x: number;
-    }
-  | {
-      type: "mouseMove";
-      x: number;
-      width: number;
-    }
-  | {
-      type: "mouseUp";
-    };
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case "mouseDown":
-      return {
-        ...state,
-        isMouseDown: true,
-        startX: action.x,
-      };
-    case "mouseMove":
-      return {
-        ...state,
-        startX: action.x,
-        width: action.width,
-      };
-    case "mouseUp":
-      return {
-        ...state,
-        isMouseDown: false,
-      };
-    default:
-      return state;
-  }
+  return { line, width, popUp };
 };
 
 const Line = styled.span`
@@ -104,7 +69,7 @@ const Line = styled.span`
   opacity: 0;
   z-index: 1;
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 4px;
@@ -112,4 +77,15 @@ const Line = styled.span`
     height: 100%;
     background: #c9c9c9;
   }
+`;
+
+const PopUp = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000000;
+  background: none;
+  border: none;
 `;

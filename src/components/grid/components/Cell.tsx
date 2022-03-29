@@ -1,33 +1,38 @@
-import React, { useCallback } from "react";
-import { useSortForColumn } from "../hooks/column/useSortForColumn";
-import { useCustomContext } from "../store";
+import React, { useCallback } from 'react';
+import { useSortForColumn } from '../hooks/column/useSortForColumn';
+import { useCustomContext } from '../store';
 import {
   BodyCellContainer,
   FooterCellContainer,
   HeaderCellContainer,
-} from "../styles";
+} from '../styles';
 import {
   TCell,
   TFooterItem,
   TRowItem,
   THeaderCell,
   TColumnItem,
-} from "../types";
-import { useChangeColumnWidth } from "../hooks/column/useChangeColumnWidth";
-import { useGetSuitableCell } from "../hooks/cell/useGetSuitableCell";
+} from '../types';
+import { useChangeColumnWidth } from '../hooks/column/useChangeColumnWidth';
+import { useGetSuitableCell } from '../hooks/cell/useGetSuitableCell';
 
-export function Cell({ children = {}, location = "body", onClick, ...props }: TCell) {
+export function Cell({
+  children = {},
+  location = 'body',
+  onClick,
+  ...props
+}: TCell) {
   const { state, dispatch } = useCustomContext();
   const { getCell } = useGetSuitableCell();
 
   const onMouseEnter = useCallback(() => {
-    dispatch({ type: "SET_HOVER_ID", hoverId: children.id });
+    dispatch({ type: 'SET_HOVER_ID', hoverId: children.id });
   }, [children.id, dispatch]);
 
-  if (location === "header") {
+  if (location === 'header') {
     return HeaderCell(children, props);
   }
-  if (location === "footer") {
+  if (location === 'footer') {
     return FooterCell(children);
   }
   return (
@@ -45,28 +50,31 @@ const HeaderCell = (children: TColumnItem, props: THeaderCell) => {
   const { state, dispatch } = useCustomContext();
 
   const callbackForResult = (row: TRowItem[]) => {
-    dispatch({ type: "SET_ROW", row });
+    dispatch({ type: 'SET_ROW', row });
   };
 
   const { sortBtn } = useSortForColumn(
     state.row,
     children.code,
-    callbackForResult,
+    callbackForResult
   );
 
   const updateWidth = useCallback(
     (width: number) => {
       const column = state.column.map((item) =>
-        item.id === children.id ? { ...item, width } : item,
+        item.id === children.id ? { ...item, width } : item
       );
-      dispatch({ type: "SET_COLUMN", column });
+      dispatch({ type: 'SET_COLUMN', column });
       state.columnMutation(column);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [children, dispatch, state.column, state.columnMutation],
+    [children, dispatch, state.column, state.columnMutation]
   );
 
-  const { line, width } = useChangeColumnWidth(children.width, updateWidth);
+  const { line, width, popUp } = useChangeColumnWidth(
+    children.width,
+    updateWidth
+  );
 
   return (
     <HeaderCellContainer style={{ minWidth: width }}>
@@ -75,6 +83,7 @@ const HeaderCell = (children: TColumnItem, props: THeaderCell) => {
       </h5>
       {sortBtn}
       {line}
+      {popUp}
     </HeaderCellContainer>
   );
 };
@@ -83,13 +92,11 @@ const FooterCell = (children: TFooterItem) => {
   return (
     <FooterCellContainer>
       <h5>
-        {typeof children === "number"
-          ? Number(children).toLocaleString("ru-RU", {
+        {typeof children === 'number'
+          ? Number(children).toLocaleString('ru-RU', {
               maximumFractionDigits: 5,
             })
-          : children
-          ? children
-          : ""}
+          : children || ''}
       </h5>
     </FooterCellContainer>
   );

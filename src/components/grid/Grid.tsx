@@ -7,6 +7,7 @@ import { IGridProps, TColumnItem } from "./types";
 import { useDragAndDrop } from "./hooks/column/useDragAndDrop";
 import { useScroll } from "./hooks/grid/useScroll";
 import { useHorizontalScroll } from "./hooks/grid/useHorizontalScroll";
+import { BufferColumn } from "./components/BufferColumn";
 
 /**
  * @param {{column, row, footer}} data  object like this {column, row, footer}
@@ -60,6 +61,7 @@ function ContextWrapper({ height }: { height?: number }) {
         {draggableItems.map((item, index) => (
           <Column item={item} key={index} {...getDraggableProps(item)} />
         ))}
+        <BufferColumn/>
         {leftSpan}
         {rightSpan}
       </GridContainer>
