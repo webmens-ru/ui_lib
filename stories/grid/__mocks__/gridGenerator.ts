@@ -30,3 +30,9 @@ export const mockFooterGenerator = (length: number) => {
     .map((_item, index) => ["column" + index, "Some footer`s text" + index]);
   return [{ ...Object.fromEntries(footerArray) }];
 };
+
+export const mockBurgerGenerator = (length: number) => {
+  const burgerArray = Array(length)
+  .fill([]).map((item, index) => ({label: "item #" + index}))
+  return burgerArray
+}

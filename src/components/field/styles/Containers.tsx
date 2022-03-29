@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import SvgSprite from '../assets/main-ui-control.svg'
 
 export const GreyBorderContainer = styled.div`
   padding-left: 5px;
@@ -30,3 +31,10 @@ export const GreyBorderContainer = styled.div`
     }
   }
 `;
+
+export const SvgCalendar = styled.div`
+  width: 30px;
+  height: 100%;
+  background: url(${SvgSprite}) 6px -232px no-repeat;
+  opacity: 0.5;
+`

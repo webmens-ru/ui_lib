@@ -22,7 +22,7 @@ export function Time() {
   const incrementHours = () => {
     if (typeof state.date.getHours() === "number") {
       if (state.date.getHours() === 23) {
-        dispatch({ type: "set_hour", hour: 1 });
+        dispatch({ type: "set_hour", hour: 0 });
       } else {
         dispatch({ type: "set_hour", hour: state.date.getHours() + 1 });
       }
@@ -33,7 +33,7 @@ export function Time() {
 
   const decrementHours = () => {
     if (typeof state.date.getHours() === "number") {
-      if (state.date.getHours() === 1) {
+      if (state.date.getHours() === 0) {
         dispatch({ type: "set_hour", hour: 23 });
       } else {
         dispatch({ type: "set_hour", hour: state.date.getHours() - 1 });
@@ -70,7 +70,7 @@ export function Time() {
   const incrementMinutes = () => {
     if (typeof state.date.getMinutes() === "number") {
       if (state.date.getMinutes() === 59) {
-        dispatch({ type: "set_minute", minute: 1 });
+        dispatch({ type: "set_minute", minute: 0 });
       } else {
         dispatch({ type: "set_minute", minute: state.date.getMinutes() + 1 });
       }
@@ -81,7 +81,7 @@ export function Time() {
 
   const decrementMinutes = () => {
     if (typeof state.date.getMinutes() === "number") {
-      if (state.date.getMinutes() === 1) {
+      if (state.date.getMinutes() === 0) {
         dispatch({ type: "set_minute", minute: 59 });
       } else {
         dispatch({ type: "set_minute", minute: state.date.getMinutes() - 1 });
@@ -109,13 +109,13 @@ export function Time() {
         </TimeButton>
         <TimeInput
           type="text"
-          value={state.date.getHours()}
+          value={`0${state.date.getHours()}`.slice(-2)}
           onChange={checkHours}
         />
         <span>:</span>
         <TimeInput
           type="text"
-          value={state.date.getMinutes()}
+          value={`0${state.date.getMinutes()}`.slice(-2)}
           onChange={checkMinutes}
         />
         <TimeButton>

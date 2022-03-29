@@ -6,41 +6,45 @@ import { Field } from '../field';
 import { IDatePicker } from './types';
 
 export function DatePicker({
-  initialValue,
   onSelect,
   fieldWidth = '100%',
+  initialDateISO,
+  initialFieldText,
 }: IDatePicker) {
-  const [dateISO, setDateISO] = useState(() =>
-    initialValue
-      ? new Date(initialValue).toISOString()
-      : new Date().toISOString()
-  );
+  const [dateISO, setDateISO] = useState({
+    field: initialFieldText || initialDateISO,
+    calendar: initialDateISO || ''
+  });
 
   const { ref, isShow, setShow } = useShowControl();
 
   useEffect(() => {
     if (onSelect) {
-      onSelect(dateISO);
+      onSelect(dateISO.calendar);
     }
   }, [dateISO, onSelect]);
 
   const calendarSelectHandler = (date: string) => {
-    setDateISO(date);
+    setDateISO({field: date, calendar: date});
     setShow(false);
   };
+
+  const fieldSelectHandler = (date: string) => {
+    setDateISO((old) => ({...old, calendar: date}))
+  }
 
   return (
     <DatePickerContainer ref={ref} fieldWidth={fieldWidth}>
       <Field
         type="date"
         variant="with_border"
-        dateISO={dateISO}
+        dateISO={dateISO.field}
         onClick={() => setShow(true)}
-        onSelect={setDateISO}
+        onSelect={fieldSelectHandler}
       />
       <Calendar
         isShow={isShow}
-        dateISO={dateISO}
+        dateISO={dateISO.calendar}
         onSelect={calendarSelectHandler}
         withTime={true}
       />

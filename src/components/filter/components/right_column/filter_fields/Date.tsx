@@ -167,7 +167,7 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
           <DatePicker
             fieldWidth="49%"
             onSelect={setDate}
-            initialValue={item.value[1]}
+            initialDateISO={item.value[1]}
           />
         </>
       );
@@ -282,12 +282,12 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
           {firstDropDown}
           <DatePicker
             onSelect={setFirstDate}
-            initialValue={item.value[1]}
+            initialDateISO={item.value[1]}
             fieldWidth="32%"
           />
           <DatePicker
             onSelect={setSecondDate}
-            initialValue={item.value[2]}
+            initialDateISO={item.value[2]}
             fieldWidth="32%"
           />
         </>

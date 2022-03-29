@@ -1,31 +1,31 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { Action, ICalendarContext, IProviderProps, State } from ".";
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import { Action, ICalendarContext, IProviderProps, State } from '.';
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case "next_month":
+    case 'next_month':
       let date = new Date(state.date.getTime());
       date.setMonth(date.getMonth() + 1);
       return { ...state, date };
-    case "prev_month":
+    case 'prev_month':
       date = new Date(state.date.getTime());
       date.setMonth(date.getMonth() - 1);
       return { ...state, date };
-    case "set_month":
+    case 'set_month':
       date = new Date(state.date.getTime());
       date.setMonth(action.month);
       return { ...state, date };
-    case "set_year":
+    case 'set_year':
       date = new Date(state.date.getTime());
       date.setFullYear(action.year);
       return { ...state, date };
-    case "set_date":
+    case 'set_date':
       return { ...state, date: action.date };
-    case "set_hour":
+    case 'set_hour':
       date = new Date(state.date.getTime());
       date.setHours(action.hour);
       return { ...state, date };
-    case "set_minute":
+    case 'set_minute':
       date = new Date(state.date.getTime());
       date.setMinutes(action.minute);
       return { ...state, date };
@@ -35,13 +35,19 @@ const reducer = (state: State, action: Action) => {
 };
 
 export const CalendarContext = createContext<ICalendarContext>(
-  {} as ICalendarContext,
+  {} as ICalendarContext
 );
 
 export function CalendarProvider(props: IProviderProps) {
   const init = ({ dateISO }: IProviderProps) => {
+    let date;
+    if (isValidDateISO(dateISO)) {
+      date = new Date(dateISO);
+    } else {
+      date = new Date();
+    }
     return {
-      date: new Date(dateISO),
+      date,
       onSelect: props.onSelect || ((date) => console.log(date)),
     };
   };
@@ -49,7 +55,8 @@ export function CalendarProvider(props: IProviderProps) {
   const [state, dispatch] = useReducer(reducer, props, init);
 
   useEffect(() => {
-    dispatch({ type: "set_date", date: new Date(props.dateISO) });
+    if (isValidDateISO(props.dateISO))
+      dispatch({ type: 'set_date', date: new Date(props.dateISO) });
   }, [props.dateISO]);
 
   return (
@@ -60,3 +67,10 @@ export function CalendarProvider(props: IProviderProps) {
 }
 
 export const useCustomContext = () => useContext(CalendarContext);
+
+
+function isValidDateISO(dateISO?: string) {
+  if(!dateISO) return false;
+  const date = new Date(dateISO);
+  return date instanceof Date && !isNaN(date.getTime());
+}

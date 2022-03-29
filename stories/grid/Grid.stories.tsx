@@ -3,6 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { Grid } from "../../src/components/grid/Grid";
 import {
+  mockBurgerGenerator,
   mockColumnGenerator,
   mockFooterGenerator,
   mockRowGenerator,
@@ -57,6 +58,7 @@ export const Col5Row5 = Template.bind({});
 Col5Row5.args = {
   column: mockColumnGenerator(5),
   row: mockRowGenerator(5, 5),
+  burgerItems: mockBurgerGenerator(5)
 };
 
 export const Col10Row10 = Template.bind({});

@@ -68,4 +68,4 @@ export type TCheckbox = {
   location?: "body" | "header";
 };
 
-export type BurgerItem = { title: string; [key: string]: any };
+export type BurgerItem = { label: string; [key: string]: any };

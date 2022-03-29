@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { GreyBorderContainer } from '../../styles/Containers';
+import { GreyBorderContainer, SvgCalendar } from '../../styles/Containers';
 import { DateFieldProps } from './types';
 
 export function DateField({
   placeholder,
   dateISO,
-  onSelect,
+  format = 'DD.MM.YYYY hh:mm',
   readOnly = false,
-  format,
+  onSelect,
+  svg,
   ...props
 }: DateFieldProps) {
   const [data, setData] = useState<Data>({
-    date: new Date(dateISO),
-    value: dateToString(new Date(dateISO)),
+    date: isValidDateISO(dateISO) && dateISO ? new Date(dateISO) : new Date(),
+    value: dateToString(format, dateISO),
   });
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,10 +44,10 @@ export function DateField({
         if (onSelect) onSelect(date.toISOString());
       }
 
-      setData({
-        date,
+      setData((old) => ({
+        ...old,
         value,
-      });
+      }));
     }
 
     if (isErase(data.value, e.target.value)) {
@@ -60,18 +61,20 @@ export function DateField({
   useEffect(() => {
     setData((data) => ({
       ...data,
-      value: dateToString(new Date(dateISO), format),
+      value: dateToString(format, dateISO),
     }));
   }, [dateISO, format]);
 
   return (
     <GreyBorderContainer {...props}>
+      {svg === 'left' && <SvgCalendar />}
       <input
         value={data.value}
         onChange={onChange}
         readOnly={readOnly}
         placeholder={placeholder}
       />
+      {svg === 'right' && <SvgCalendar />}
     </GreyBorderContainer>
   );
 }
@@ -89,7 +92,19 @@ const isErase = (old: string, current: string) => {
   return old.length > current.length;
 };
 
-const dateToString = (date: Date, format: string = 'DD.MM.YYYY hh:mm') => {
+const dateToString = (format: string, dateISO?: string) => {
+  if (!dateISO) return '';
+
+  let date;
+  if (dateISO === 'today') {
+    date = new Date();
+  }
+  if (isValidDateISO(dateISO)) {
+    date = new Date(dateISO);
+  } else {
+    return dateISO;
+  }
+
   return format
     .replace('YYYY', `${date.getFullYear()}`)
     .replace('YY', `${date.getFullYear()}`.slice(-2))
@@ -98,3 +113,9 @@ const dateToString = (date: Date, format: string = 'DD.MM.YYYY hh:mm') => {
     .replace('hh', `0${date.getHours()}`.slice(-2))
     .replace('mm', `0${date.getMinutes()}`.slice(-2));
 };
+
+function isValidDateISO(dateISO?: string) {
+  if (!dateISO) return false;
+  const date = new Date(dateISO);
+  return !isNaN(date.getTime());
+}

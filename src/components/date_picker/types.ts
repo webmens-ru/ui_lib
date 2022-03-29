@@ -1,5 +1,6 @@
 export interface IDatePicker{
-  initialValue?: string
+  initialDateISO?: string
+  initialFieldText?: string
   fieldWidth?: string;
   onSelect?: (date: string) => void;
 }
