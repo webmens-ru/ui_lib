@@ -5,7 +5,7 @@ export const GridContainer = styled.div`
   height: calc(
     100vh - ${({ rowHeight }: { rowHeight: number }) => rowHeight}px
   );
-  width: 100vw;
+  width: 100%;
   display: flex;
   background: rgb(238, 242, 244);
   overflow: auto;

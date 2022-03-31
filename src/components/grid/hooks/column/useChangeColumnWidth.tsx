@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-} from 'react';
+import React, { useCallback, useRef, useState, useMemo } from 'react';
 import styled from 'styled-components';
 
 export const useChangeColumnWidth = (
@@ -16,7 +10,7 @@ export const useChangeColumnWidth = (
   const [width, setWidth] = useState(initialWidth);
 
   const onMouseMove = useCallback(
-    function (this: HTMLDivElement, e: MouseEvent) {
+    (e: React.MouseEvent<HTMLDivElement>) => {
       if (isMouseDown) {
         if (width + e.movementX > 100) {
           setWidth(width + e.movementX);
@@ -33,29 +27,22 @@ export const useChangeColumnWidth = (
     setIsMouseDown(false);
   }, [isMouseDown, updateWidth, width]);
 
-  useEffect(() => {
-    const popUp = popUpRef.current;
-    if (popUp) {
-      popUp.addEventListener('mouseup', onMouseUp);
-      popUp.addEventListener('mousemove', onMouseMove);
-    }
-
-    return () => {
-      if (popUp) {
-        popUp.removeEventListener('mouseup', onMouseUp);
-        popUp.removeEventListener('mousemove', onMouseMove);
-      }
-    };
-  }, [onMouseMove, onMouseUp]);
-
   const line = useMemo(
     () => <Line draggable={false} onMouseDown={() => setIsMouseDown(true)} />,
     []
   );
 
   const popUp = useMemo(
-    () => isMouseDown && <PopUp ref={popUpRef} onMouseLeave={onMouseUp} />,
-    [isMouseDown, onMouseUp]
+    () =>
+      isMouseDown && (
+        <PopUp
+          ref={popUpRef}
+          onMouseLeave={onMouseUp}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+        />
+      ),
+    [isMouseDown, onMouseMove, onMouseUp]
   );
 
   return { line, width, popUp };
@@ -80,11 +67,11 @@ const Line = styled.span`
 `;
 
 const PopUp = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: calc(100% + 200px);
+  height: calc(100% + 200px);
   z-index: 1000000;
   background: none;
   border: none;

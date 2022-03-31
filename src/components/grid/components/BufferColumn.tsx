@@ -1,34 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useColumnData } from '../hooks/column/useColumnData';
 import { useCustomContext } from '../store';
-import { ColumnContainer } from '../styles';
-import { FirstRowCell } from './FirstRowsCell';
+import {
+  BodyCellContainer,
+  ColumnContainer,
+  HeaderCellContainer,
+} from '../styles';
+import { Cell } from './Cell';
 
-export function BufferColumn() {
-  const { state } = useCustomContext();
+export function BufferColumn({ width }: { width: number }) {
+  const { state, dispatch } = useCustomContext();
   const { height, body } = useColumnData();
-  const [width, setWidth] = useState(0);
-  useEffect(() => {
-    const sumWidth = state.column
-      .map((item) => item.width)
-      .reduce((acc, width) => acc + width);
-    if (sumWidth > document.body.clientWidth) {
-      setWidth(document.body.clientWidth - sumWidth);
-    }
-  }, [state.column]);
+
+  const onMouseEnter = useCallback(
+    (hoverId) => {
+      dispatch({ type: 'SET_HOVER_ID', hoverId });
+    },
+    [dispatch]
+  );
 
   return (
     <ColumnContainer
       style={{
         height,
-        width,
       }}
     >
-      <FirstRowCell location="header" key="buffer" />
+      <HeaderCellContainer style={{ minWidth: width }} />
       {body.map((rowItem, index) => (
-        <FirstRowCell key={index}>{rowItem}</FirstRowCell>
+        <BodyCellContainer
+          key={'bufferRow' + index}
+          hover={rowItem.id === state.hoverId}
+          onMouseEnter={() => onMouseEnter(rowItem.id)}
+        >
+          <p></p>
+        </BodyCellContainer>
       ))}
-      {!!state.footer.length && <FirstRowCell location="footer" key="footer" />}
+      {!!state.footer.length && (
+        <Cell key="bufferFooterIndex" location="footer">
+          {null}
+        </Cell>
+      )}
     </ColumnContainer>
   );
 }

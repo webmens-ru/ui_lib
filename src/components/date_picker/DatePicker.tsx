@@ -13,7 +13,7 @@ export function DatePicker({
 }: IDatePicker) {
   const [dateISO, setDateISO] = useState({
     field: initialFieldText || initialDateISO,
-    calendar: initialDateISO || ''
+    calendar: initialDateISO || '',
   });
 
   const { ref, isShow, setShow } = useShowControl();
@@ -24,14 +24,18 @@ export function DatePicker({
     }
   }, [dateISO, onSelect]);
 
+  useEffect(() => {
+    setDateISO((old) => ({ ...old, field: initialDateISO }));
+  }, [initialDateISO]);
+
   const calendarSelectHandler = (date: string) => {
-    setDateISO({field: date, calendar: date});
+    setDateISO({ field: date, calendar: date });
     setShow(false);
   };
 
   const fieldSelectHandler = (date: string) => {
-    setDateISO((old) => ({...old, calendar: date}))
-  }
+    setDateISO((old) => ({ ...old, calendar: date }));
+  };
 
   return (
     <DatePickerContainer ref={ref} fieldWidth={fieldWidth}>

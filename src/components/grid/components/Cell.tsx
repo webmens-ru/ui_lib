@@ -26,8 +26,8 @@ export function Cell({
   const { getCell } = useGetSuitableCell();
 
   const onMouseEnter = useCallback(() => {
-    dispatch({ type: 'SET_HOVER_ID', hoverId: children.id });
-  }, [children.id, dispatch]);
+    dispatch({ type: 'SET_HOVER_ID', hoverId: children?.id });
+  }, [children?.id, dispatch]);
 
   if (location === 'header') {
     return HeaderCell(children, props);
