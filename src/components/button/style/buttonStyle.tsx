@@ -6,6 +6,7 @@ interface IContainer {
     static?: string;
     hover?: string;
     fontColor?: string;
+    fontColorHover?: string;
     borderColor?: string;
   };
   variant?: Variant;
@@ -14,14 +15,15 @@ interface IContainer {
   svg?: string;
 }
 
-export const Container = styled.div`
+export const Container = styled.div<IContainer>`
   position: relative;
   height: 39px;
   width: ${({ variant }) => (variant === "square" ? "39px" : "max-content")};
   display: flex;
   align-items: center;
-  background: ${({ palette }: IContainer) => palette.static};
+  background: ${({ palette }) => palette.static};
   border-radius: ${({ variant }) => (variant === "circle" ? "50px" : "3px")};
+  transition: all 200ms;
   & * {
     font-size: 12px;
     font-weight: 700;
@@ -48,6 +50,7 @@ export const Container = styled.div`
     }
     &:hover {
       background: ${({ palette }) => palette.hover};
+      color: ${({ palette }) => palette.fontColorHover || palette.fontColor};
     }
   }
   & p {
@@ -109,6 +112,7 @@ export const DropdownContainer = styled.div`
   background: #fff;
   box-shadow: 0 7px 21px rgba(83, 92, 105, 0.12),
     0 -1px 6px 0 rgba(83, 92, 105, 0.06);
+  z-index: 10;
   & > span {
     margin: 0;
     padding: 0 15px;

@@ -1,7 +1,8 @@
-import React from "react";
-import { CheckboxBlueContainer, GearBtn, ModalContainer } from "../styles";
-import { TColumnItem } from "../types";
-import { useSetting } from "../hooks/setting/useSetting";
+import React from 'react';
+import { CheckboxBlueContainer, GearBtn, ModalContainer } from '../styles';
+import { TColumnItem } from '../types';
+import { useSetting } from '../hooks/setting/useSetting';
+import { Button } from '../../button';
 
 export function SettingGrid() {
   const {
@@ -29,12 +30,20 @@ export function SettingGrid() {
           </div>
           <div>
             <div>
-              <button onClick={submit}>Применить</button>
-              <button onClick={cancel}>Отменить</button>
+              <Button color="success" buttonProps={{ onClick: submit }}>
+                Применить
+              </Button>
+              <Button color="light" buttonProps={{ onClick: cancel }}>
+                Отменить
+              </Button>
             </div>
             <div>
-              <button onClick={checkAll}>Выбрать все</button>
-              <button onClick={clearAll}>Отменить все</button>
+              <Button color="dashed" buttonProps={{ onClick: checkAll }}>
+                Выбрать все
+              </Button>
+              <Button color="dashed" buttonProps={{ onClick: clearAll }}>
+                Отменить все
+              </Button>
             </div>
           </div>
         </ModalContainer>
@@ -51,11 +60,11 @@ function Checkbox({
   setVisibleId: (id: number) => void;
 }) {
   return (
-    <CheckboxBlueContainer checked={item.visible === 1}>
+    <CheckboxBlueContainer checked={!!item.visible}>
       <input
         type="checkbox"
         id={item.code + item.id}
-        checked={item.visible === 1}
+        checked={!!item.visible}
         onChange={() => setVisibleId(item.id)}
       />
       <label htmlFor={item.code + item.id}>{item.title}</label>

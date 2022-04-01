@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const GridContainer = styled.div`
   position: relative;
@@ -9,12 +9,7 @@ export const GridContainer = styled.div`
   display: flex;
   background: rgb(238, 242, 244);
   overflow: auto;
-  & * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: #535c69;
-    font-size: 14px;
-    font-family: "Open Sans", sans-serif;
-  }
+  color: #535c69;
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
 `;

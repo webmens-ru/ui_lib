@@ -34,7 +34,7 @@ export default function DropDown({
   return (
     <DropDownContainer onClick={clickShowHandle} width={width} ref={ref}>
       <DropDownHeader readOnly={readOnly}>
-        <p>{currentItem.title}</p>
+        <p>{currentItem?.title}</p>
       </DropDownHeader>
       <DropDownBody isShow={isShow}>
         {items.map((item: TItem, index: number) => (

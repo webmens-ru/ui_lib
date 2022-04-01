@@ -38,49 +38,20 @@ export const ModalContainer = styled.div`
     & > div:first-of-type {
       margin-left: 352px;
       display: flex;
-      & > button {
-        margin-right: 5px;
-        width: 120px;
-        height: 39px;
-        background: rgb(187, 237, 33);
-        color: #535c69;
-        text-transform: uppercase;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        &:hover {
-          background: rgb(203, 231, 119);
-        }
-      }
-      & > button:last-of-type {
-        background: none;
-        &:hover {
-          background: none;
-        }
+      & > *:first-of-type {
+        margin-right: 10px;
       }
     }
     & > div:last-of-type {
-      margin-right: 200px;
+      margin-left: auto;
       display: flex;
-      & > button {
-        margin: 0 5px 0 168px;
-        width: 85px;
-        height: 20px;
-        border-bottom: 1px dashed #000;
-        color: #000;
-        font-size: 13px;
-        opacity: 0.3;
-      }
-      & > button:last-of-type {
-        margin: 0;
-      }
     }
   }
 `;
 
 export const CheckboxBlueContainer = styled.div`
   position: relative;
-  padding: 6px 20px;
+  padding: 6px 5px 6px 22px;
   width: 230px;
   display: flex;
   background: ${({ checked }: { checked: boolean }) =>
@@ -95,7 +66,7 @@ export const CheckboxBlueContainer = styled.div`
   }
   & input[type="checkbox"] {
     position: absolute;
-    top: 9px;
+    top: 7px;
     left: 5px;
     padding-top: 5px;
   }

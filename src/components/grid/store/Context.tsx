@@ -1,5 +1,4 @@
 import React, { createContext, useReducer, useContext } from 'react';
-import { useEffect } from 'react';
 import { Action, IContext, IState } from '.';
 import { IGridContext } from '../types';
 import { init } from '../utils/initial';
@@ -62,10 +61,6 @@ export const Context = createContext<IContext>({} as IContext);
 
 export function ContextProvider(props: IGridContext) {
   const [state, dispatch] = useReducer(reducer, props, init);
-
-  useEffect(() => {
-    dispatch({ type: 'INITIAL', props: init(props) });
-  }, [props]);
 
   return (
     <Context.Provider value={{ state, dispatch }}>

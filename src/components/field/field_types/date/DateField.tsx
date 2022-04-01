@@ -17,7 +17,6 @@ export function DateField({
   });
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // if (!e.target.value.match(/^\d{0,2}[./,]{0,1}\d{0,2}[./,]{0,1}\d{0,4}$/))
     let value = e.target.value;
     if (isPrint(data.value, value)) {
       let date = new Date(data.date.getTime());

@@ -1,4 +1,4 @@
-import { svgBeforeList, defaultThemes } from ".";
+import { svgBeforeList, defaultThemes } from '.';
 
 export type Palette = {
   static?: string;
@@ -8,15 +8,16 @@ export type Palette = {
 };
 
 export type Color = keyof typeof defaultThemes;
-export type TriangleColor = "white" | "black";
-export type Variant = "default" | "square" | "dropdown" | "circle";
-export type Direction = "left" | "right";
-export type SquareMode = "mail" | "phone" | "chat" | "reload";
+export type TriangleColor = 'white' | 'black';
+export type Variant = 'default' | 'square' | 'dropdown' | 'circle';
+export type Direction = 'left' | 'right';
+export type SquareMode = 'mail' | 'phone' | 'chat' | 'reload';
 type SvgBefore = keyof typeof svgBeforeList;
 type Item = {
   label: string;
   borderTop?: boolean;
   borderBottom?: boolean;
+  [key: string]: any;
 };
 
 export type ButtonProps = {
@@ -30,4 +31,4 @@ export type ButtonProps = {
   itemsProps?: any;
   dropdownDirection?: Direction;
   dropdownWidth?: string;
-}
+};

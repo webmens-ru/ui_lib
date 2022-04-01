@@ -25,7 +25,7 @@ export const useButtonProps = (
   }: ButtonProps,
   propsRef: RefObject<HTMLDivElement>
 ) => {
-  const { ref, isShow, toggleShow } = useShowControl(propsRef);
+  const { ref, isShow, toggleShow, setShow } = useShowControl(propsRef);
 
   const completePalette = useMemo(
     () => ({ ...defaultThemes[color], ...palette }),
@@ -98,13 +98,24 @@ export const useButtonProps = (
     [svgBefore, variant]
   );
 
-  const otherButtonProps = useMemo(
-    () =>
+  const otherButtonProps = useMemo(() => {
+    const onClick =
       variant === 'dropdown' || variant === 'circle'
-        ? { onClick: toggleShow }
-        : {},
-    [toggleShow, variant]
-  );
+        ? toggleShow
+        : buttonProps.onClick;
+    const style =
+      color === 'dashed'
+        ? {
+            textDecoration: 'underline dotted',
+            fontSize: '13px',
+            textTransform: 'none',
+          }
+        : {};
+    return {
+      onClick,
+      style,
+    };
+  }, [buttonProps, color, toggleShow, variant]);
 
   return {
     completePalette,
@@ -119,6 +130,7 @@ export const useButtonProps = (
       isShow,
       palette: completePalette,
       variant: variant,
+      setShow,
     },
     dropdownProps: {
       variant,

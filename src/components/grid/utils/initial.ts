@@ -30,8 +30,8 @@ export const init = (props: IGridProps): IState => {
         ? props?.isShowCheckboxes
         : false,
     onChangeCheckboxes:
-      typeof props?.onChangeCheckboxes === 'function'
-        ? props?.onChangeCheckboxes
+      typeof props.onChangeCheckboxes === 'function'
+        ? props.onChangeCheckboxes
         : () => {},
     onCellClick:
       typeof props?.onCellClick === 'function' ? props?.onCellClick : () => {},

@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
-import { useShowControl } from "../../../../hooks/useShowControl";
-import { useCustomContext } from "../../store";
+import { useState, useEffect, useCallback } from 'react';
+import { useShowControl } from '../../../../hooks/useShowControl';
+import { useCustomContext } from '../../store';
 
 export const useSetting = () => {
   const { state, dispatch } = useCustomContext();
@@ -16,16 +16,16 @@ export const useSetting = () => {
       setProxyColumn(
         proxyColumn.map((columnItem) =>
           columnItem.id === id
-            ? { ...columnItem, visible: columnItem.visible === 1 ? 0 : 1 }
-            : columnItem,
-        ),
+            ? { ...columnItem, visible: !!columnItem.visible ? 0 : 1 }
+            : columnItem
+        )
       );
     },
-    [proxyColumn],
+    [proxyColumn]
   );
 
   const submit = useCallback(() => {
-    dispatch({ type: "SET_COLUMN", column: proxyColumn });
+    dispatch({ type: 'SET_COLUMN', column: proxyColumn });
     state.columnMutation(proxyColumn);
     setShow(false);
   }, [dispatch, proxyColumn, setShow, state]);
@@ -36,6 +36,8 @@ export const useSetting = () => {
   }, [setShow, state.column]);
 
   const checkAll = useCallback(() => {
+    console.log('asdasd');
+    
     setProxyColumn(proxyColumn.map((item) => ({ ...item, visible: 1 })));
   }, [proxyColumn]);
 

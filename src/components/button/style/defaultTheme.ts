@@ -24,9 +24,16 @@ export const defaultThemes = {
     borderColor: "transparent",
   },
   gray: {
-    static: "rgba(0, 0, 0, 0.07);",
-    hover: "rgba(0, 0, 0, 0.1);",
-    fontColor: "rgba(51, 51, 51, 0.8);",
-    borderColor: "rgba(0, 0, 0, 0.06);",
+    static: "rgba(0, 0, 0, 0.07)",
+    hover: "rgba(0, 0, 0, 0.1)",
+    fontColor: "rgba(51, 51, 51, 0.8)",
+    borderColor: "rgba(0, 0, 0, 0.06)",
   },
+  dashed: {
+    static: "transparent",
+    hover: "transparent",
+    fontColor: "rgba(128, 134, 142, 0.8)",
+    fontColorHover: 'rgb(128, 134, 142)',
+    borderColor: "transparent",
+  }
 };

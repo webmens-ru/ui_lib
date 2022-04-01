@@ -1,5 +1,5 @@
-import React, { StrictMode, useRef } from "react";
-import { Container, ButtonProps, DropdownContainer, useButtonProps } from ".";
+import React, { StrictMode, useRef } from 'react';
+import { Container, ButtonProps, DropdownContainer, useButtonProps } from '.';
 
 export function Button(props: ButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,8 +16,8 @@ export function Button(props: ButtonProps) {
 
   return (
     <StrictMode>
-      <Container {...containerProps} >
-        {props.variant === "square" ? (
+      <Container {...containerProps}>
+        {props.variant === 'square' ? (
           <>{outsideAfterSvg}</>
         ) : (
           <>
@@ -34,14 +34,18 @@ export function Button(props: ButtonProps) {
           <DropdownContainer {...dropdownProps}>
             {items.map((item, index) => (
               <span
-                key={index}
+                key={item.id || index}
                 {...itemsProps}
+                onClick={() => {
+                  itemsProps?.onClick(item);
+                  containerProps.setShow(false);
+                }}
                 style={
                   (item.borderTop && {
-                    borderTop: "1px solid rgba(194, 197, 202, 0.3)",
+                    borderTop: '1px solid rgba(194, 197, 202, 0.3)',
                   }) ||
                   (item.borderBottom && {
-                    borderBottom: "1px solid rgba(194, 197, 202, 0.3)",
+                    borderBottom: '1px solid rgba(194, 197, 202, 0.3)',
                   })
                 }
               >
