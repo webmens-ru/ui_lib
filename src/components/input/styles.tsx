@@ -1,7 +1,8 @@
 import styled from "styled-components"
 
 type InputContainerProps = {
-  readonly: boolean
+  readonly: boolean;
+  focus: boolean;
 }
 
 export const InputContainer = styled.div`
@@ -11,10 +12,10 @@ export const InputContainer = styled.div`
   transition: all 220ms linear;
 
   background: ${({ readonly }: InputContainerProps) => readonly ? '#f4f4f4' : '#fff'};
-  cursor: ${({ readonly }: InputContainerProps) => readonly ? 'not-allowed' : 'default'};
-  border-color: ${({ readonly }: InputContainerProps) => readonly ? '#c6cdd3' : 'rgba(83, 92, 105, 0.2)'};
+  cursor: ${({ readonly, focus }: InputContainerProps) => readonly ? 'not-allowed' : focus ? 'text' : 'default'};
+  border-color: ${({ readonly, focus }: InputContainerProps) => readonly ? '#c6cdd3' : focus ? '#66afe9' : 'rgba(83, 92, 105, 0.2)'};
 
-  &:focus, &:hover {
+  &:hover {
     border-color: #66afe9;
     cursor: text;
   }

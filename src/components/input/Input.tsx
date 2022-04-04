@@ -8,11 +8,11 @@ export const Input = ({
   placeholder = '', 
   readonly = false,
   iconPosition = "none",
-  iconLeftName,
-  iconRightName,
+  iconLeftName = "none",
+  iconRightName = "none",
   onChange = () => {},
 }: IInputProps) => {
-  const [input, setInput] = useState({ value })
+  const [input, setInput] = useState({ value, focus: false })
 
   const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value
@@ -20,8 +20,12 @@ export const Input = ({
     onChange(value)
   }
 
+  const setFocus = (focus: boolean) => {
+    setInput({...input, focus})
+  }
+
   return (
-    <InputContainer readonly={readonly}>
+    <InputContainer readonly={readonly} focus={input.focus}>
       {(iconPosition === "left" || iconPosition === "both") && (
         <PrefixIconContainer>
           <Icon iconName={iconLeftName} iconWidth="18px" />
@@ -33,6 +37,8 @@ export const Input = ({
         placeholder={placeholder}
         readOnly={readonly}
         onChange={handleInputChange}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
       />
       {(iconPosition === "right" || iconPosition === "both") && (
         <PostfixIconContainer>
