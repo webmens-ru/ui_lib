@@ -14,7 +14,7 @@ export interface ISelectProps {
   onChange?: (options: IDataItem[]) => void;
 }
 
-export type ISelectValue = (number|string|IDataItem)[] | IDataItem | []
+export type ISelectValue = (number|string)|(number|string|IDataItem)[] | IDataItem | []
 
 export interface IDropdownProps {
   isShow?: boolean;

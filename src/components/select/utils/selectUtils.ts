@@ -11,18 +11,17 @@ export const getInitialValue = (propsValue: ISelectValue, data: IDataItem[] = []
       } else {
         return [{ value: propsValue, title: '' }]
       }
-    // !! This expression is not callable
-    // case 'object':
-    //   if (Array.isArray(propsValue)) {
-    //     return propsValue.map(item => {
-    //       if (typeof item === 'object' && 'value' in item && 'title' in item) {
-    //         return item
-    //       } else {
-    //         const title = data.find(option => option.value === item)?.title || ""
-    //         return { value: item, title }
-    //       }
-    //     })
-    //   } else return [propsValue]
+    case 'object':
+      if (Array.isArray(propsValue)) {
+        return propsValue.map(item => {
+          if (typeof item === 'object' && 'value' in item && 'title' in item) {
+            return item
+          } else {
+            const title = data.find(option => option.value === item)?.title || ""
+            return { value: item, title }
+          }
+        })
+      } else return [propsValue]
     default:
       return []
   }

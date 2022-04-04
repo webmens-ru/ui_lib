@@ -31,7 +31,6 @@ export const Select = ({
     value,
   }, init)
 
-  console.log(select);
   const isEnoughFilterLength = select.filterValue.length >= minInputLength
 
   const handleFilterChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
