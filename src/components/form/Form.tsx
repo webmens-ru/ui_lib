@@ -77,7 +77,7 @@ const Form = ({
           <DatePicker 
             {...field}
             {...field.fieldParams} 
-            initialValue={form.values[field.name] as string} 
+            initialDateISO={form.values[field.name] as string} 
             onSelect={(value) => handleFieldChange({name: field.name, value})} 
           />
         )
