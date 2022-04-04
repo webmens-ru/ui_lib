@@ -37,7 +37,7 @@ const Icons = {
   reloadBlue,
   searchWhite,
   settingBack,
-  undefined
+  none: 'none'
 }
 
 export default Icons
