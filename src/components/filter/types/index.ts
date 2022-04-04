@@ -20,8 +20,9 @@ export type TProps = {
 export type TGetSelectItems = (type: string, queryKey: string) => Promise<any[]>;
 
 export type TFilter = {
+  id: number;
   title: string;
-  visible: boolean;
+  visible: boolean | number;
   order: number;
   [key: string]: any;
 };
@@ -29,7 +30,7 @@ export type TFilter = {
 export type TUpdateFilter = {
   id?: number;
   title?: string;
-  visible?: boolean;
+  visible?: boolean | number;
   order?: number;
   [key: string]: any;
 };
@@ -43,7 +44,7 @@ export type TField = {
   title: string;
   queryKey: string;
   code: string;
-  visible: boolean;
+  visible: boolean | number;
 };
 
 export type TFilterFieldsItem = {
@@ -53,7 +54,7 @@ export type TFilterFieldsItem = {
   type: string;
   title: string;
   queryKey: string;
-  visible: boolean;
+  visible: boolean | number;
 };
 
 export type TUpdateFieldParams = {

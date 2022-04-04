@@ -27,21 +27,24 @@ export const useSortForColumn = (
         proxyCallback(row.slice().sort((a, b) => numberSort(a[code], b[code])));
         break;
       case 'object':
-        switch (typeof row[0][code].title) {
-          case 'string':
-            proxyCallback(
-              row
-                .slice()
-                .sort((a, b) => stringSort(a[code].title, b[code].title))
-            );
-            break;
-          case 'number':
-            proxyCallback(
-              row
-                .slice()
-                .sort((a, b) => numberSort(a[code].title, b[code].title))
-            );
-            break;
+        const rowItem = row.find((item) => !!item?.title);
+        if (rowItem) {
+          switch (rowItem.title) {
+            case 'string':
+              proxyCallback(
+                row
+                  .slice()
+                  .sort((a, b) => stringSort(a[code].title, b[code].title))
+              );
+              break;
+            case 'number':
+              proxyCallback(
+                row
+                  .slice()
+                  .sort((a, b) => numberSort(a[code].title, b[code].title))
+              );
+              break;
+          }
         }
         break;
       default:

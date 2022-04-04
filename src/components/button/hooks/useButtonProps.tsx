@@ -102,7 +102,8 @@ export const useButtonProps = (
     const onClick =
       variant === 'dropdown' || variant === 'circle'
         ? toggleShow
-        : buttonProps.onClick;
+        : buttonProps?.onClick || (() => {});
+        
     const style =
       color === 'dashed'
         ? {

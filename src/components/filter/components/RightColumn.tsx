@@ -16,7 +16,7 @@ export function RightColumn({
   const { state, dispatch } = useCustomContext();
 
   const searchProxy = () => {
-    state.onSearch(state.fields.filter((f) => f.visible));
+    state.onSearch(state.fields.filter((f) => Boolean(f.visible)));
     setShowFilter(false);
   };
 
@@ -31,7 +31,7 @@ export function RightColumn({
       state.createFilter({
         ...state.filterTemplate,
         menuId: state.filters[0].menuId,
-        order: state.filters.filter((f) => f.visible).length + 1,
+        order: state.filters.filter((f) => Boolean(f.visible)).length + 1,
         parentId: state.currentFilter.id,
       });
     } else if (state.isEditFilter) {
@@ -46,12 +46,13 @@ export function RightColumn({
 
   const change = (item: TField) => {
     state.updateField(
-      { ...item, visible: !item.visible },
-      item.visible ? "hide" : "create",
+      { ...item, visible: !Boolean(item.visible) },
+      Boolean(item.visible) ? "hide" : "create",
     );
+    setShowFilter(true);
     dispatch({
       type: "UPDATE_FILTER_FIELD",
-      field: { ...item, visible: !item.visible },
+      field: { ...item, visible: !Boolean(item.visible) },
     });
   };
 
@@ -90,7 +91,7 @@ export function RightColumn({
               <AddFieldInput
                 key={index}
                 onChange={() => change(item)}
-                checked={item.visible}
+                checked={Boolean(item.visible)}
               >
                 {item.title}
               </AddFieldInput>

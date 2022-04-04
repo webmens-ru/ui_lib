@@ -52,7 +52,7 @@ export function LeftColumn() {
     <menu>
       <h3>Фильтры</h3>
       {draggableItems
-        .filter((f) => f.visible)
+        .filter((f) => Boolean(f.visible))
         .map((item, index) => (
           <div
             style={{

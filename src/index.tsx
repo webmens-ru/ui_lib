@@ -1,5 +1,6 @@
 export { Button } from './components/button';
 export { Calendar } from './components/calendar';
+export { Checkbox } from './components/checkbox';
 export { DatePicker } from './components/date_picker';
 export { Field } from './components/field/Field';
 export { Filter } from './components/filter';

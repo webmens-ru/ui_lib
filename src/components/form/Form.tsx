@@ -13,7 +13,7 @@ const Form = ({
   formConfig = {
     fields: [
       {type: 'input', name: 'test', value: '123'},
-      {type: 'select', name: 'test1', value: '123'},
+      // {type: 'select', name: 'test1', value: '123'},
       {type: 'checkbox', name: 'test1', value: false},
     ]
   },

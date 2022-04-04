@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction, useCallback, useState } from "react";
 
 /**
  * Hook чтобы сделать массив елементов draggable
@@ -20,7 +20,7 @@ export const useDragAndDrop = (sendResultFunc: (arg0: any[]) => void) => {
     setMoveItem(item);
   };
 
-  const onDragEnter = (e: React.MouseEvent<HTMLElement>, item: any) => {
+  const onDragEnter = useCallback((e: React.MouseEvent<HTMLElement>, item: any) => {
     e.preventDefault();
     if (
       Object.keys(moveItem).length > 0 &&
@@ -32,9 +32,9 @@ export const useDragAndDrop = (sendResultFunc: (arg0: any[]) => void) => {
       copy.splice(indexOfItem, 0, moveItem);
       setDraggableItems(copy);
     }
-  };
+  },[draggableItems, moveItem]) ;
 
-  const onDragEnd = (e: React.MouseEvent<HTMLElement>) => {
+  const onDragEnd = useCallback((e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     sendResultFunc(
       draggableItems
@@ -42,7 +42,7 @@ export const useDragAndDrop = (sendResultFunc: (arg0: any[]) => void) => {
         .map((item, index) => ({ ...item, order: index + 1 })),
     );
     setMoveItem({});
-  };
+  },[draggableItems, sendResultFunc]) ;
 
   return {
     draggableItems,

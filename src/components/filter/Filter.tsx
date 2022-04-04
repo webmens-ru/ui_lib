@@ -46,7 +46,7 @@ export function Filter(props: TProps) {
 
 function Provider() {
   const { state, dispatch } = useCustomContext();
-  const { ref, isShow, setShow } = useShowControl();
+  const { isShow, setShow } = useShowControl();
 
   const deleteCurrentFilter = () => {
     dispatch({ type: "DELETE_CURRENT_FILTER" });
@@ -58,7 +58,7 @@ function Provider() {
 
   return (
     <>
-      <FilterContainer ref={ref}>
+      <FilterContainer>
         <div onClick={() => setShow(true)}>
           {state.currentFilter.title === "" ? (
             <div>
