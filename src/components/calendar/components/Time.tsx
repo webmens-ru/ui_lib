@@ -92,11 +92,11 @@ export function Time() {
   };
 
   const setTime = () => {
-    state.onSelect(state.date.toISOString());
+    dispatch({type: "submit"})
   };
 
   const close = () => {
-    state.onSelect("cancel");
+    dispatch({type: "cancel"})
   };
 
   return (

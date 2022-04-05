@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useCustomContext } from "../../store/Context";
-import SelectIntegerField from "./filter_fields/SelectInteger";
-import SelectStringField from "./filter_fields/SelectString";
-import { Select } from "./filter_fields/Select";
-import { useDragAndDrop } from "../../utils/useDragAndDrop";
-import DateField from "./filter_fields/Date";
+import React, { useEffect, useMemo } from 'react';
+import { useCustomContext } from '../../store/Context';
+import SelectIntegerField from './filter_fields/SelectInteger';
+import SelectStringField from './filter_fields/SelectString';
+import { Select } from './filter_fields/Select';
+import { useDragAndDrop } from '../../utils/useDragAndDrop';
+import DateField from './filter_fields/Date';
 
 export function FilterFields() {
   const { state } = useCustomContext();
@@ -21,13 +21,13 @@ export function FilterFields() {
     setDraggableItems(state.fields.slice().sort((a, b) => a.order - b.order));
   }, [setDraggableItems, state.fields]);
 
-  const getContent = (arr: any[]) => {
-    return arr
+  const content = useMemo(() => {
+    return draggableItems
       .slice()
-      .filter((f) => f.visible)
-      .map((item, index) => {
+      .filter((f) => Boolean(f.visible))
+      .map((item) => {
         const props = {
-          key: index,
+          key: item.id,
           item,
           onDragStart: () => onDragStart(item),
           onDragEnter: (e: React.MouseEvent<HTMLElement>) =>
@@ -37,20 +37,20 @@ export function FilterFields() {
         };
 
         switch (item.type) {
-          case "integer":
-          case "number":
+          case 'integer':
+          case 'number':
             return <SelectIntegerField {...props} />;
-          case "string":
+          case 'string':
             return <SelectStringField {...props} />;
-          case "multiple_select":
-          case "select":
+          case 'multiple_select':
+          case 'select':
             return <Select {...props} />;
-          case "date":
+          case 'date':
             return <DateField {...props} />;
           default:
             return <h3 key="error">Field type error</h3>;
         }
       });
-  };
-  return <>{getContent(draggableItems)}</>;
+  }, [draggableItems, onDragEnd, onDragEnter, onDragStart, state.updateField]);
+  return <>{content}</>;
 }

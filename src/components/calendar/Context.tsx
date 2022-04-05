@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react';
 import { Action, ICalendarContext, IProviderProps, State } from '.';
 
 const reducer = (state: State, action: Action) => {
@@ -54,13 +60,34 @@ export function CalendarProvider(props: IProviderProps) {
 
   const [state, dispatch] = useReducer(reducer, props, init);
 
+  const onSelect = useCallback(
+    (action) => {
+      if (props.onSelect) {
+        props.onSelect((action.date || state.date).toISOString());
+      }
+    },
+    [props, state]
+  );
+
+  const dispatchWithMiddleware = useCallback(
+    (action: Action) => {
+      if (['set_date', 'submit'].includes(action.type)) {
+        onSelect(action);
+      }
+      dispatch(action);
+    },
+    [onSelect]
+  );
+
   useEffect(() => {
     if (isValidDateISO(props.dateISO))
       dispatch({ type: 'set_date', date: new Date(props.dateISO) });
   }, [props.dateISO]);
 
   return (
-    <CalendarContext.Provider value={{ state, dispatch }}>
+    <CalendarContext.Provider
+      value={{ state, dispatch: dispatchWithMiddleware }}
+    >
       {props.children}
     </CalendarContext.Provider>
   );
@@ -68,9 +95,8 @@ export function CalendarProvider(props: IProviderProps) {
 
 export const useCustomContext = () => useContext(CalendarContext);
 
-
 function isValidDateISO(dateISO?: string) {
-  if(!dateISO) return false;
+  if (!dateISO) return false;
   const date = new Date(dateISO);
   return date instanceof Date && !isNaN(date.getTime());
 }

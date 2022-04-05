@@ -1,134 +1,120 @@
-import React from "react";
+import React, { useCallback, useMemo } from 'react';
 import {
   BodyContainer,
   DayInCurrentMonth,
   DayInOtherMonth,
   useCustomContext,
-} from "..";
+} from '..';
 
 export function Body() {
   const { state, dispatch } = useCustomContext();
 
-  const daysOfPastMonth = getDaysArray(
-    state.date.getFullYear(),
-    state.date.getMonth() - 1,
-  ).slice(
-    -whatDayOfWeek(state.date.getFullYear(), state.date.getMonth(), 1) + 1,
+  const isThisToday = useCallback(
+    (day: number, month: number, year: number) => {
+      if (
+        state.date.getDate() === day &&
+        state.date.getMonth() === month &&
+        state.date.getFullYear() === year
+      ) {
+        return '#eee';
+      }
+      return '#fff';
+    },
+    [state.date]
   );
 
-  const daysOfNextMonth = getDaysArray(
-    state.date.getFullYear(),
-    state.date.getMonth() + 1,
-  ).slice(
-    0,
-    7 -
-      whatDayOfWeek(
-        state.date.getFullYear(),
-        state.date.getMonth(),
-        getDaysArray(
-          state.date.getFullYear(),
-          state.date.getMonth(),
-        ).reverse()[0],
-      ),
+  const usefulDate = useCallback(
+    (monthShift: number, day: number = 0) => {
+      const year = state.date.getFullYear();
+      const month = state.date.getMonth();
+      const date = new Date(year, month + monthShift, day);
+      const countDays = date.getDate();
+
+      return { year, month, date, countDays };
+    },
+    [state.date]
   );
 
-  const chooseDayInPastMonth = (day: number) => {
-    const date = new Date(state.date.getTime());
-    date.setMonth(date.getMonth() - 1, day);
-    dispatch({ type: "set_date", date });
-    state.onSelect(date.toISOString());
-  };
+  const daysPastMonth = useMemo(() => {
+    const { year, month, date, countDays } = usefulDate(0);
 
-  const chooseDayInCurrentMonth = (day: number) => {
-    const date = new Date(state.date.getTime());
-    date.setDate(day);
-    dispatch({ type: "set_date", date });
-    state.onSelect(date.toISOString());
-  };
+    return Array.from({ length: date.getDay() }, (_, index) => ({
+      label: countDays - index,
+      isToday: isThisToday(countDays - index, month - 1, year),
+    })).reverse();
+  }, [isThisToday, usefulDate]);
 
-  const chooseDayInNextMonth = (day: number) => {
-    const date = new Date(state.date.getTime());
-    date.setMonth(date.getMonth() + 1, day);
-    dispatch({ type: "set_date", date });
-    state.onSelect(date.toISOString());
-  };
+  const daysCurrentMonth = useMemo(() => {
+    const { year, month, date } = usefulDate(1);
 
-  const isThisToday = (day: number, month: number, year: number) => {
-    if (
-      state.date.getDate() === day &&
-      state.date.getMonth() === month &&
-      state.date.getFullYear() === year
-    ) {
-      return "#eee";
-    }
-    return "#fff";
-  };
+    return Array.from({ length: date.getDate() }, (_, index) => ({
+      label: index + 1,
+      isToday: isThisToday(index + 1, month, year),
+    }));
+  }, [isThisToday, usefulDate]);
+
+  const daysNextMonth = useMemo(() => {
+    const { year, month, date } = usefulDate(1);
+
+    return Array.from({ length: 7 - date.getDay() }, (_, index) => ({
+      label: index + 1,
+      isToday: isThisToday(index + 1, month - 1, year),
+    }));
+  }, [isThisToday, usefulDate]);
+
+  const chooseDayInPastMonth = useCallback(
+    (day: number) => {
+      const { date } = usefulDate(-1, day);
+      dispatch({ type: 'set_date', date });
+    },
+    [dispatch, usefulDate]
+  );
+
+  const chooseDayInCurrentMonth = useCallback(
+    (day: number) => {
+      const { date } = usefulDate(0, day);
+      dispatch({ type: 'set_date', date });
+    },
+    [dispatch, usefulDate]
+  );
+
+  const chooseDayInNextMonth = useCallback(
+    (day: number) => {
+      const { date } = usefulDate(1, day);
+      dispatch({ type: 'set_date', date });
+    },
+    [dispatch, usefulDate]
+  );
 
   return (
     <BodyContainer>
-      {whatDayOfWeek(state.date.getFullYear(), state.date.getMonth(), 1) !==
-        1 &&
-        daysOfPastMonth.map((day) => (
-          <DayInOtherMonth
-            key={day}
-            onClick={() => chooseDayInPastMonth(day)}
-            bg={isThisToday(
-              day,
-              state.date.getMonth() - 1,
-              state.date.getFullYear(),
-            )}
-          >
-            {day}
-          </DayInOtherMonth>
-        ))}
-      {getDaysArray(state.date.getFullYear(), state.date.getMonth()).map(
-        (day) => (
-          <DayInCurrentMonth
-            bg={isThisToday(
-              day,
-              state.date.getMonth(),
-              state.date.getFullYear(),
-            )}
-            key={day}
-            onClick={() => chooseDayInCurrentMonth(day)}
-          >
-            {day}
-          </DayInCurrentMonth>
-        ),
-      )}
-      {whatDayOfWeek(
-        state.date.getFullYear(),
-        state.date.getMonth(),
-        getDaysArray(
-          state.date.getFullYear(),
-          state.date.getMonth(),
-        ).reverse()[0],
-      ) !== 7 &&
-        daysOfNextMonth.map((day) => (
-          <DayInOtherMonth
-            key={day}
-            onClick={() => chooseDayInNextMonth(day)}
-            bg={isThisToday(
-              day,
-              state.date.getMonth() + 1,
-              state.date.getFullYear(),
-            )}
-          >
-            {day}
-          </DayInOtherMonth>
-        ))}
+      {daysPastMonth.map((day) => (
+        <DayInOtherMonth
+          key={day.label}
+          onClick={() => chooseDayInPastMonth(day.label)}
+          bg={day.isToday}
+        >
+          {day.label}
+        </DayInOtherMonth>
+      ))}
+      {daysCurrentMonth.map((day) => (
+        <DayInCurrentMonth
+          key={day.label}
+          bg={day.isToday}
+          onClick={() => chooseDayInCurrentMonth(day.label)}
+        >
+          {day.label}
+        </DayInCurrentMonth>
+      ))}
+      {daysNextMonth.map((day) => (
+        <DayInOtherMonth
+          key={day.label}
+          onClick={() => chooseDayInNextMonth(day.label)}
+          bg={day.isToday}
+        >
+          {day.label}
+        </DayInOtherMonth>
+      ))}
     </BodyContainer>
   );
 }
-
-const getDaysArray = (year: number, month: number): number[] => {
-  return Array.from({ length: howDaysInMonth(year, month) }, (_, i) => i + 1);
-};
-
-const howDaysInMonth = (year: number, month: number) => {
-  return new Date(year, month + 1, 0).getDate();
-};
-
-const whatDayOfWeek = (year: number, month: number, day: number) => {
-  return new Date(year, month, day).getDay() || 7;
-};

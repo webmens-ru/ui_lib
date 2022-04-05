@@ -15,7 +15,6 @@ export interface IProviderProps extends ICalendarProps {
 
 export type State = {
   date: Date;
-  onSelect: (data: string) => void;
 };
 
 export interface ICalendarContext {
@@ -24,10 +23,12 @@ export interface ICalendarContext {
 }
 
 export type Action =
-  | { type: "next_month" }
-  | { type: "prev_month" }
-  | { type: "set_month"; month: number }
-  | { type: "set_year"; year: number }
-  | { type: "set_date", date: Date}
-  | { type: "set_hour", hour: number}
-  | { type: "set_minute", minute: number}
+  | { type: 'next_month' }
+  | { type: 'prev_month' }
+  | { type: 'set_month'; month: number }
+  | { type: 'set_year'; year: number }
+  | { type: 'set_date'; date: Date }
+  | { type: 'set_hour'; hour: number }
+  | { type: 'set_minute'; minute: number }
+  | { type: 'submit' }
+  | { type: 'cancel' };
