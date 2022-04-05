@@ -2,16 +2,23 @@ import { IFormReducerState, IFormReducerProps, IFormReducerAction } from "./type
 
 export const reducer = function(state: IFormReducerState, action: IFormReducerAction): IFormReducerState {
   switch (action.type) {
+    case 'toggle_mode':
+      const mode = state.mode === "edit" ? "view" : "edit";
+      return { ...state, mode}
     case 'set_field':
-      const setFieldValues = {...state.values}
+      const setFieldValues = {...state.tempValues}
       setFieldValues[action.field.name] = action.field.value
-      return { ...state, values: setFieldValues }
+      return { ...state, tempValues: setFieldValues }
     case 'set_errors':
       return { ...state, errors: action.errors }
     case 'set_form':
-      const setFormValues = {...state.values}
+      const setFormValues = {...state.tempValues}
       setFormValues[action.form.field.name] = action.form.field.value
-      return { ...state, values: setFormValues, errors: action.form.errors  }
+      return { ...state, tempValues: setFormValues, errors: action.form.errors  }
+    case 'submit_form':
+      return { ...state, values: state.tempValues, mode: "view" }
+    case 'undo_changes':
+      return { ...state, tempValues: state.values, mode: "view" }
     default: return state
   }
 }
@@ -37,6 +44,7 @@ export const init = function({fields, mode}: IFormReducerProps): IFormReducerSta
 
   return {
     values,
+    tempValues: values,
     errors: [],
     mode,
     inited: true

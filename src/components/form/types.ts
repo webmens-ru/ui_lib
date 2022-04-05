@@ -1,3 +1,4 @@
+import { IDataItem } from './../select/types';
 import { CheckboxValue } from './../checkbox/types';
 import { ICheckboxProps } from 'components/checkbox/types';
 import { IDatePicker } from 'components/date_picker/types';
@@ -6,18 +7,16 @@ import { IInputProps, InputValue } from 'components/input/types';
 import { ErrorsItem } from './components/field/types';
 
 export interface IFormProps {
-  formConfig: IFormConfig;
-  mode: FormMode;
+  fields: FormFieldsItem[];
+  formTitle?: string;
+  mode?: FormMode;
+  canToggleMode?: boolean;
   validationRules?: ValidationItem[];
   onFieldChange?: (name: string, value: any) => void;
   onSubmit?: (form: FormValues) => void
 }
 
 export type FormMode = "edit" | "view";
-
-export interface IFormConfig {
-  fields: FormFieldsItem[];
-}
 
 export interface FormFieldsItemGeneric {
   name: string;
@@ -45,15 +44,19 @@ export interface IFormProviderProps extends IFormProps {
 export interface IFormReducerState {
   errors: ErrorsItem[];
   values: FormValues;
+  tempValues: FormValues;
   mode: FormMode;
   inited: boolean;
 }
 
 export type FormValues = {
-  [key: string]: InputValue|ISelectValue|CheckboxValue|string
+  [key: string]: InputValue|IDataItem[]|CheckboxValue|string
 }
 
 export type IFormReducerAction = 
+  | { type: "toggle_mode" }
+  | { type: "submit_form" }
+  | { type: "undo_changes" }
   | { type: "set_errors", errors: ErrorsItem[] }
   | { type: "set_field", field: FormFieldsItemShort }
   | { type: "set_form", form: {errors: ErrorsItem[], field: FormFieldsItemShort} }

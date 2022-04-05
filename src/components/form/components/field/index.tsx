@@ -2,7 +2,7 @@ import React from "react";
 import { IFieldProps } from "./types.js";
 import { FieldContainer, FieldLabel, ValidateMessage } from "./styles";
 
-const Field = ({label, errors, name, children}: IFieldProps) => {
+const Field = ({label, errors = [], name, children}: IFieldProps) => {
 
   return (
     <FieldContainer>
