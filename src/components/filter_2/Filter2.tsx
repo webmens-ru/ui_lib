@@ -36,7 +36,7 @@ import { useShowControl } from '../../hooks';
  * code: string;
  * visible: boolean;}
  */
-export function Filter(props: TProps) {
+export function Filter2(props: TProps) {
   return (
     <FilterContextProvider {...props}>
       <Provider />

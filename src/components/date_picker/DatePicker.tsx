@@ -9,8 +9,10 @@ export function DatePicker({
   onSelect,
   fieldWidth = '100%',
   initialDateISO,
+  withTime = true,
   initialCalendarTime,
   svg,
+  format = 'DD.MM.YYYY hh:mm',
 }: IDatePicker) {
   const [dateISO, setDateISO] = useState(() => {
     let calendar = initialDateISO || '';
@@ -54,12 +56,13 @@ export function DatePicker({
         onClick={() => setShow(true)}
         onSelect={fieldSelectHandler}
         svg={svg}
+        format={format}
       />
       <Calendar
         isShow={isShow}
         dateISO={dateISO.calendar}
         onSelect={calendarSelectHandler}
-        withTime={true}
+        withTime={withTime}
       />
     </DatePickerContainer>
   );

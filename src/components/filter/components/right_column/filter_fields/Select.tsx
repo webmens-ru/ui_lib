@@ -12,7 +12,7 @@ import { IField } from "../../../types";
 import { useFieldsDraggable } from "../../../utils/useFieldsDraggble";
 import LoadingSelect from "../../mini_components/loading_select";
 
-export function Select({ item, updateField, ...props }: IField) {
+export function SelectWrapper({ item, updateField, ...props }: IField) {
   const { draggable, events } = useFieldsDraggable();
   const { ref, isShow, setShow } = useShowControl();
   const { state, dispatch } = useCustomContext();
@@ -45,6 +45,7 @@ export function Select({ item, updateField, ...props }: IField) {
     <SelectContainer draggable={draggable} {...props}>
       <FilterFieldTitle>{item.title}</FilterFieldTitle>
       <div {...events}>
+        {/* <Select {...item.params} /> */}
         <SelectHeader onClick={clickShowHandle}>
           <p>{item.value[1]}</p>
         </SelectHeader>

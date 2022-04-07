@@ -4,4 +4,6 @@ export interface IDatePicker{
   fieldWidth?: string;
   onSelect?: (date: string) => void;
   svg?: "none" | "left" | "right"
+  withTime?: boolean;
+  format?: string
 }
