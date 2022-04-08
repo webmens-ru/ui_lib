@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { useCustomContext } from "../../../store/Context";
+import React, { useState } from 'react';
+import { useCustomContext } from '../../../store/Context';
 import {
   FilterFieldTitle,
   SelectTextStyle,
   SelectTextInput,
-} from "../../../styles";
-import { stringDropDownValues, TStringValue } from "./const";
-import DropDownWithAttr from "../../mini_components/dropdown/DropDownWithAttr";
-import { IField } from "../../../types";
-import { useFieldsDraggable } from "../../../utils/useFieldsDraggble";
+} from '../../../styles';
+import { stringDropDownValues } from './const';
+import { IField } from '../../../types';
+import { useFieldsDraggable } from '../../../utils/useFieldsDraggble';
+import { Select } from '../../../../select';
+import { IDataItem } from '../../../../select/types';
 
 export default function SelectStringField({
   item,
@@ -16,14 +17,14 @@ export default function SelectStringField({
   ...props
 }: IField) {
   const { dispatch } = useCustomContext();
-  const [selectValue, setSelectValue] = useState(
-    stringDropDownValues.find((val) => val.attr === item.value[0]) ||
-      stringDropDownValues[0],
+  const [selectValue, setSelectValue] = useState<IDataItem>(
+    stringDropDownValues.find((val) => val.value === item.value[0]) ||
+      stringDropDownValues[0]
   );
 
   const checkFirstValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
-      type: "SET_FILTER_FIELD_VALUE",
+      type: 'SET_FILTER_FIELD_VALUE',
       field: {
         ...item,
         value: [item.value[0], e.target.value, item.value[2]],
@@ -31,17 +32,21 @@ export default function SelectStringField({
     });
   };
 
-  const changeAttr = (valuesItem: TStringValue) => {
-    const field = {
-      ...item,
-      value: [valuesItem.attr, item.value[1], item.value[2]],
-    };
-    dispatch({
-      type: "SET_FILTER_FIELD_VALUE",
-      field,
-    });
-    setSelectValue(valuesItem);
-    updateField(field, "value");
+  const changeAttr = (valuesItem: IDataItem[]) => {
+    console.log(
+      '🚀 ~ file: SelectString.tsx ~ line 36 ~ changeAttr ~ valuesItem',
+      valuesItem
+    );
+    // const field = {
+    //   ...item,
+    //   value: [valuesItem.attr, item.value[1], item.value[2]],
+    // };
+    // dispatch({
+    //   type: "SET_FILTER_FIELD_VALUE",
+    //   field,
+    // });
+    // setSelectValue(valuesItem);
+    // updateField(field, "value");
   };
 
   const hideField = () => {
@@ -49,8 +54,8 @@ export default function SelectStringField({
       ...item,
       visible: false,
     };
-    updateField(field, "hide");
-    dispatch({ type: "UPDATE_FILTER_FIELD", field });
+    updateField(field, 'hide');
+    dispatch({ type: 'UPDATE_FILTER_FIELD', field });
   };
 
   const { draggable, events } = useFieldsDraggable();
@@ -59,11 +64,13 @@ export default function SelectStringField({
     <SelectTextStyle draggable={draggable} {...props}>
       <FilterFieldTitle>{item.title}</FilterFieldTitle>
       <div {...events}>
-        <DropDownWithAttr
-          items={stringDropDownValues}
-          width="30%"
-          currentItem={selectValue}
-          setCurrentItem={changeAttr}
+        <Select
+          filterable={false}
+          value={selectValue}
+          data={item.params.data || stringDropDownValues}
+          closeOnSelect={true}
+          selectWidth="30%"
+          onChange={changeAttr}
         />
         <SelectTextInput
           type="text"
@@ -71,7 +78,7 @@ export default function SelectStringField({
           draggable={false}
           value={item.value[1]}
           onChange={checkFirstValue}
-          onBlur={() => updateField(item, "value")}
+          onBlur={() => updateField(item, 'value')}
         />
       </div>
       <span></span>

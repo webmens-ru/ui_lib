@@ -6,7 +6,7 @@ export const fieldGenerator = (len: number) => {
       filterId: 1,
       order: index,
       value: ['', '', ''],
-      type: 'date',
+      type: 'integer',
       title: 'select title ' + index,
       queryKey: 'string',
       code: 'string',

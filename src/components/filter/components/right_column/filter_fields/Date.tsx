@@ -138,7 +138,7 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
   );
 
   const [selectYear, setSelectYear] = useState(
-    yearsDropDown[new Date().getFullYear() - 2000]
+    yearsDropDown()[new Date().getFullYear() - 2000]
   );
 
   const setYear = useCallback(
@@ -174,7 +174,7 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
         <>
           {firstDropDown}
           <DropDown
-            items={yearsDropDown}
+            items={yearsDropDown()}
             width="49%"
             currentItem={selectYear}
             setCurrentItem={setYear}
@@ -224,7 +224,7 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
   );
 
   const [selectYear, setSelectYear] = useState(
-    yearsDropDown[new Date().getFullYear() - 2000]
+    yearsDropDown()[new Date().getFullYear() - 2000]
   );
 
   const setYear = useCallback(
@@ -238,7 +238,7 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
   const yearDropDown = useMemo(
     () => (
       <DropDown
-        items={yearsDropDown}
+        items={yearsDropDown()}
         width="32%"
         currentItem={selectYear}
         setCurrentItem={setYear}

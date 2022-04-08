@@ -1,3 +1,4 @@
+import { IDataItem } from "../../select/types";
 import { TDateDropDown } from "../components/right_column/filter_fields/const";
 
 export type TProps = {
@@ -97,22 +98,22 @@ export interface IField {
 }
 
 export interface IOneField {
-  value: TDateDropDown;
-  setValue: (props: TDateDropDown) => void;
-  updateValue: (props: string[]) => void;
+  value: IDataItem;
+  setValue: (props: IDataItem[]) => void;
+  updateValue: (props: IDataItem[]) => void;
 }
 
 export interface ITwoField {
-  value: TDateDropDown;
-  setValue: (props: TDateDropDown) => void;
-  updateValue: (props: string[]) => void;
+  value: IDataItem;
+  setValue: (props: IDataItem[]) => void;
+  updateValue: (props: IDataItem[]) => void;
   item: TField;
 }
 
 export interface IThreeField {
-  value: TDateDropDown;
-  setValue: (props: TDateDropDown) => void;
-  updateValue: (props: string[]) => void;
+  value: IDataItem;
+  setValue: (props: IDataItem[]) => void;
+  updateValue: (props: IDataItem[]) => void;
   item: TField;
 }
 

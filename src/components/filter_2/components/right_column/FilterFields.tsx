@@ -3,7 +3,6 @@ import { useCustomContext } from '../../store/Context';
 import SelectIntegerField from './filter_fields/SelectInteger';
 import SelectStringField from './filter_fields/SelectString';
 import { useDragAndDrop } from '../../utils/useDragAndDrop';
-import DateField from './filter_fields/Date';
 import { SelectWrapper } from './filter_fields/Select';
 
 export function FilterFields() {
@@ -45,8 +44,8 @@ export function FilterFields() {
           case 'multiple_select':
           case 'select':
             return <SelectWrapper {...props} />;
-          case 'date':
-            return <DateField {...props} />;
+          // case 'date':
+            // return <DateField {...props} />;
           default:
             return <h3 key="error">Field type error</h3>;
         }

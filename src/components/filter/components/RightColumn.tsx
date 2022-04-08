@@ -1,12 +1,12 @@
-import React from "react";
-import { TField } from "../types";
-import { useCustomContext } from "../store/Context";
-import { AddFieldsMenu, FilterMenuFooter } from "../styles";
-import { DashedBlueBtn, DashedGreyBtn } from "./Buttons";
-import { AddFieldInput } from "./mini_components/Input";
-import { FilterFields } from "./right_column/FilterFields";
-import { useShowControl } from "../../../hooks";
-import { Button } from "../../button";
+import React from 'react';
+import { TField } from '../types';
+import { useCustomContext } from '../store/Context';
+import { AddFieldsMenu, FilterMenuFooter } from '../styles';
+import { DashedBlueBtn, DashedGreyBtn } from './Buttons';
+import { AddFieldInput } from './mini_components/Input';
+import { FilterFields } from './right_column/FilterFields';
+import { useShowControl } from '../../../hooks';
+import { Button } from '../../button';
 
 export function RightColumn({
   setShowFilter,
@@ -21,13 +21,13 @@ export function RightColumn({
   };
 
   const cancelChanges = () => {
-    dispatch({ type: "SET_IS_SETUP", isSetup: false });
-    dispatch({ type: "SET_IS_CREATE_FILTER", isCreate: false });
+    dispatch({ type: 'SET_IS_SETUP', isSetup: false });
+    dispatch({ type: 'SET_IS_CREATE_FILTER', isCreate: false });
   };
 
   const saveChanges = () => {
     if (state.isCreateFilter) {
-      dispatch({ type: "SAVE_CREATE_FILTER" });
+      dispatch({ type: 'SAVE_CREATE_FILTER' });
       state.createFilter({
         ...state.filterTemplate,
         menuId: state.filters[0].menuId,
@@ -35,10 +35,10 @@ export function RightColumn({
         parentId: state.currentFilter.id,
       });
     } else if (state.isEditFilter) {
-      dispatch({ type: "SAVE_RENAME_FILTER" });
+      dispatch({ type: 'SAVE_RENAME_FILTER' });
       state.updateFilter(state.filterTemplate);
     } else {
-      dispatch({ type: "SET_IS_SETUP", isSetup: false });
+      dispatch({ type: 'SET_IS_SETUP', isSetup: false });
     }
   };
 
@@ -47,10 +47,10 @@ export function RightColumn({
   const change = (item: TField) => {
     state.updateField(
       { ...item, visible: !Boolean(item.visible) },
-      Boolean(item.visible) ? "hide" : "create",
+      Boolean(item.visible) ? 'hide' : 'create'
     );
     dispatch({
-      type: "UPDATE_FILTER_FIELD",
+      type: 'UPDATE_FILTER_FIELD',
       field: { ...item, visible: !Boolean(item.visible) },
     });
   };
@@ -71,14 +71,26 @@ export function RightColumn({
       </DashedGreyBtn>
       <FilterMenuFooter>
         {state.isSetup || state.isCreateFilter ? (
-          <Button color="success" buttonProps={{ onClick: saveChanges }}>Сохранить</Button>
+          <Button color="success" buttonProps={{ onClick: saveChanges }}>
+            Сохранить
+          </Button>
         ) : (
-          <Button color="primary" svgBefore="white-search" buttonProps={{ onClick: searchProxy }}>Найти</Button>
+          <Button
+            color="primary"
+            svgBefore="white-search"
+            buttonProps={{ onClick: searchProxy }}
+          >
+            Найти
+          </Button>
         )}
         {state.isSetup || state.isCreateFilter ? (
-          <Button color="light" buttonProps={{ onClick: cancelChanges }}>Отменить</Button>
+          <Button color="light" buttonProps={{ onClick: cancelChanges }}>
+            Отменить
+          </Button>
         ) : (
-          <Button color="light" buttonProps={{ onClick: onClear }}>Сбросить</Button>
+          <Button color="light" buttonProps={{ onClick: onClear }}>
+            Сбросить
+          </Button>
         )}
       </FilterMenuFooter>
       {isShow && (

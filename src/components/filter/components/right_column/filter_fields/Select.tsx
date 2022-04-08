@@ -45,7 +45,6 @@ export function SelectWrapper({ item, updateField, ...props }: IField) {
     <SelectContainer draggable={draggable} {...props}>
       <FilterFieldTitle>{item.title}</FilterFieldTitle>
       <div {...events}>
-        {/* <Select {...item.params} /> */}
         <SelectHeader onClick={clickShowHandle}>
           <p>{item.value[1]}</p>
         </SelectHeader>
