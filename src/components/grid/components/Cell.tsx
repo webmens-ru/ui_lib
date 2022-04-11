@@ -94,7 +94,7 @@ const FooterCell = (children: TFooterItem) => {
       <h5>
         {typeof children === 'number'
           ? Number(children).toLocaleString('ru-RU', {
-              maximumFractionDigits: 5,
+              maximumFractionDigits: 2,
             })
           : children || ''}
       </h5>

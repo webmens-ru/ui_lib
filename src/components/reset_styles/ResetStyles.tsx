@@ -404,6 +404,10 @@ template {
   box-sizing: border-box;
 }
 
+body {
+  background: rgb(238, 242, 244);
+}
+
 button,
 input {
   border: none;
