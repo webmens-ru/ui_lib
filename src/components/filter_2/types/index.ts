@@ -1,5 +1,4 @@
 import { IDataItem } from "../../select/types";
-import { TDateDropDown } from "../components/right_column/filter_fields/const";
 
 export type TProps = {
   filters?: TFilter[];
@@ -97,23 +96,17 @@ export interface IField {
   updateField: (props: TField, param: string) => void;
 }
 
-export interface IOneField {
-  value: IDataItem;
-  setValue: (props: IDataItem[]) => void;
-  updateValue: (props: IDataItem[]) => void;
-}
-
 export interface ITwoField {
   value: IDataItem;
   setValue: (props: IDataItem[]) => void;
-  updateValue: (props: IDataItem[]) => void;
+  updateValue: (props: string[]) => void;
   item: TField;
 }
 
 export interface IThreeField {
   value: IDataItem;
   setValue: (props: IDataItem[]) => void;
-  updateValue: (props: IDataItem[]) => void;
+  updateValue: (props: string[]) => void;
   item: TField;
 }
 

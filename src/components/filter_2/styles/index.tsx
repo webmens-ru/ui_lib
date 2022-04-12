@@ -282,6 +282,9 @@ const FieldContainer = styled.div`
   &:hover > span {
     display: block;
   }
+  & > div {
+    height: 40px;
+  }
   & > span {
     position: absolute;
     top: 33px;
@@ -309,14 +312,6 @@ export const SelectTextStyle = styled(FieldContainer)`
     display: flex;
     justify-content: space-between;
   }
-`;
-
-export const SelectTextInput = styled.input`
-  margin-left: 10px;
-  padding-left: 10px;
-  height: 40px;
-  width: ${({ width }: { width: string }) => width};
-  border: 1px solid rgba(83, 92, 105, 0.2);
 `;
 
 export const DateFieldContainer = styled(FieldContainer)`

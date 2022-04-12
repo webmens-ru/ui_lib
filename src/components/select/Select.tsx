@@ -6,6 +6,8 @@ import LoadingSelect from './components/loading_select';
 import SelectDropdown from "./components/dropdown";
 import { SelectContainer, SelectInner, SelectFilter, SelectErrorMsg, SelectSuffix, Suffix, SelectTagsContainer, SelectCurrentValue, SelectTag, TagTitle, TagRemove } from "./styles";
 
+// onBlur
+
 export const Select = ({
   multiple = false,
   filterable = true,

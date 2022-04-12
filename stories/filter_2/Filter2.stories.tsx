@@ -1,13 +1,13 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Filter2 } from "../../src/components/filter_2";
+import { FilterAlpha } from "../../src/components/filter_2";
 import { filterGenerator } from "./__mocks__/filterGenerator";
 import { fieldGenerator } from "./__mocks__/fieldGenerator";
 
 export default {
-  title: "Components/Filter2",
-  component: Filter2,
+  title: "Components/FilterAlpha",
+  component: FilterAlpha,
   argTypes: {
     filters: {
       description: ''
@@ -16,9 +16,9 @@ export default {
       description: ""
     }
   },
-} as ComponentMeta<typeof Filter2>;
+} as ComponentMeta<typeof FilterAlpha>;
 
-const Template: ComponentStory<typeof Filter2> = (args) => <Filter2 {...args} />;
+const Template: ComponentStory<typeof FilterAlpha> = (args) => <FilterAlpha {...args} />;
 
 const test = (...arg: any) => {
 console.log("🚀 ~ file: Filter.stories.tsx ~ line 24 ~ test ~ arg", arg)

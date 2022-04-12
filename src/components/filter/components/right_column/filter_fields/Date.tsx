@@ -30,15 +30,21 @@ export default function DateField({ item, updateField, ...props }: IField) {
 
   const updateValue = useCallback(
     (value: string[]) => {
-      const field = {
-        ...item,
-        value,
-      };
-      dispatch({
-        type: 'SET_FILTER_FIELD_VALUE',
-        field,
-      });
-      updateField(field, 'value');
+      if (
+        item.value[0] !== value[0] ||
+        item.value[1] !== value[1] ||
+        item.value[2] !== value[2]
+      ) {
+        const field = {
+          ...item,
+          value,
+        };
+        dispatch({
+          type: 'SET_FILTER_FIELD_VALUE',
+          field,
+        });
+        updateField(field, 'value');
+      }
     },
     [dispatch, item, updateField]
   );
@@ -46,7 +52,7 @@ export default function DateField({ item, updateField, ...props }: IField) {
   const setDDV = useCallback(
     (value: TDateDropDown) => {
       setDropDownValue(value);
-      updateValue([value.title]);
+      updateValue([value.title, '', '']);
     },
     [updateValue]
   );
@@ -114,7 +120,7 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
   const setInputValueCheck = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.value.match(/^\d*$/)) {
-        updateValue([value.title, e.target.value]);
+        updateValue([value.title, e.target.value, '']);
       }
     },
     [updateValue, value.title]
@@ -132,7 +138,7 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
       } else {
         secondValue = `0`;
       }
-      updateValue([value.title, secondValue]);
+      updateValue([value.title, secondValue, '']);
     },
     [item.value, updateValue, value.title]
   );
@@ -144,14 +150,14 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
   const setYear = useCallback(
     (year: TYear) => {
       setSelectYear(year);
-      updateValue([value.title, year.title]);
+      updateValue([value.title, year.title, '']);
     },
     [updateValue, value.title]
   );
 
   const setDate = useCallback(
     (date: string) => {
-      updateValue([value.title, date]);
+      updateValue([value.title, date, '']);
     },
     [updateValue, value.title]
   );
@@ -281,22 +287,31 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
     [item.value, updateValue]
   );
 
-  const quarterDropDown = useMemo(()=>(
-    <DropDown
-      items={quartersDropDown}
-      width="32%"
-      currentItem={selectQuarter}
-      setCurrentItem={setQuarter}
-    />
-  ),[selectQuarter, setQuarter]) ;
+  const quarterDropDown = useMemo(
+    () => (
+      <DropDown
+        items={quartersDropDown}
+        width="32%"
+        currentItem={selectQuarter}
+        setCurrentItem={setQuarter}
+      />
+    ),
+    [selectQuarter, setQuarter]
+  );
 
-  const setFirstDate = useCallback((date: string) => {
-    updateValue([item.value[0], date, item.value[2]]);
-  },[item.value, updateValue]) ;
+  const setFirstDate = useCallback(
+    (date: string) => {
+      updateValue([item.value[0], date, item.value[2]]);
+    },
+    [item.value, updateValue]
+  );
 
-  const setSecondDate = useCallback((date: string) => {
-    updateValue([item.value[0], item.value[1], date]);
-  },[item.value, updateValue]) ;
+  const setSecondDate = useCallback(
+    (date: string) => {
+      updateValue([item.value[0], item.value[1], date]);
+    },
+    [item.value, updateValue]
+  );
 
   switch (value.id) {
     case 13:

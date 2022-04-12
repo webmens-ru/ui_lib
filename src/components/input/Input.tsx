@@ -3,6 +3,8 @@ import { InputContainer, PrefixIconContainer, PostfixIconContainer } from './sty
 import { Icon } from '../icon';
 import { IInputProps } from './types';
 
+// width
+
 export const Input = ({ 
   value = '', 
   placeholder = '', 
@@ -11,6 +13,7 @@ export const Input = ({
   iconLeftName = "none",
   iconRightName = "none",
   onChange = () => {},
+  onBlur,
 }: IInputProps) => {
   const [input, setInput] = useState({ value, focus: false })
 
@@ -38,7 +41,7 @@ export const Input = ({
         readOnly={readonly}
         onChange={handleInputChange}
         onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
+        onBlur={onBlur || (() => setFocus(false))}
       />
       {(iconPosition === "right" || iconPosition === "both") && (
         <PostfixIconContainer>

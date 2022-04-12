@@ -8,6 +8,7 @@ export interface IInputProps {
   iconLeftName?: IconName;
   iconRightName?: IconName;
   onChange?: (value: string) => void
+  onBlur?: () => void
 }
 
 export type InputValue = string

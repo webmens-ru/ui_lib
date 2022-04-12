@@ -38,9 +38,11 @@ export const HeaderCellContainer = styled.div`
 export const BodyCellContainer = styled.div`
   min-height: 56px;
   padding-top: 12px;
+  padding-left: 5px;
   background: ${({ hover }: { hover: boolean }) =>
     hover && "rgba(194, 197, 202, 0.15)"};
   border-bottom: 1px solid rgb(238, 242, 244);
+  font-size: 13px;
 `;
 
 export const FooterCellContainer = styled.div`

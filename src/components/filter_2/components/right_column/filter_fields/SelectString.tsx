@@ -3,13 +3,13 @@ import { useCustomContext } from '../../../store/Context';
 import {
   FilterFieldTitle,
   SelectTextStyle,
-  SelectTextInput,
 } from '../../../styles';
 import { stringDropDownValues } from './const';
 import { IField } from '../../../types';
 import { useFieldsDraggable } from '../../../utils/useFieldsDraggble';
 import { Select } from '../../../../select';
 import { IDataItem } from '../../../../select/types';
+import { Input } from '../../../../input';
 
 export default function SelectStringField({
   item,
@@ -22,31 +22,27 @@ export default function SelectStringField({
       stringDropDownValues[0]
   );
 
-  const checkFirstValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const checkFirstValue = (value: string) => {
     dispatch({
       type: 'SET_FILTER_FIELD_VALUE',
       field: {
         ...item,
-        value: [item.value[0], e.target.value, item.value[2]],
+        value: [item.value[0], value, item.value[2]],
       },
     });
   };
 
   const changeAttr = (valuesItem: IDataItem[]) => {
-    console.log(
-      '🚀 ~ file: SelectString.tsx ~ line 36 ~ changeAttr ~ valuesItem',
-      valuesItem
-    );
-    // const field = {
-    //   ...item,
-    //   value: [valuesItem.attr, item.value[1], item.value[2]],
-    // };
-    // dispatch({
-    //   type: "SET_FILTER_FIELD_VALUE",
-    //   field,
-    // });
-    // setSelectValue(valuesItem);
-    // updateField(field, "value");
+    const field = {
+      ...item,
+      value: [`${valuesItem[0].value}`, item.value[1], item.value[2]],
+    };
+    dispatch({
+      type: "SET_FILTER_FIELD_VALUE",
+      field,
+    });
+    setSelectValue(valuesItem[0]);
+    updateField(field, "value");
   };
 
   const hideField = () => {
@@ -72,10 +68,8 @@ export default function SelectStringField({
           selectWidth="30%"
           onChange={changeAttr}
         />
-        <SelectTextInput
-          type="text"
-          width="67%"
-          draggable={false}
+        <Input
+          // width="67%"
           value={item.value[1]}
           onChange={checkFirstValue}
           onBlur={() => updateField(item, 'value')}
