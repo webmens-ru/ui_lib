@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 
-export const GridContainer = styled.div`
+type GridContainerProps = {
+  rowHeight: number,
+  minRowHeight?: string;
+}
+
+export const GridContainer = styled.div<GridContainerProps>`
   position: relative;
   height: calc(
-    100vh - ${({ rowHeight }: { rowHeight: number }) => rowHeight}px
+    100vh - ${({ rowHeight }) => rowHeight}px
   );
+  min-height: ${({minRowHeight})=>minRowHeight};
   width: 100%;
   display: flex;
   background: rgb(238, 242, 244);

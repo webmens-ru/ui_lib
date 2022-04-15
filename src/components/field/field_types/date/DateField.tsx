@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { GreyBorderContainer, SvgCalendar } from '../../styles/Containers';
 import { DateFieldProps } from './types';
 
@@ -16,53 +16,56 @@ export function DateField({
     value: dateToString(format, dateISO),
   });
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-    if (isPrint(data.value, value)) {
-      let date = new Date(data.date.getTime());
-
-      if (!value.match(/^[\d./,-]*$/) || value.length > 10) return;
-
-      if (value.length === 3 && !value[2].match(/[./,-]/)) {
-        date.setDate(+value.slice(0, 2));
-        value = data.value + '.' + value.slice(-1);
-        if (onSelect) onSelect(date.toISOString());
-      }
-
-      if (value.length === 6 && !value[5].match(/[./,-]/)) {
-        date.setDate(+value.slice(0, 2));
-        date.setMonth(+value.slice(3, 5) - 1);
-        value = data.value + '.' + value.slice(-1);
-        if (onSelect) onSelect(date.toISOString());
-      }
-
-      if (value.length === 10) {
-        date.setDate(+value.slice(0, 2));
-        date.setMonth(+value.slice(3, 5) - 1);
-        date.setFullYear(+value.slice(-4));
-        if (onSelect) onSelect(date.toISOString());
-      }
-
-      setData((old) => ({
-        ...old,
-        value,
-      }));
-    }
-
-    if (isErase(data.value, e.target.value)) {
-      setData((data) => ({
-        ...data,
-        value,
-      }));
-    }
-  };
-
   useEffect(() => {
-    setData((data) => ({
-      ...data,
+    setData({
       value: dateToString(format, dateISO),
-    }));
+      date: isValidDateISO(dateISO) && dateISO ? new Date(dateISO) : new Date(),
+    });
   }, [dateISO, format]);
+
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let value = e.target.value;
+      if (isPrint(data.value, value)) {
+        let date = new Date(data.date.getTime());
+
+        if (!value.match(/^[\d./,-]*$/) || value.length > 10) return;
+
+        if (value.length === 3 && !value[2].match(/[./,-]/)) {
+          date.setDate(+value.slice(0, 2));
+          value = data.value + '.' + value.slice(-1);
+          if (onSelect) onSelect(date.toISOString());
+        }
+
+        if (value.length === 6 && !value[5].match(/[./,-]/)) {
+          date.setDate(+value.slice(0, 2));
+          date.setMonth(+value.slice(3, 5) - 1);
+          value = data.value + '.' + value.slice(-1);
+          if (onSelect) onSelect(date.toISOString());
+        }
+
+        if (value.length === 10) {
+          date.setDate(+value.slice(0, 2));
+          date.setMonth(+value.slice(3, 5) - 1);
+          date.setFullYear(+value.slice(-4));
+          if (onSelect) onSelect(date.toISOString());
+        }
+
+        setData((old) => ({
+          ...old,
+          value,
+        }));
+      }
+
+      if (isErase(data.value, e.target.value)) {
+        setData((data) => ({
+          ...data,
+          value,
+        }));
+      }
+    },
+    [data.date, data.value, onSelect]
+  );
 
   return (
     <GreyBorderContainer {...props}>

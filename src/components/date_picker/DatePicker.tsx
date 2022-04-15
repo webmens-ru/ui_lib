@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useShowControl } from '../../hooks';
-import { Calendar } from '../calendar';
-import { Field } from '../field';
-import { IDatePicker } from './types';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useShowControl } from "../../hooks";
+import { Calendar } from "../calendar";
+import { Field } from "../field";
+import { IDatePicker } from "./types";
 
 export function DatePicker({
   onSelect,
-  fieldWidth = '100%',
+  fieldWidth = "100%",
   initialDateISO,
   withTime = true,
   initialCalendarTime,
   svg,
-  format = 'DD.MM.YYYY hh:mm',
+  format = "DD.MM.YYYY hh:mm",
 }: IDatePicker) {
   const [dateISO, setDateISO] = useState(() => {
-    let calendar = initialDateISO || '';
+    let calendar = initialDateISO || "";
     if (initialCalendarTime) {
       calendar = setTime(initialCalendarTime).toISOString();
     }
@@ -28,23 +28,21 @@ export function DatePicker({
   const { ref, isShow, setShow } = useShowControl();
 
   useEffect(() => {
-    if (onSelect) {
-      onSelect(dateISO.calendar);
-    }
-  }, [dateISO, onSelect]);
-
-  useEffect(() => {
-    setDateISO((old) => ({ ...old, field: initialDateISO }));
+    setDateISO((old) => ({
+      ...old,
+      field: initialDateISO,
+    }));
   }, [initialDateISO]);
-
 
   const calendarSelectHandler = (date: string) => {
     setDateISO({ field: date, calendar: date });
     setShow(false);
+    if (onSelect) onSelect(date);
   };
 
   const fieldSelectHandler = (date: string) => {
     setDateISO((old) => ({ ...old, calendar: date }));
+    if (onSelect) onSelect(date);
   };
 
   return (
@@ -89,7 +87,7 @@ function createDate(dateISO?: string) {
 function setTime(initialCalendarTime?: string, initialDateISO?: string) {
   let date = createDate(initialDateISO);
   if (!initialCalendarTime) return date;
-  let time = initialCalendarTime.split(':');
+  let time = initialCalendarTime.split(":");
   date.setHours(+time[0]);
   date.setMinutes(+time[1]);
   return date;

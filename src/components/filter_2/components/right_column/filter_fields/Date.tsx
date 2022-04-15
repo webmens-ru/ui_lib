@@ -19,7 +19,7 @@ import { IDataItem } from '../../../../select/types';
 
 export default function DateField({ item, updateField, ...props }: IField) {
   const [dropDownValue, setDropDownValue] = useState<IDataItem>(() => {
-    const list = item.params.data || dateDropDown;
+    const list = item?.params?.data || dateDropDown;
     return (
       list.find(
         (dateItem: { title: string }) => dateItem.title === item.value[0]
@@ -85,7 +85,7 @@ export default function DateField({ item, updateField, ...props }: IField) {
           <Select
             filterable={false}
             value={dropDownValue}
-            data={item.params.data || dateDropDown}
+            data={item?.params?.data || dateDropDown}
             closeOnSelect={true}
             selectWidth="100%"
             onChange={onChangeSelect}
@@ -201,7 +201,7 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
           <Select
             filterable={false}
             value={value}
-            data={item.params.data || dateDropDown}
+            data={item?.params?.data || dateDropDown}
             closeOnSelect={true}
             selectWidth="49%"
             onChange={setValue}
@@ -225,7 +225,7 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
     <Select
       filterable={false}
       value={value}
-      data={item.params.data || dateDropDown}
+      data={item?.params?.data || dateDropDown}
       closeOnSelect={true}
       selectWidth="32%"
       onChange={setValue}
@@ -252,13 +252,13 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
       <Select
         filterable={false}
         value={selectYear}
-        data={item.params.data || yearsDropDown}
+        data={item?.params?.data || yearsDropDown}
         closeOnSelect={true}
         selectWidth="32%"
         onChange={setYear}
       />
     ),
-    [item.params.data, selectYear, setYear]
+    [item?.params?.data, selectYear, setYear]
   );
 
   const [selectMonth, setSelectMonth] = useState<IDataItem[]>([
@@ -278,13 +278,13 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
       <Select
         filterable={false}
         value={selectMonth}
-        data={item.params.data || monthsDropDown}
+        data={item?.params?.data || monthsDropDown}
         closeOnSelect={true}
         selectWidth="32%"
         onChange={setMonth}
       />
     ),
-    [item.params.data, selectMonth, setMonth]
+    [item?.params?.data, selectMonth, setMonth]
   );
 
   const [selectQuarter, setSelectQuarter] = useState<IDataItem[]>([
@@ -304,13 +304,13 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
       <Select
         filterable={false}
         value={selectQuarter}
-        data={item.params.data || quartersDropDown}
+        data={item?.params?.data || quartersDropDown}
         closeOnSelect={true}
         selectWidth="32%"
         onChange={setQuarter}
       />
     ),
-    [item.params.data, selectQuarter, setQuarter]
+    [item?.params?.data, selectQuarter, setQuarter]
   );
 
   const setFirstDate = useCallback(

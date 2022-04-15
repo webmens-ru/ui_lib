@@ -6,7 +6,7 @@ import { MonthBtn } from "./components/MonthBtn";
 import { Time } from "./components/Time";
 import { CalendarProvider, ICalendarProps } from ".";
 import { CalendarContainer, HeaderContainer } from "./styles/Calendar";
-import { useWindowBound } from "../../hooks/useWindowBound";
+import { useWindowBound } from "../../hooks";
 
 export function Calendar({
   isShow,

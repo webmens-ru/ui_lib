@@ -14,6 +14,7 @@ import { BufferColumn } from './components/BufferColumn';
  * @param row
  * @param footer
  * @param {number} height calc(100vh - height)
+ * @param {number} minHeight string
  * @param {{title: string}[]} burgerItems array of object with key title
  * @param {boolean} isShowCheckboxes default false
  * @callback columnMutation returns column after change order or width
@@ -26,12 +27,12 @@ export function Grid(props: IGridProps) {
 
   return (
     <ContextProvider {...props}>
-      <ContextWrapper height={props.height} />
+      <ContextWrapper height={props.height} minHeight={props.minHeight} />
     </ContextProvider>
   );
 }
 
-function ContextWrapper({ height }: { height?: number }) {
+function ContextWrapper({ height, minHeight }: { height?: number, minHeight?: string }) {
   const { state, dispatch } = useCustomContext();
   const onScroll = useScroll();
 
@@ -72,6 +73,7 @@ function ContextWrapper({ height }: { height?: number }) {
       <GridContainer
         ref={ref}
         rowHeight={typeof height === 'number' ? height : 0}
+        minRowHeight={minHeight}
         onScroll={onScroll}
       >
         <FirstColumn />

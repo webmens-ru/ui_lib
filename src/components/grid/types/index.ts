@@ -3,6 +3,7 @@ export interface IGridProps {
   row?: TRowItem[];
   footer?: TFooterItem[];
   height?: number;
+  minHeight?: string;
   columnMutation?: (arr: TColumnItem[]) => void;
   burgerItems?: BurgerItem[];
   onBurgerItemClick?: (arg: BurgerItem) => void;

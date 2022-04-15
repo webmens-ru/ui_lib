@@ -27,7 +27,9 @@ export function Body() {
     (monthShift: number, day: number = 0) => {
       const year = state.date.getFullYear();
       const month = state.date.getMonth();
-      const date = new Date(year, month + monthShift, day);
+      const hours = state.date.getHours();
+      const minutes = state.date.getMinutes();
+      const date = new Date(year, month + monthShift, day, hours, minutes);
       const countDays = date.getDate();
 
       return { year, month, date, countDays };

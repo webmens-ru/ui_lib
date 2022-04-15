@@ -4,6 +4,7 @@ export { Checkbox } from './components/checkbox';
 export { DatePicker } from './components/date_picker';
 export { Field } from './components/field/Field';
 export { Filter } from './components/filter';
+export { FilterAlpha } from './components/filter_2';
 export { Grid } from './components/grid';
 export { Icon } from './components/icon';
 export { Input } from './components/input';

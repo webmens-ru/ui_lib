@@ -4,34 +4,30 @@ import React, {
   useContext,
   useEffect,
   useReducer,
-} from 'react';
-import { Action, ICalendarContext, IProviderProps, State } from '.';
+} from "react";
+import { Action, ICalendarContext, IProviderProps, State } from ".";
 
 const reducer = (state: State, action: Action) => {
+  let date = new Date(state.date.getTime());
   switch (action.type) {
-    case 'next_month':
-      let date = new Date(state.date.getTime());
+    case "next_month":
       date.setMonth(date.getMonth() + 1);
       return { ...state, date };
-    case 'prev_month':
-      date = new Date(state.date.getTime());
+    case "prev_month":
       date.setMonth(date.getMonth() - 1);
       return { ...state, date };
-    case 'set_month':
-      date = new Date(state.date.getTime());
+    case "set_month":
       date.setMonth(action.month);
       return { ...state, date };
-    case 'set_year':
-      date = new Date(state.date.getTime());
+    case "set_year":
       date.setFullYear(action.year);
       return { ...state, date };
-    case 'set_date':
+    case "set_date":
       return { ...state, date: action.date };
-    case 'set_hour':
-      date = new Date(state.date.getTime());
+    case "set_hour":
       date.setHours(action.hour);
       return { ...state, date };
-    case 'set_minute':
+    case "set_minute":
       date = new Date(state.date.getTime());
       date.setMinutes(action.minute);
       return { ...state, date };
@@ -41,47 +37,25 @@ const reducer = (state: State, action: Action) => {
 };
 
 export const CalendarContext = createContext<ICalendarContext>(
-  {} as ICalendarContext
+  {} as ICalendarContext,
 );
 
 export function CalendarProvider(props: IProviderProps) {
-  const init = ({ dateISO }: IProviderProps) => {
-    let date;
-    if (isValidDateISO(dateISO)) {
-      date = new Date(dateISO);
-    } else {
-      date = new Date();
+  const [state, dispatch] = useReducer(reducer, {
+    date: isValidDateISO(props.dateISO) ? new Date(props.dateISO) : new Date(),
+  });
+
+  const dispatchWithMiddleware = useCallback((action: Action) => {
+    if (props.onSelect) {
+      if (action.type === "submit") props.onSelect(state.date.toISOString());
+      if (action.type === "set_date") props.onSelect(action.date.toISOString());
     }
-    return {
-      date,
-      onSelect: props.onSelect || ((date) => console.log(date)),
-    };
-  };
-
-  const [state, dispatch] = useReducer(reducer, props, init);
-
-  const onSelect = useCallback(
-    (action) => {
-      if (props.onSelect) {
-        props.onSelect((action.date || state.date).toISOString());
-      }
-    },
-    [props, state]
-  );
-
-  const dispatchWithMiddleware = useCallback(
-    (action: Action) => {
-      if (['set_date', 'submit'].includes(action.type)) {
-        onSelect(action);
-      }
-      dispatch(action);
-    },
-    [onSelect]
-  );
+    dispatch(action);
+  }, [props, state.date]);
 
   useEffect(() => {
     if (isValidDateISO(props.dateISO))
-      dispatch({ type: 'set_date', date: new Date(props.dateISO) });
+      dispatch({ type: "set_date", date: new Date(props.dateISO) });
   }, [props.dateISO]);
 
   return (

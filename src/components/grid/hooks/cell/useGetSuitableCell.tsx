@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import styled from 'styled-components';
 
 export const useGetSuitableCell = () => {
   const getUndefCell = useCallback(() => {
@@ -40,18 +41,9 @@ export const useGetSuitableCell = () => {
     );
   }, []);
 
-  const getOpenPathCell = useCallback(
-    (cell: any) => {
-      return (
-        <p
-          style={{ color: '#3073ca', cursor: 'pointer' }}
-        >
-          {cell.title}
-        </p>
-      );
-    },
-    []
-  );
+  const getOpenPathCell = useCallback((cell: any) => {
+    return <BlueCell>{cell.title}</BlueCell>;
+  }, []);
 
   const getObjectCell = useCallback(
     (cell: any) => {
@@ -99,3 +91,8 @@ export const useGetSuitableCell = () => {
 
   return { getCell };
 };
+
+const BlueCell = styled.p`
+  color: '#3073ca';
+  cursor: 'pointer';
+`;

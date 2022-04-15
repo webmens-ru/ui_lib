@@ -77,7 +77,7 @@ export default function SelectIntegerField({
         <Select
           filterable={false}
           value={selectValue}
-          data={item.params.data || integerDropDownValues}
+          data={item?.params?.data || integerDropDownValues}
           closeOnSelect={true}
           selectWidth="30%"
           onChange={changeAttr}
