@@ -2,6 +2,10 @@ import React, { StrictMode } from "react";
 import styled, { keyframes } from "styled-components";
 import logo from "./assets/webmens_200_200.png";
 
+/**
+ * Loader without props
+ */
+
 export const Loader = React.memo(() => {
   return (
     <StrictMode>

@@ -25,6 +25,9 @@ export default {
     height: {
       description: 'sum height other elements',
     },
+    minHeight: {
+      description: "min-height grid, string (px, vh ...)"
+    },
     columnMutation: {
       description: 'will call with column`s array after mutation',
     },

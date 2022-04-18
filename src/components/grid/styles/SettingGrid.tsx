@@ -11,7 +11,7 @@ export const GearBtn = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-  position: absolute;
+  position: fixed;
   top: 100px;
   left: calc(50vw - 490px);
   padding: 20px;

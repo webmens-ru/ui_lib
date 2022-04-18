@@ -1,4 +1,4 @@
-import React, { StrictMode, useEffect } from "react";
+import React, { StrictMode, useEffect, useRef, } from "react";
 import {
   Container,
   Popup,
@@ -8,20 +8,16 @@ import {
   Footer,
   Header,
 } from ".";
-import { useShowControl } from "../../hooks/useShowControl";
 
-export function Modal({
-  withPopup = false,
-  isShow,
+export const Modal = ({
+  withPopup = true,
   title,
   children,
   buttons,
-}: IModalProps) {
-  const { ref, isShow: insideIsShow, setShow, toggleShow } = useShowControl();
+  closeCb,
+}: IModalProps) => {
 
-  useEffect(() => {
-    setShow(isShow);
-  }, [isShow, setShow]);
+  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (ref && ref.current) {
@@ -30,21 +26,19 @@ export function Modal({
       const top = document.body.clientHeight / 2 - ref.current.clientHeight / 2;
       ref.current.style.top = (top < 0 ? 50 : top) + "px";
     }
-  }, [ref, insideIsShow]);
-
-  if (!insideIsShow) return null;
+  }, [ref]);
 
   return (
     <StrictMode>
       <Container ref={ref}>
         <Header>
           <Title>{title}</Title>
-          <CloseBtn onClick={toggleShow} />
+          <CloseBtn onClick={closeCb} />
         </Header>
         {children}
         <Footer>{buttons}</Footer>
       </Container>
-      {withPopup && <Popup />}
+      {withPopup && <Popup onClick={closeCb} />}
     </StrictMode>
   );
-}
+};

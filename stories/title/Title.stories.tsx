@@ -1,39 +1,41 @@
-import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Title } from "../../src/components/title";
-import { ITitleProps } from "../../src/components/title/types";
+import React from 'react';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Title } from '../../src/components/title';
+import { ITitleProps } from '../../src/components/title/types';
 
 export default {
-  title: "Components/Title",
+  title: 'Components/Title',
   component: Title,
   argTypes: {
     label: {
-      description: "Text",
+      description: 'text in title',
     },
     childrenBefore: {
-      description: "JSX before text",
+      description: 'JSX elements before text',
       control: {
-        type: "text",
+        type: 'text',
       },
     },
     childrenAfter: {
-      description: "JSX after text",
+      description: 'JSX elements after text',
       control: {
-        type: "text",
+        type: 'text',
       },
     },
     variant: {
-      description: "Variant of title",
+      description: "one of 'grid-title' | 'slider-title'",
     },
     customConfig: {
-      description: "{ fontSize, fontWeight }",
+      description: '{fontSize: string; fontWeight: number;}',
     },
   },
 } as ComponentMeta<typeof Title>;
 
-const Template: ComponentStory<typeof Title> = (args: ITitleProps) => <Title {...args} />;
+const Template: ComponentStory<typeof Title> = (args: ITitleProps) => (
+  <Title {...args} />
+);
 
 export const Simple = Template.bind({});
 Simple.args = {
-  label: "Title",
+  label: 'Title',
 };

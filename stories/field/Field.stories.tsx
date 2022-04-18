@@ -1,27 +1,31 @@
-import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import React from 'react';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Field } from "../../src/components/field";
+import { Field } from '../../src/components/field';
 
 export default {
-  title: "Components/Field",
+  title: 'Components/Field',
   component: Field,
   argTypes: {
-    value: {
-      description: "will call with timestamp",
+    type: {
+      description: "one of 'date' ",
+    },
+    variant: {
+      description: "one of 'with_border' | 'dashed_underline' | 'text_bold'",
     },
     onSelect: {
-      description: "will call with date in ISO"
-    }
+      description: 'return date in ISO8601 if correct',
+    },
+    props: {
+      description: 'css properties for container',
+    },
   },
 } as ComponentMeta<typeof Field>;
 
-const Template: ComponentStory<typeof Field> = (args) => (
-  <Field {...args} />
-);
+const Template: ComponentStory<typeof Field> = (args) => <Field {...args} />;
 
 export const Simple = Template.bind({});
 Simple.args = {
-  type: "date",
-  variant: "with_border"
+  type: 'date',
+  variant: 'with_border',
 };

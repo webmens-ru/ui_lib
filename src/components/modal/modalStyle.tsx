@@ -2,7 +2,9 @@ import styled from "styled-components";
 import GreyClose from "./assets/grey-close.svg";
 
 export const Popup = styled.div`
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: #33333347;

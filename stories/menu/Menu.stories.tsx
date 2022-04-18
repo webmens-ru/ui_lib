@@ -8,17 +8,20 @@ export default {
   title: "Components/Menu",
   component: Menu,
   argTypes: {
-    tabs: {
+    items: {
       description: "Tab`s array"
     },
-    tabsMutation: {
-      description: "will call with tabs after change"
+    setItem: {
+      description: "return tab after click"
     },
-    setTab: {
-      description: "will call with tab after click"
+    itemsMutation: {
+      description: "return mutation array of tab"
     },
     isEditable: {
-      description: "is it possible to change"
+      description: "is editable order or visible"
+    },
+    initialMenuId: {
+      description: "id for current menu"
     }
   },
 } as ComponentMeta<typeof Menu>;

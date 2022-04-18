@@ -8,6 +8,18 @@ import { CalendarProvider, ICalendarProps } from ".";
 import { CalendarContainer, HeaderContainer } from "./styles/Calendar";
 import { useWindowBound } from "../../hooks";
 
+/**
+ * @param isShow - boolean
+ * @param withTime - boolean
+ * @param dateISO - date in ISO8601 or string text(placeholder)
+ * @param onSelect - return date in ISO8601 after select
+ * @param top - css property
+ * @param left - css property
+ * @param bottom - css property
+ * @param right - css property
+ * @returns 
+ */
+
 export function Calendar({
   isShow,
   withTime,

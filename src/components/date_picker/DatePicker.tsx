@@ -5,6 +5,18 @@ import { Calendar } from "../calendar";
 import { Field } from "../field";
 import { IDatePicker } from "./types";
 
+/**
+ * 
+ * @param onSelect - return date in ISO8601 after select
+ * @param fieldWidth - css property
+ * @param initialDateISO - date in ISO8601 or string text(placeholder)
+ * @param withTime - boolean value for control
+ * @param initialCalendarTime - hours:minutes (18:00)
+ * @param svg - "none" | "left" | "right" | undefined
+ * @param format - default "DD.MM.YYYY hh:mm"
+ * @returns 
+ */
+
 export function DatePicker({
   onSelect,
   fieldWidth = "100%",

@@ -7,11 +7,26 @@ export default {
   title: 'Components/DatePicker',
   component: DatePicker,
   argTypes: {
-    value: {
-      description: 'will call with timestamp',
+    onSelect: {
+      description: 'return date in ISO8601 after select',
+    },
+    fieldWidth: {
+      description: 'css property',
+    },
+    initialDateISO: {
+      description: 'date in ISO8601 or string text(placeholder)',
+    },
+    withTime: {
+      description: 'boolean value for control',
+    },
+    initialCalendarTime: {
+      description: 'hours:minutes (18:00)',
+    },
+    format: {
+      description: 'default "DD.MM.YYYY hh:mm"',
     },
     svg: {
-      description: 'choose svg position',
+      description: '"none" | "left" | "right" | undefined',
       control: { type: 'radio' },
     },
   },

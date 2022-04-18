@@ -82,7 +82,7 @@ const stringSort = (a: any, b: any) => {
 };
 
 const numberSort = (a: any, b: any) => {
-  if (!a) return 1;
-  if (!b) return -1;
+  if (!a && a !== 0) return 1;
+  if (!b && b !== 0) return -1;
   return Number(a) - Number(b);
 };

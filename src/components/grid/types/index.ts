@@ -4,10 +4,10 @@ export interface IGridProps {
   footer?: TFooterItem[];
   height?: number;
   minHeight?: string;
-  columnMutation?: (arr: TColumnItem[]) => void;
   burgerItems?: BurgerItem[];
-  onBurgerItemClick?: (arg: BurgerItem) => void;
   isShowCheckboxes?: boolean;
+  columnMutation?: (arr: TColumnItem[]) => void;
+  onBurgerItemClick?: (arg: BurgerItem) => void;
   onChangeCheckboxes?: (arr: number[]) => void;
   onCellClick?: (cell: TRowItem) => void;
 }
