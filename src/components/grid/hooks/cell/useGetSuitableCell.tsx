@@ -93,6 +93,6 @@ export const useGetSuitableCell = () => {
 };
 
 const BlueCell = styled.p`
-  color: '#3073ca';
-  cursor: 'pointer';
+  color: #3073ca;
+  cursor: pointer;
 `;
