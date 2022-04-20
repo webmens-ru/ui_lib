@@ -39,9 +39,10 @@ export const Select = ({
 
   const isEnoughFilterLength = select.filterValue.length >= minInputLength
 
+  // Срабатывает при изменении фильтра
   const handleFilterChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const filterValue = evt.target.value
-    // show loading if select need to get remote data
+    // Отобразить загрузку, если данные необходимо загрузить удалённо
     if (remoteMode) {
       dispatch({ type: 'setLoading', loading: true })
     }
@@ -53,6 +54,7 @@ export const Select = ({
     }, filterDelay)
   }
 
+  // Возвращает отфильтрованные данные для списка
   const updateFilteredData = async (filterValue: string) => {
     let filteredData = data
 
@@ -79,6 +81,7 @@ export const Select = ({
     dispatch({ type: 'setLoading', loading: false })
   }
 
+  // Срабатывает при клике на фильтр
   const handleFilterClick = (evt: React.MouseEvent) => {
     if (isShow) {
       evt.stopPropagation()
@@ -88,6 +91,7 @@ export const Select = ({
     }
   }
 
+  // Срабатывает при выборе элемента списка
   const handleSelectChange = (newValue: IDataItem) => {
     let value = [newValue]
     if (multiple) {
@@ -104,6 +108,7 @@ export const Select = ({
     if (closeOnSelect) setShow(false)
   }
 
+  // Срабатывает при нажатии на крестик у тега списка (если Select множественный)
   const handleRemoveTag = (event: React.MouseEvent, tag: IDataItem) => {
     event.stopPropagation()
     const value = select.value.filter((item: IDataItem) => item !== tag)
@@ -111,6 +116,7 @@ export const Select = ({
     onChange(select.value)
   }
 
+  // Показывает серый текст с выбранным значением (если Select не множественный)
   const getFilterPlaceholder = () => {
     if (isShow && !!select.value.length && !multiple) {
       const title = select.value[0][textField];
@@ -118,6 +124,8 @@ export const Select = ({
     } else return ''
   }
 
+  // Если данные для списка ещё не были загружены, либо возникла ошибка при их загрузке
+  // Отобразить простой контейнер без логики
   if (!select.inited || select.hasErrorsOnFetch) {
     return (
       <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={() => setShow(!isShow)}>
