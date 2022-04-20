@@ -1,3 +1,4 @@
+import { IFormProps } from './../types';
 // TODO: Types: TimeInput, TextArea, RichText, FileInput
 
 export const formConfig = {
@@ -13,7 +14,11 @@ export const formConfig = {
       format: 'DD.MM.YYYY hh:mm', isShowTime: true
     }},
     {type: 'checkbox', name: 'isEnable', label: 'Показывать?'},
-  ]
-}
+  ],
+  mode: "edit",
+  formTitle: "Форма",
+  canToggleMode: true,
+  validationRules: [],
+} as IFormProps
 
 export default formConfig
