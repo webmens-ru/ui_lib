@@ -12,6 +12,7 @@ export const Input = ({
   iconPosition = "none",
   iconLeftName = "none",
   iconRightName = "none",
+  nativeInputProps = {},
   onChange = () => {},
   onBlur,
 }: IInputProps) => {
@@ -42,6 +43,7 @@ export const Input = ({
         onChange={handleInputChange}
         onFocus={() => setFocus(true)}
         onBlur={onBlur || (() => setFocus(false))}
+        {...nativeInputProps}
       />
       {(iconPosition === "right" || iconPosition === "both") && (
         <PostfixIconContainer>

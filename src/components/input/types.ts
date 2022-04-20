@@ -9,6 +9,7 @@ export interface IInputProps {
   iconRightName?: IconName;
   onChange?: (value: string) => void
   onBlur?: () => void
+  nativeInputProps?: React.InputHTMLAttributes<IInputProps>
 }
 
 export type InputValue = string
