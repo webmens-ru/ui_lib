@@ -19,22 +19,26 @@ export const Input = ({
 }: IInputProps) => {
   const [input, setInput] = useState({ value, focus: false })
 
+  // Срабатывает при изменении значения в поле
   const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value
     setInput({ ...input, value })
     onChange(value)
   }
 
+  // Срабатывает при фокусе
   const handleInputFocused = () => {
     setFocus(true)
     onFocus()
   }
 
+  // Срабатывает при выходе из фокуса
   const handleInputBlured = () => {
     setFocus(false)
     onBlur()
   }
 
+  // Записывает в state, что поле находится в фокусе (для отображения рамки у контейнера)
   const setFocus = (focus: boolean) => {
     setInput({...input, focus})
   }
