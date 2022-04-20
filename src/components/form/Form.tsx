@@ -3,7 +3,8 @@ import { reducer, init } from "./reducer";
 import { IFormProps } from "./types";
 import { EditForm } from "./components/EditForm";
 import { ViewForm } from "./components/ViewForm";
-import { FormContainer, FormHeader, FormModeToggler, FormTitle } from "./styles";
+import { FormButtonsContainer, FormContainer, FormHeader, FormModeToggler, FormTitle } from "./styles";
+import { Button } from "../button";
 
 const Form = ({
   fields = [
@@ -24,12 +25,17 @@ const Form = ({
     if (form.mode === 'edit') {
       const resp = window.confirm('Вы уверены, что хотите отменить изменения?')
       if (resp) {
-        dispatch({type: "undo_changes"})
+        dispatch({ type: "undo_changes" })
         return
-      } 
+      }
     }
+  }
 
-    dispatch({type: 'toggle_mode'})
+  const handleFormSubmit = () => {
+    if (!form.errors.length) {
+      dispatch({ type: "submit_form" })
+      onSubmit(form.tempValues)
+    }
   }
 
   if (form.inited) {
@@ -45,19 +51,26 @@ const Form = ({
           }
         </FormHeader>
         {form.mode === 'edit'
-          ? <EditForm 
-              form={form} 
-              dispatch={dispatch}
-              fields={fields}
-              validationRules={validationRules}
-              onFieldChange={onFieldChange}
-              onSubmit={onSubmit}
-            />
-          : <ViewForm 
-              form={form} 
-              fields={fields} 
-            />
+          ? <EditForm
+            form={form}
+            dispatch={dispatch}
+            fields={fields}
+            validationRules={validationRules}
+            onFieldChange={onFieldChange}
+            onSubmit={onSubmit}
+          />
+          : <ViewForm
+            form={form}
+            fields={fields}
+          />
         }
+
+        {form.mode === "edit" && (
+          <FormButtonsContainer>
+            <Button color="success" children="Сохранить" buttonProps={{ onClick: handleFormSubmit }} />
+          </FormButtonsContainer>
+        )}
+
       </FormContainer>
     )
   } else return <></>

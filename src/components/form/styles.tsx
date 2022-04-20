@@ -16,6 +16,7 @@ export const GlobalStyleForm = createGlobalStyle`
 export const FormContainer = styled.div<FormContainerProps>`
   height: 100vh;
   padding: 10px;
+  margin-bottom: 60px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -54,9 +55,18 @@ export const FormModeToggler = styled.span`
   }
 `
 
-export const FormSubmitContainer = styled.div`
-  position: absolute;
+export const FormButtonsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: white;
+  box-shadow: 0 -2px 4px 0 rgba(0,0,0,.05);
+  z-index: 200;
+
+  position: fixed;
   bottom: 0;
   right: 0;
-  margin: 10px;
+  width: 100%;
+  height: 60px;
 `

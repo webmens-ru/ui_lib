@@ -1,10 +1,9 @@
 import React from "react";
 import { FormFieldsItem, FormFieldsItemShort } from "../../../form/types";
 import { DatePicker } from "../../../date_picker";
-import { Button } from "../../../button";
 import { Checkbox } from "../../../checkbox";
 import { CheckboxValue } from "../../../checkbox/types";
-import { GlobalStyleForm, FormSubmitContainer } from "../../../form/styles";
+import { GlobalStyleForm } from "../../../form/styles";
 import { validator } from "../../../form/utils/onBlurHandler";
 import { Input } from "../../../input";
 import { InputValue } from "../../../input/types";
@@ -19,7 +18,6 @@ export const EditForm = ({
   dispatch, 
   validationRules = [], 
   onFieldChange = () => {}, 
-  onSubmit = () => {}
 }: IEditFormProps) => {
   const handleFieldChange = ({name, value}: FormFieldsItemShort) => {
     console.log('%cField has been changed:', 'font-size: 1.5rem;color: green');
@@ -28,13 +26,6 @@ export const EditForm = ({
     const errors = validateField({name, value})
     dispatch({type: 'set_form', form: { field: {name, value}, errors } })
     onFieldChange(name, value)
-  }
-
-  const handleFormSubmit = () => {
-    if (!form.errors.length) {
-      dispatch({type: "submit_form"})
-      onSubmit(form.tempValues)
-    }
   }
 
   const validateField = ({name, value}: FormFieldsItemShort) => {
@@ -109,10 +100,6 @@ export const EditForm = ({
           {getEntry(field)}
         </Field>
       )}
-
-      <FormSubmitContainer>
-        <Button color="success" buttonProps={{onClick: handleFormSubmit}} >Сохранить</Button>
-      </FormSubmitContainer>
     </>
   )
 }
