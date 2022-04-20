@@ -14,7 +14,8 @@ export const Input = ({
   iconRightName = "none",
   nativeInputProps = {},
   onChange = () => {},
-  onBlur,
+  onFocus = () => {},
+  onBlur = () => {},
 }: IInputProps) => {
   const [input, setInput] = useState({ value, focus: false })
 
@@ -22,6 +23,16 @@ export const Input = ({
     const value = evt.target.value
     setInput({ ...input, value })
     onChange(value)
+  }
+
+  const handleInputFocused = () => {
+    setFocus(true)
+    onFocus()
+  }
+
+  const handleInputBlured = () => {
+    setFocus(false)
+    onBlur()
   }
 
   const setFocus = (focus: boolean) => {
@@ -41,8 +52,8 @@ export const Input = ({
         placeholder={placeholder}
         readOnly={readonly}
         onChange={handleInputChange}
-        onFocus={() => setFocus(true)}
-        onBlur={onBlur || (() => setFocus(false))}
+        onFocus={handleInputFocused}
+        onBlur={handleInputBlured}
         {...nativeInputProps}
       />
       {(iconPosition === "right" || iconPosition === "both") && (
