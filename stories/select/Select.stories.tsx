@@ -50,6 +50,16 @@ const config = {
       control: getControlType('number'),
       table: getTableType("number")
     },
+    valueField: {
+      description: "Определяет, под каким ключом будет передаваться и храниться ID элемента списка",
+      control: getControlType('text'),
+      table: getTableType('string')
+    },
+    textField: {
+      description: "Определяет, под каким ключом будет передаваться и храниться отображаемый текст элемента списка",
+      control: getControlType('text'),
+      table: getTableType('string')
+    },
     filterDelay: {
       description: "Задержка в миллисекундах, которая воспроизводится после последнего напечатанного символа фильтре, и после который производится поиск по элементам выпадающего списка.",
       control: getControlType('number'),
