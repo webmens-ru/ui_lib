@@ -14,6 +14,8 @@ export const Select = ({
   minInputLength = 0,
   filterDelay = 350,
   value = [],
+  valueField = "value",
+  textField = "title",
   data = [],
   dataUrl = "",
   remoteMode = false,
@@ -31,6 +33,8 @@ export const Select = ({
     dataUrl,
     filterable,
     value,
+    valueField,
+    textField
   }, init)
 
   const isEnoughFilterLength = select.filterValue.length >= minInputLength
@@ -64,7 +68,10 @@ export const Select = ({
           .then(response => response.json())
           .then(data => filteredData = data)
       } else {
-        filteredData = select.data.filter((option: IDataItem) => option.title.toLowerCase().includes(filterValue.trim().toLowerCase()))
+        filteredData = select.data.filter((option) => {
+          const title = typeof option[textField] === "number" ? option[textField].toString() : option[textField] as string
+          return title.toLowerCase().includes(filterValue.trim().toLowerCase())
+        })
       }
     }
 
@@ -84,8 +91,8 @@ export const Select = ({
   const handleSelectChange = (newValue: IDataItem) => {
     let value = [newValue]
     if (multiple) {
-      if (select.value.some((item: IDataItem) => item.value === newValue.value)) {
-        value = select.value.filter((item: IDataItem) => item.value !== newValue.value)
+      if (select.value.some((item: IDataItem) => item[valueField] === newValue[valueField])) {
+        value = select.value.filter((item: IDataItem) => item[valueField] !== newValue[valueField])
       } else {
         value = select.value.concat([newValue])
       }
@@ -106,7 +113,8 @@ export const Select = ({
 
   const getFilterPlaceholder = () => {
     if (isShow && !!select.value.length && !multiple) {
-      return select.value[0].title
+      const title = select.value[0][textField];
+      return typeof title === "number" ? title.toString() : title
     } else return ''
   }
 
@@ -133,8 +141,8 @@ export const Select = ({
         {multiple && (
           <SelectTagsContainer>
             {select.value.map((tag: IDataItem) => (
-              <SelectTag key={tag.value}>
-                <TagTitle children={tag.title || <i>Нет данных</i>} />
+              <SelectTag key={tag[valueField]}>
+                <TagTitle children={tag[textField] || <i>Нет данных</i>} />
                 <TagRemove onClick={(event: React.MouseEvent) => handleRemoveTag(event, tag)} />
               </SelectTag>
             ))}
@@ -142,7 +150,7 @@ export const Select = ({
         )}
 
         {(!multiple && !isShow && select.value.length > 0) && (
-          <SelectCurrentValue children={select.value[0].title || <i>Нет данных</i>} />
+          <SelectCurrentValue children={select.value[0][textField] || <i>Нет данных</i>} />
         )}
 
         <SelectFilter

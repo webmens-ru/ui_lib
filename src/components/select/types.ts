@@ -4,6 +4,8 @@ export interface ISelectProps {
   minInputLength?: number;
   filterDelay?: number;
   value?: ISelectValue;
+  valueField?: string;
+  textField?: string;
   data?: IDataItem[];
   dataUrl?: string;
   remoteMode?: boolean;
@@ -34,6 +36,8 @@ export interface ISelectReducerProps {
   data: IDataItem[];
   filterable: boolean;
   value: ISelectValue;
+  valueField: string;
+  textField: string;
 }
 export interface ISelectReducerState {
   value: IDataItem[];
@@ -52,8 +56,7 @@ export type ISelectReducerAction =
   | { type: "setFilteredData", filteredData: IDataItem[] }
 
 export interface IDataItem {
-  value: string|number;
-  title: string;
+  [key: string]: string|number;
 }
 
 export interface IQueryParams {

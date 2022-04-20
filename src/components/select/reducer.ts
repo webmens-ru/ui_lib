@@ -16,14 +16,14 @@ export const reducer = function(state: ISelectReducerState, action: ISelectReduc
   }
 }
 
-export const init = function({ minInputLength, data, filterable, value }: ISelectReducerProps): ISelectReducerState {
+export const init = function({ minInputLength, data, filterable, value, valueField, textField }: ISelectReducerProps): ISelectReducerState {
   let selectData = data
   let hasErrorsOnFetch = false
 
   const filteredData = filterable && (minInputLength > 0) ? [] : selectData
 
   return {
-    value: getInitialValue(value, filteredData),
+    value: getInitialValue(value, filteredData, valueField, textField),
     data: selectData,
     filteredData,
     inited: true,
