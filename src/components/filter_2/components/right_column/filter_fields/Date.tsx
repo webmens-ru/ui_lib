@@ -46,7 +46,7 @@ export default function DateField({ item, updateField, ...props }: IField) {
   const setDDV = useCallback(
     (value: IDataItem[]) => {
       setDropDownValue(value[0]);
-      updateValue([value[0].title, '', '']);
+      updateValue([`${value[0].title}`, '', '']);
     },
     [updateValue]
   );
@@ -110,7 +110,7 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
   const setInputValueCheck = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.value.match(/^\d*$/)) {
-        updateValue([value.title, e.target.value, '']);
+        updateValue([`${value.title}`, e.target.value, '']);
       }
     },
     [updateValue, value]
@@ -128,7 +128,7 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
       } else {
         secondValue = `0`;
       }
-      updateValue([value.title, secondValue, '']);
+      updateValue([`${value.title}`, secondValue, '']);
     },
     [item.value, updateValue, value.title]
   );
@@ -140,14 +140,14 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
   const setYear = useCallback(
     (year: IDataItem[]) => {
       setSelectYear(year);
-      updateValue([value.title, year[0].title, '']);
+      updateValue([`${value.title}`, `${year[0].title}`, '']);
     },
     [updateValue, value.title]
   );
 
   const setDate = useCallback(
     (date: string) => {
-      updateValue([value.title, date, '']);
+      updateValue([`${value.title}`, date, '']);
     },
     [updateValue, value.title]
   );
@@ -242,7 +242,7 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
   const setYear = useCallback(
     (year: IDataItem[]) => {
       setSelectYear(year);
-      updateValue([item.value[0], item.value[1], year[0].title]);
+      updateValue([item.value[0], item.value[1], `${year[0].title}`]);
     },
     [item.value, updateValue]
   );
