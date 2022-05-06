@@ -8,6 +8,7 @@ type InputContainerProps = {
 export const InputContainer = styled.div`
   display: flex;
   border: 1px solid;
+  height: 40px;
   width: 100%;
   transition: all 220ms linear;
 
@@ -25,7 +26,6 @@ export const InputContainer = styled.div`
     position: relative;
     background: inherit;
     cursor: inherit;
-    height: 40px;
     padding: 0 11px;
     color: #535c69;
     outline: none;
