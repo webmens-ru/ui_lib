@@ -5,6 +5,7 @@ import SelectStringField from './filter_fields/SelectString';
 import { useDragAndDrop } from '../../utils/useDragAndDrop';
 import DateField from './filter_fields/Date';
 import { SelectWrapper } from './filter_fields/Select';
+import MultipleSelect from './filter_fields/MultipleSelect';
 
 export function FilterFields() {
   const { state } = useCustomContext();
@@ -43,6 +44,7 @@ export function FilterFields() {
           case 'string':
             return <SelectStringField {...props} />;
           case 'multiple_select':
+            return <MultipleSelect {...props} />;
           case 'select':
             return <SelectWrapper {...props} />;
           case 'date':
