@@ -310,6 +310,7 @@ export const DropDownFieldStyle = styled(FieldContainer)``;
 export const SelectTextStyle = styled(FieldContainer)`
   & > div {
     display: flex;
+    gap: 10px;
     justify-content: space-between;
   }
 `;
