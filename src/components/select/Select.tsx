@@ -5,6 +5,7 @@ import { ISelectProps, IDataItem } from "./types";
 import LoadingSelect from './components/loading_select';
 import SelectDropdown from "./components/dropdown";
 import { SelectContainer, SelectInner, SelectFilter, SelectErrorMsg, SelectSuffix, Suffix, SelectTagsContainer, SelectCurrentValue, SelectTag, TagTitle, TagRemove } from "./styles";
+import { OpenSans } from "../../styles/fonts/Fonts";
 
 // onBlur
 
@@ -60,9 +61,9 @@ export const Select = ({
 
     if (filterValue.length >= minInputLength) {
       if (remoteMode /*&& minInputLength > 0*/) {
-        const selectQueryParams = new URLSearchParams({ 
-          ...queryParams, 
-          [queryTitleName]: filterValue.trim() 
+        const selectQueryParams = new URLSearchParams({
+          ...queryParams,
+          [queryTitleName]: filterValue.trim()
         }).toString()
         const queryUrl = `${dataUrl}?${selectQueryParams}`
 
@@ -128,17 +129,20 @@ export const Select = ({
   // Отобразить простой контейнер без логики
   if (!select.inited || select.hasErrorsOnFetch) {
     return (
-      <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={() => setShow(!isShow)}>
-        {select.hasErrorsOnFetch && <SelectErrorMsg children="Произошла ошибка при загрузке данных" />}
+      <>
+        <OpenSans />
+        <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={() => setShow(!isShow)}>
+          {select.hasErrorsOnFetch && <SelectErrorMsg children="Произошла ошибка при загрузке данных" />}
 
-        <SelectSuffix isShow={isShow}>
-          <Suffix />
-        </SelectSuffix>
+          <SelectSuffix isShow={isShow}>
+            <Suffix />
+          </SelectSuffix>
 
-        <SelectDropdown isShow={isShow}>
-          <LoadingSelect />
-        </SelectDropdown>
-      </SelectContainer>
+          <SelectDropdown isShow={isShow}>
+            <LoadingSelect />
+          </SelectDropdown>
+        </SelectContainer>
+      </>
     )
   }
 
@@ -176,7 +180,7 @@ export const Select = ({
         <Suffix />
       </SelectSuffix>
 
-      <SelectDropdown 
+      <SelectDropdown
         isShow={isShow}
         multiple={multiple}
         isShowLettersCount={minInputLength > 0 && !isEnoughFilterLength}

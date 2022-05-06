@@ -10,7 +10,7 @@ type SuffixProps = {
 
 /* SELECT BASE */
 export const SelectContainer = styled.div<SelectContainerProps>`
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Open Sans';
   position: relative;
   width: ${({width}) => width || '100%'};
   border: 1px solid transparent;
@@ -43,7 +43,7 @@ export const SelectFilter = styled.input`
   cursor: pointer;
 
   &::placeholder {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Open Sans';
     padding: 0 5px;
     font-size: 16px;
     opacity: .5;
