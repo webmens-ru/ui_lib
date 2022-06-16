@@ -7,10 +7,11 @@ export interface IInputProps {
   iconPosition?: "none"|"left"|"right"|"both";
   iconLeftName?: IconName;
   iconRightName?: IconName;
-  nativeInputProps?: React.InputHTMLAttributes<IInputProps>
+  width?: string;
+  nativeInputProps?: React.InputHTMLAttributes<HTMLInputElement>
   onChange?: (value: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
 }
 
-export type InputValue = string
+export type InputValue = string|number

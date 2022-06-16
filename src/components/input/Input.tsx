@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import { InputContainer, PrefixIconContainer, PostfixIconContainer } from './styles';
 import { Icon } from '../icon';
 import { IInputProps } from './types';
+import { OpenSans } from '../../styles/fonts/Fonts';
 
 // width
 
-export const Input = ({ 
-  value = '', 
-  placeholder = '', 
+export const Input = ({
+  value = '',
+  placeholder = '',
   readonly = false,
   iconPosition = "none",
   iconLeftName = "none",
   iconRightName = "none",
   nativeInputProps = {},
-  onChange = () => {},
-  onFocus = () => {},
-  onBlur = () => {},
+  width = "100%",
+  onChange = () => { },
+  onFocus = () => { },
+  onBlur = () => { },
 }: IInputProps) => {
   const [input, setInput] = useState({ value, focus: false })
 
@@ -40,31 +42,34 @@ export const Input = ({
 
   // Записывает в state, что поле находится в фокусе (для отображения рамки у контейнера)
   const setFocus = (focus: boolean) => {
-    setInput({...input, focus})
+    setInput({ ...input, focus })
   }
 
   return (
-    <InputContainer readonly={readonly} focus={input.focus}>
-      {(iconPosition === "left" || iconPosition === "both") && (
-        <PrefixIconContainer>
-          <Icon iconName={iconLeftName} iconWidth="18px" />
-        </PrefixIconContainer>
-      )}
-      <input 
-        type="text"
-        value={input.value}
-        placeholder={placeholder}
-        readOnly={readonly}
-        onChange={handleInputChange}
-        onFocus={handleInputFocused}
-        onBlur={handleInputBlured}
-        {...nativeInputProps}
-      />
-      {(iconPosition === "right" || iconPosition === "both") && (
-        <PostfixIconContainer>
-          <Icon iconName={iconRightName} iconWidth="18px" />
-        </PostfixIconContainer>
-      )}
-    </InputContainer>
+    <>
+      <OpenSans />
+      <InputContainer readonly={readonly} focus={input.focus} width={width} >
+        {(iconPosition === "left" || iconPosition === "both") && (
+          <PrefixIconContainer>
+            <Icon iconName={iconLeftName} iconWidth="18px" />
+          </PrefixIconContainer>
+        )}
+        <input
+          type="text"
+          value={input.value}
+          placeholder={placeholder}
+          readOnly={readonly}
+          onChange={handleInputChange}
+          onFocus={handleInputFocused}
+          onBlur={handleInputBlured}
+          {...nativeInputProps}
+        />
+        {(iconPosition === "right" || iconPosition === "both") && (
+          <PostfixIconContainer>
+            <Icon iconName={iconRightName} iconWidth="18px" />
+          </PostfixIconContainer>
+        )}
+      </InputContainer>
+    </>
   )
 }

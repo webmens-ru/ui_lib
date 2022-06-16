@@ -1,15 +1,18 @@
 import styled from "styled-components"
 
 type InputContainerProps = {
-  readonly: boolean;
-  focus: boolean;
+  readonly?: boolean;
+  focus?: boolean;
+  width?: string;
 }
 
 export const InputContainer = styled.div`
+  font-family: 'Open Sans';
   display: flex;
   border: 1px solid;
   height: 40px;
-  width: 100%;
+  font-size: 14px;
+  width: ${({ width }: InputContainerProps) => width ? width : '100%'};
   transition: all 220ms linear;
 
   background: ${({ readonly }: InputContainerProps) => readonly ? '#f4f4f4' : '#fff'};
