@@ -79,19 +79,19 @@ export default function SelectIntegerField({
           value={selectValue}
           data={item?.params?.data || integerDropDownValues}
           closeOnSelect={true}
-          selectWidth="30%"
+          selectWidth="33%"
           onChange={changeAttr}
         />
         {selectValue.title === 'Диапазон' ? (
           <>
             <Input
-              // width="32%"
+              width="33%"
               value={item.value[1]}
               onChange={checkFirstValue}
               onBlur={() => updateField(item, 'value')}
             />
             <Input
-              // width="32%"
+              width="33%"
               value={item.value[2]}
               onChange={checkSecondValue}
               onBlur={() => updateField(item, 'value')}
@@ -99,7 +99,7 @@ export default function SelectIntegerField({
           </>
         ) : (
           <Input
-            // width="67%"
+            width="67%"
             value={item.value[1]}
             onChange={checkFirstValue}
             onBlur={() => updateField(item, 'value')}

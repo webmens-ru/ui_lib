@@ -65,11 +65,11 @@ export default function SelectStringField({
           value={selectValue}
           data={item?.params?.data || stringDropDownValues}
           closeOnSelect={true}
-          selectWidth="30%"
+          selectWidth="33%"
           onChange={changeAttr}
         />
         <Input
-          // width="67%"
+          width="67%"
           value={item.value[1]}
           onChange={checkFirstValue}
           onBlur={() => updateField(item, 'value')}

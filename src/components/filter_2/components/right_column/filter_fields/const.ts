@@ -1,3 +1,5 @@
+import { IDateFieldDataItem } from "../../../types";
+
 export const stringDropDownValues = [
   {
     title: 'Не указан',
@@ -32,7 +34,7 @@ export const integerDropDownValues = [
   },
   {
     title: 'Диапазон',
-    value: '=[>f,<s]',
+    value: '',
   },
   {
     title: 'Больше чем',
@@ -61,93 +63,93 @@ export type TDateDropDown = {
 export const dateDropDown = [
   {
     title: 'Любая дата',
-    value: '=[>f,<s]',
+    value: 'anyDate',
   },
   {
     title: 'Вчера',
-    value: '=[>f,<s]',
+    value: 'yesterday',
   },
   {
     title: 'Сегодня',
-    value: '=[>f,<s]',
+    value: 'today',
   },
   {
     title: 'Завтра',
-    value: '=[>f,<s]',
+    value: 'tomorrow',
   },
   {
     title: 'Текущая неделя',
-    value: '=[>f,<s]',
+    value: 'currentWeek',
   },
   {
     title: 'Текущий месяц',
-    value: '=[>f,<s]',
+    value: 'currentMonth',
   },
   {
     title: 'Текущий квартал',
-    value: '=[>f,<s]',
+    value: 'currentQuarter',
   },
   {
     title: 'Последние 7 дней',
-    value: '=[>f,<s]',
+    value: 'last7Days',
   },
   {
     title: 'Последние 30 дней',
-    value: '=[>f,<s]',
+    value: 'last30Days',
   },
   {
     title: 'Последние 60 дней',
-    value: '=[>f,<s]',
+    value: 'last60Days',
   },
   {
     title: 'Последние 90 дней',
-    value: '=[>f,<s]',
+    value: 'last90Days',
   },
   {
     title: 'Последние N дней',
-    value: '=[>f,<s]',
+    value: 'lastNDays',
   },
   {
     title: 'Следующие N дней',
-    value: '=[>f,<s]',
-  },
-  {
-    title: 'Месяц',
-    value: '=[>f,<s]',
-  },
-  {
-    title: 'Квартал',
-    value: '=[>f,<s]',
-  },
-  {
-    title: 'Год',
-    value: '=[>f,<s]',
-  },
-  {
-    title: 'Точная дата',
-    value: '=[>f,<s]',
-  },
-  {
-    title: 'Прошлая неделя',
-    value: '=[>f,<s]',
-  },
-  {
-    title: 'Прошлый месяц',
-    value: '=[>f,<s]',
-  },
-  {
-    title: 'Диапазон',
-    value: '=[>f,<s]',
+    value: 'nextNDays',
   },
   {
     title: 'Следующая неделя',
-    value: '=[>f,<s]',
+    value: 'nextWeek',
   },
   {
     title: 'Следующий месяц',
-    value: '=[>f,<s]',
+    value: 'nextMonth',
   },
-];
+  {
+    title: 'Месяц',
+    value: 'month',
+  },
+  {
+    title: 'Квартал',
+    value: 'quarter',
+  },
+  {
+    title: 'Год',
+    value: 'year',
+  },
+  {
+    title: 'Точная дата',
+    value: 'exactDate',
+  },
+  {
+    title: 'Прошлая неделя',
+    value: 'lastWeek',
+  },
+  {
+    title: 'Прошлый месяц',
+    value: 'lastMonth',
+  },
+  {
+    title: 'Диапазон',
+    value: 'range',
+  },
+] as IDateFieldDataItem[];
 
 export const monthsDropDown = [
   { value: 1, title: 'Январь' },

@@ -141,3 +141,9 @@ export interface IBodyMultiplySelectDynamic {
   setDefaultSelectedItems: (item: TMultiplySelectDynamicItem[]) => void;
   searchInputValue: string;
 }
+
+export type TFilterDates = "anyDate"|"yesterday"|"today"|"tomorrow"|"currentWeek"|"currentMonth"|"currentQuarter"|"last7Days"|"last30Days"|"last60Days"|"last90Days"|"lastNDays"|"nextNDays"|"nextWeek"|"nextMonth"|"month"|"quarter"|"year"|"exactDate"|"lastWeek"|"lastMonth"|"range"
+
+export interface IDateFieldDataItem extends IDataItem {
+  value: TFilterDates;
+}

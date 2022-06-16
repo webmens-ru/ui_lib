@@ -19,10 +19,10 @@ import { IDataItem } from '../../../../select/types';
 
 export default function DateField({ item, updateField, ...props }: IField) {
   const [dropDownValue, setDropDownValue] = useState<IDataItem>(() => {
-    const list = item?.params?.data || dateDropDown;
+    const list: IDataItem[] = item?.params?.data || dateDropDown;
     return (
       list.find(
-        (dateItem: { title: string }) => dateItem.title === item.value[0]
+        (dateItem) => dateItem.value === item.value[0]
       ) || list[0]
     );
   });
@@ -46,21 +46,17 @@ export default function DateField({ item, updateField, ...props }: IField) {
   const setDDV = useCallback(
     (value: IDataItem[]) => {
       setDropDownValue(value[0]);
-      updateValue([`${value[0].title}`, '', '']);
+      updateValue([`${value[0].value}`, '', '']);
     },
     [updateValue]
   );
-
-  const onChangeSelect = useCallback((value: IDataItem[]) => {
-    setDropDownValue(value[0]);
-  }, []);
   
   const currentComponent = useMemo(() => {
-    switch (dropDownValue.title) {
-      case 'Последние N дней':
-      case 'Следующие N дней':
-      case 'Год':
-      case 'Точная дата':
+    switch (dropDownValue.value) {
+      case 'lastNDays':
+      case 'nextNDays':
+      case 'year':
+      case 'exactDate':
         return (
           <TwoField
             value={dropDownValue}
@@ -69,9 +65,9 @@ export default function DateField({ item, updateField, ...props }: IField) {
             item={item}
           />
         );
-      case 'Месяц':
-      case 'Квартал':
-      case 'Диапазон':
+      case 'month':
+      case 'quarter':
+      case 'range':
         return (
           <ThreeField
             value={dropDownValue}
@@ -88,11 +84,11 @@ export default function DateField({ item, updateField, ...props }: IField) {
             data={item?.params?.data || dateDropDown}
             closeOnSelect={true}
             selectWidth="100%"
-            onChange={onChangeSelect}
+            onChange={setDDV}
           />
         );
     }
-  }, [dropDownValue, item, onChangeSelect, setDDV, updateValue]);
+  }, [dropDownValue, item, setDDV, updateValue]);
 
   const { draggable, events } = useFieldsDraggable();
 

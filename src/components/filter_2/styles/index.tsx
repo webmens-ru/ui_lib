@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import searchSvg from "../assets/ui-search-white.svg";
-import spriteSvg from "../assets/sprite-interface.min.svg";
-import gearSvg from "../assets/grid-gear.svg";
+import searchSvg from "../../icon/assets/ui-search-white.svg";
+import spriteSvg from "../../icon/assets/sprite-interface.min.svg";
+import gearSvg from "../../icon/assets/grid-gear.svg";
 
 export const FilterContainer = styled.div`
   position: relative;
@@ -282,12 +282,9 @@ const FieldContainer = styled.div`
   &:hover > span {
     display: block;
   }
-  & > div {
-    height: 40px;
-  }
   & > span {
     position: absolute;
-    top: 33px;
+    top: 50%;
     left: 5px;
     display: none;
     width: 15px;
