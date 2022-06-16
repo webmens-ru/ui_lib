@@ -45,3 +45,25 @@ export const DropdownItem = styled.div`
     margin-right: 5px;
   }
 `
+
+export const DropdownGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0 5px;
+  margin-bottom: 5px;
+
+  & > .dropdown-item {
+    padding-left: 15px;
+  }
+`
+
+export const GroupTitle = styled.div`
+  font-weight: bold;
+  margin-left: 7px;
+  margin-bottom: 5px;
+  opacity: .5;
+
+  &:nth-child(1) {
+    margin-top: 8px;
+  }
+`

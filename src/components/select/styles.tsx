@@ -11,8 +11,11 @@ type SuffixProps = {
 /* SELECT BASE */
 export const SelectContainer = styled.div<SelectContainerProps>`
   font-family: 'Open Sans';
+  font-size: 14px;
   position: relative;
   width: ${({width}) => width || '100%'};
+  height: calc(100% - 2px);
+  max-width: ${({width}) => width || '100%'};
   border: 1px solid transparent;
   border-color: ${({isShow}) => isShow ? '#66afe9' : 'rgba(83, 92, 105, 0.2)'};
   background: #fff;
@@ -30,22 +33,29 @@ export const SelectInner = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  padding-right: 32px;
-  line-height: 32px;
+  height: 100%;
+  min-height: 40px;
+  padding: 5px 32px 5px 8px;
 `
 
 export const SelectFilter = styled.input`
-  padding: 12px 8px;
   height: auto;
   border: none;
+  color: #535c69;
   outline: none;
   flex-grow: 1;
+  padding: 0;
   cursor: pointer;
+
+  &.closed::placeholder {
+    color: #535c69;
+    opacity: 1;
+  }
 
   &::placeholder {
     font-family: 'Open Sans';
     padding: 0 5px;
-    font-size: 16px;
+    font-size: 14px;
     opacity: .5;
   }
 `
@@ -53,7 +63,8 @@ export const SelectFilter = styled.input`
 export const SelectCurrentValue = styled.span`
   display: flex;
   align-items: center;
-  padding: 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
   color: #535c69;
 `
 
@@ -63,6 +74,10 @@ export const SelectErrorMsg = styled.div`
   height: 40px;
   padding: 0 10px;
   color: darkred;
+`
+
+export const DropdownMessage = styled.div`
+  padding: 8px;
 `
 /* SELECT BASE */
 

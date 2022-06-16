@@ -4,19 +4,17 @@ import { reducer, init } from "./reducer";
 import { ISelectProps, IDataItem } from "./types";
 import LoadingSelect from './components/loading_select';
 import SelectDropdown from "./components/dropdown";
-import { SelectContainer, SelectInner, SelectFilter, SelectErrorMsg, SelectSuffix, Suffix, SelectTagsContainer, SelectCurrentValue, SelectTag, TagTitle, TagRemove } from "./styles";
+import { SelectContainer, SelectInner, SelectFilter, SelectErrorMsg, SelectSuffix, Suffix, SelectTagsContainer, SelectTag, TagTitle, TagRemove } from "./styles";
 import { OpenSans } from "../../styles/fonts/Fonts";
-
-// onBlur
+import { buildFilterQuery, filterSelectData } from "./utils/selectUtils";
 
 export const Select = ({
   multiple = false,
   filterable = true,
   minInputLength = 0,
+  maxSelectionLength = Infinity,
   filterDelay = 350,
   value = [],
-  valueField = "value",
-  textField = "title",
   data = [],
   dataUrl = "",
   remoteMode = false,
@@ -25,20 +23,17 @@ export const Select = ({
   queryParams = {},
   queryTitleName = "title_like",
   onChange = () => { },
-}: ISelectProps) => {
+}: ISelectProps) => {  
   const { ref, isShow, setShow } = useShowControl()
   const filterRef = useRef(null)
   const [select, dispatch] = useReducer(reducer, {
-    minInputLength,
     data,
-    dataUrl,
+    minInputLength,
     filterable,
     value,
-    valueField,
-    textField
   }, init)
-
   const isEnoughFilterLength = select.filterValue.length >= minInputLength
+  const canSelectMore = select.value.length < maxSelectionLength
 
   // Срабатывает при изменении фильтра
   const handleFilterChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +46,7 @@ export const Select = ({
 
     setTimeout(() => {
       if (filterValue !== evt.target.value) return
-      updateFilteredData(filterValue)
+      updateFilteredData(evt.target.value)
     }, filterDelay)
   }
 
@@ -59,45 +54,42 @@ export const Select = ({
   const updateFilteredData = async (filterValue: string) => {
     let filteredData = data
 
-    if (filterValue.length >= minInputLength) {
-      if (remoteMode /*&& minInputLength > 0*/) {
-        const selectQueryParams = new URLSearchParams({
-          ...queryParams,
-          [queryTitleName]: filterValue.trim()
-        }).toString()
-        const queryUrl = `${dataUrl}?${selectQueryParams}`
-
-        await fetch(queryUrl)
+    if (canSelectMore) {
+      if (remoteMode && filterValue.length >= minInputLength) {
+        dispatch({ type: 'setLoading', loading: true })
+          await buildFilterQuery(dataUrl, queryParams, filterValue, queryTitleName)
           .then(response => response.json())
           .then(data => filteredData = data)
+          .catch(err => {
+            console.error(err)
+            dispatch({ type: "setFetchError" })
+          })
       } else {
-        filteredData = select.data.filter((option) => {
-          const title = typeof option[textField] === "number" ? option[textField].toString() : option[textField] as string
-          return title.toLowerCase().includes(filterValue.trim().toLowerCase())
-        })
+        filteredData = filterSelectData(select.data, filterValue)
       }
+  
+      dispatch({ type: 'setFilteredData', filteredData })
+      dispatch({ type: 'setLoading', loading: false }) 
     }
-
-    dispatch({ type: 'setFilteredData', filteredData })
-    dispatch({ type: 'setLoading', loading: false })
   }
 
   // Срабатывает при клике на фильтр
   const handleFilterClick = (evt: React.MouseEvent) => {
     if (isShow) {
       evt.stopPropagation()
-    } else if (select.filterValue) {
-      dispatch({ type: 'setLoading', loading: true })
+    } else {
       updateFilteredData(select.filterValue)
     }
+    // else if (select.filterValue) {
+    // }
   }
 
   // Срабатывает при выборе элемента списка
   const handleSelectChange = (newValue: IDataItem) => {
     let value = [newValue]
     if (multiple) {
-      if (select.value.some((item: IDataItem) => item[valueField] === newValue[valueField])) {
-        value = select.value.filter((item: IDataItem) => item[valueField] !== newValue[valueField])
+      if (select.value.some((item) => item.value === newValue.value)) {
+        value = select.value.filter((item) => item.value !== newValue.value)
       } else {
         value = select.value.concat([newValue])
       }
@@ -105,24 +97,31 @@ export const Select = ({
 
     dispatch({ type: 'setValue', value })
     onChange(value)
-
-    if (closeOnSelect) setShow(false)
+    
+    if (closeOnSelect) {
+      setShow(false)
+    }
   }
 
   // Срабатывает при нажатии на крестик у тега списка (если Select множественный)
   const handleRemoveTag = (event: React.MouseEvent, tag: IDataItem) => {
     event.stopPropagation()
-    const value = select.value.filter((item: IDataItem) => item !== tag)
+    const value = select.value.filter((item) => item !== tag)
     dispatch({ type: 'setValue', value })
-    onChange(select.value)
+    onChange(value)
   }
 
   // Показывает серый текст с выбранным значением (если Select не множественный)
-  const getFilterPlaceholder = () => {
-    if (isShow && !!select.value.length && !multiple) {
-      const title = select.value[0][textField];
-      return typeof title === "number" ? title.toString() : title
+  const getFilterPlaceholder = (): string => {
+    if (!multiple && select.value.length > 0) {
+      const title = select.value[0].title;
+      return title.toString() || 'Нет данных...';
     } else return ''
+  }
+
+  const handleContainerClick = () => {
+    console.log('CONTAINER CLICK');
+    setShow(!isShow)
   }
 
   // Если данные для списка ещё не были загружены, либо возникла ошибка при их загрузке
@@ -131,7 +130,7 @@ export const Select = ({
     return (
       <>
         <OpenSans />
-        <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={() => setShow(!isShow)}>
+        <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={handleContainerClick}>
           {select.hasErrorsOnFetch && <SelectErrorMsg children="Произошла ошибка при загрузке данных" />}
 
           <SelectSuffix isShow={isShow}>
@@ -152,21 +151,22 @@ export const Select = ({
       <SelectInner>
         {multiple && (
           <SelectTagsContainer>
-            {select.value.map((tag: IDataItem) => (
-              <SelectTag key={tag[valueField]}>
-                <TagTitle children={tag[textField] || <i>Нет данных</i>} />
+            {select.value.map((tag) => (
+              <SelectTag key={tag.value}>
+                <TagTitle children={tag.title || <i>Нет данных</i>} />
                 <TagRemove onClick={(event: React.MouseEvent) => handleRemoveTag(event, tag)} />
               </SelectTag>
             ))}
           </SelectTagsContainer>
         )}
 
-        {(!multiple && !isShow && select.value.length > 0) && (
+        {/* {(!multiple && !isShow && select.value.length > 0) && (
           <SelectCurrentValue children={select.value[0][textField] || <i>Нет данных</i>} />
-        )}
+        )} */}
 
         <SelectFilter
           ref={filterRef}
+          className={isShow ? 'opened' : 'closed'}
           readOnly={!filterable}
           placeholder={getFilterPlaceholder()}
           value={isShow ? select.filterValue : ''}
@@ -185,7 +185,8 @@ export const Select = ({
         multiple={multiple}
         isShowLettersCount={minInputLength > 0 && !isEnoughFilterLength}
         lettersRemaining={minInputLength - select.filterValue.length}
-        isNoData={isEnoughFilterLength && !select.filteredData.length && !select.loading}
+        isNoData={!isEnoughFilterLength && !select.filteredData.length && !select.loading}
+        canSelectMore={canSelectMore}
         isLoading={select.loading}
         selectedOptions={select.value}
         data={select.filteredData}

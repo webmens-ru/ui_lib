@@ -2,11 +2,12 @@ export interface ISelectProps {
   multiple?: boolean;
   filterable?: boolean;
   minInputLength?: number;
+  maxSelectionLength?: number;
   filterDelay?: number;
-  value?: ISelectValue;
+  value?: SelectPropsValue;
   valueField?: string;
   textField?: string;
-  data?: IDataItem[];
+  data?: IDataItem[]|IGroupDataItem[];
   dataUrl?: string;
   remoteMode?: boolean;
   closeOnSelect?: boolean;
@@ -16,47 +17,67 @@ export interface ISelectProps {
   onChange?: (options: IDataItem[]) => void;
 }
 
-export type ISelectValue = (number|string)|(number|string|IDataItem)[] | IDataItem
+// export type SelectPropsValue = 
+//   | (number | string) 
+//   | (number | string)[]
+//   | IDataItem 
+//   | IDataItem[]
+
+export type SelectPropsValue = 
+  string[]
+  | number[]
+  | IDataItem 
+  | IDataItem[]
+
+export type SelectValue = IDataItem[]
+
+export type SelectData = Array<IDataItem|IGroupDataItem>
 
 export interface IDropdownProps {
   isShow?: boolean;
   children?: React.ReactElement;
   multiple?: boolean;
-  isShowLettersCount?: boolean; 
+  isShowLettersCount?: boolean;
   lettersRemaining?: number;
   isNoData?: boolean;
+  canSelectMore?: boolean;
   isLoading?: boolean;
-  selectedOptions?: IDataItem[]; 
-  data?: IDataItem[];
+  selectedOptions?: IDataItem[];
+  data?: SelectData;
   onChange?: (option: IDataItem) => void;
 }
 
 export interface ISelectReducerProps {
   minInputLength: number;
-  data: IDataItem[];
+  data: SelectData;
   filterable: boolean;
-  value: ISelectValue;
-  valueField: string;
-  textField: string;
+  value: SelectPropsValue;
 }
 export interface ISelectReducerState {
   value: IDataItem[];
-  data: IDataItem[]|[];
-  filteredData: IDataItem[]|[];
+  data: SelectData;
+  filteredData: SelectData;
   loading: boolean;
   filterValue: string;
   inited: boolean;
   hasErrorsOnFetch: boolean;
 }
 
-export type ISelectReducerAction = 
+export type ISelectReducerAction =
   | { type: "setLoading", loading: boolean }
   | { type: "setValue", value: IDataItem[] }
   | { type: "setFilterValue", filterValue: string }
-  | { type: "setFilteredData", filteredData: IDataItem[] }
+  | { type: "setFilteredData", filteredData: SelectData }
+  | {type: "setFetchError"}
 
 export interface IDataItem {
-  [key: string]: string|number;
+  value: string | number;
+  title: string | number;
+}
+
+export interface IGroupDataItem {
+  title: string;
+  options: IDataItem[];
 }
 
 export interface IQueryParams {
