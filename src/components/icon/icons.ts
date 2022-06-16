@@ -7,6 +7,8 @@ import bitrix from './assets/ui-service-bitrix24.svg'
 import company from './assets/ui-user-company.svg'
 import group from './assets/ui-user-group.svg'
 import user from './assets/ui-user.svg'
+import menu from './assets/ui-menu.svg'
+import close from './assets/ui-close.svg'
 
 import cameraWhite from './assets/ui-camera-white.svg'
 import chatBlack from './assets/ui-chat-black.svg'
@@ -28,6 +30,8 @@ const Icons = {
   company,
   group,
   user,
+  menu,
+  close,
   cameraWhite,
   chatBlack,
   mailBlack,

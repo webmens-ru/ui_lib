@@ -8,8 +8,10 @@ type IconContainerProps = {
 
 export const IconContainer = styled.div<IconContainerProps>`
   position: relative;
-  display: inline-block;
-  width: ${({ iconWidth }) => iconWidth || '32px'};
+  display: flex;
+  align-items: center;
+  width: ${({ iconWidth }) => iconWidth};
+  transition: all 220ms ease;
 
   & > i {
     position: relative;
@@ -18,9 +20,10 @@ export const IconContainer = styled.div<IconContainerProps>`
     width: 100%;
     border-radius: 50%;
     background-position: center;
-    background-size: 100% auto;
     background-repeat: no-repeat;
     background-color: #a6aab0;
-    background-image: ${ ({ iconName }) => `url(${Icons[iconName]})` };
+    mask-size: ${({ iconWidth }) => iconWidth};
+    mask-image: ${ ({ iconName }) => `url(${Icons[iconName]})` };
+    transition: all 220ms ease;
   }
 `
