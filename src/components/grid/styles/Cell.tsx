@@ -38,7 +38,7 @@ export const HeaderCellContainer = styled.div`
 
 export const BodyCellContainer = styled.div`
   position: relative;
-  height: 46px;
+  min-height: 45px;
   background: ${({ hover }: { hover: boolean }) =>
     hover && "rgba(194, 197, 202, 0.15)"};
   border-bottom: 1px solid rgb(238, 242, 244);

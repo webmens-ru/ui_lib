@@ -103,5 +103,8 @@ export const useGetSuitableCell = () => {
 const BlueCell = styled.p`
   padding: 15px 0 0 5px;
   color: #3073ca;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 100%;
   cursor: pointer;
 `;
