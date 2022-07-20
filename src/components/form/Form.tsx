@@ -1,46 +1,70 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import { reducer, init } from "./reducer";
 import { IFormProps } from "./types";
 import { EditForm } from "./components/EditForm";
 import { ViewForm } from "./components/ViewForm";
-import { FormButtonsContainer, FormContainer, FormHeader, FormModeToggler, FormTitle } from "./styles";
+import { FormButtonsContainer, FormContainer, FormHeader, FormInnerContainer, FormModeToggler, FormTitle, GlobalStyleForm } from "./styles";
 import { Button } from "../button";
+import { prepareFormData } from "./utils/parse";
 
-const Form = ({
-  fields = [
-    { type: 'input', name: 'test', label: "Текстовое поле", value: '123' },
-    { type: 'select', name: 'test1', label: "Выпадающий список", value: '123' },
-    { type: 'checkbox', name: 'test1', label: "Чекбокс", value: false },
-  ],
+export const Form = ({
+  fields = [],
+  values = {},
   mode = "edit",
   formTitle = "Форма",
+  width = "100%",
+  height = "100vh",
   canToggleMode = true,
   validationRules = [],
   onFieldChange = () => { },
-  onSubmit = () => { }
+  onSubmit = () => Promise.resolve(),
+  onAfterSubmit = () => {},
+  onInit = () => {},
+  onEditEnd = () => {}
 }: IFormProps) => {
-  const [form, dispatch] = useReducer(reducer, { fields, mode }, init)
+  const [form, dispatch] = useReducer(reducer, {
+    fields,
+    values,
+    validationRules,
+    mode,
+    onFieldChange
+  }, init)
+
+  useEffect(() => {
+    onInit(form.values)
+  }, [form.inited])
 
   const toggleFormMode = () => {
     if (form.mode === 'edit') {
       const resp = window.confirm('Вы уверены, что хотите отменить изменения?')
       if (resp) {
         dispatch({ type: "undo_changes" })
+        onEditEnd()
         return
       }
+    } else {
+      dispatch({ type: 'toggle_mode' })
     }
   }
 
   const handleFormSubmit = () => {
     if (!form.errors.length) {
-      dispatch({ type: "submit_form" })
-      onSubmit(form.tempValues)
+      onSubmit(prepareFormData(form)).then(response => {
+        dispatch({ type: "submit_form" })
+        onAfterSubmit(response)
+      }).catch(({response}) => {
+        console.error(response);
+        if (response.status !== 500) {
+          dispatch({type: "set_errors", errors: response.data})
+        }
+      })
     }
   }
 
   if (form.inited) {
     return (
-      <FormContainer mode={form.mode}>
+      <FormContainer mode={form.mode} width={width} height={height} >
+        <GlobalStyleForm />
         <FormHeader>
           <FormTitle children={formTitle} />
           {canToggleMode &&
@@ -50,24 +74,25 @@ const Form = ({
             />
           }
         </FormHeader>
-        {form.mode === 'edit'
-          ? <EditForm
-            form={form}
-            dispatch={dispatch}
-            fields={fields}
-            validationRules={validationRules}
-            onFieldChange={onFieldChange}
-            onSubmit={onSubmit}
-          />
-          : <ViewForm
-            form={form}
-            fields={fields}
-          />
-        }
-
+        <FormInnerContainer mode={form.mode}>
+          {form.mode === 'edit'
+            ? <EditForm
+              form={form}
+              dispatch={dispatch}
+              fields={fields}
+              validationRules={form.validationRules}
+              onFieldChange={onFieldChange}
+            />
+            : <ViewForm
+              form={form}
+              fields={fields}
+            />
+          }
+        </FormInnerContainer>
         {form.mode === "edit" && (
           <FormButtonsContainer>
             <Button color="success" children="Сохранить" buttonProps={{ onClick: handleFormSubmit }} />
+            <Button color="gray" children="Отменить" buttonProps={{ onClick: toggleFormMode }} />
           </FormButtonsContainer>
         )}
 
@@ -75,5 +100,3 @@ const Form = ({
     )
   } else return <></>
 }
-
-export default Form

@@ -1,13 +1,13 @@
 import React from 'react';
-import SearchWhiteSvg from '../assets/ui-search-white.svg';
-import PlusWhiteSvg from '../assets/ui-plus-white.svg';
-import PlusBlackSvg from '../assets/ui-plus-black.svg';
-import CameraWhiteSvg from '../assets/ui-camera-white.svg';
-import PhoneCallBlack from '../assets/ui-phone-call-black.svg';
-import MailBlack from '../assets/ui-mail-black.svg';
-import ChatBlack from '../assets/ui-chat-black.svg';
-import SettingBlack from '../assets/ui-setting-black.svg';
-import ReloadBlue from '../assets/ui-reload-blue.svg';
+import SearchWhiteSvg from '../../icon/assets/ui-search-white.svg';
+import PlusWhiteSvg from '../../icon/assets/ui-plus-white.svg';
+import PlusBlackSvg from '../../icon/assets/ui-plus-black.svg';
+import CameraWhiteSvg from '../../icon/assets/ui-camera-white.svg';
+import PhoneCallBlack from '../../icon/assets/ui-phone-call-black.svg';
+import MailBlack from '../../icon/assets/ui-mail-black.svg';
+import ChatBlack from '../../icon/assets/ui-chat-black.svg';
+import SettingBlack from '../../icon/assets/ui-setting-black.svg';
+import ReloadBlue from '../../icon/assets/ui-reload-blue.svg';
 
 export const svg = {
   searchWhite: SearchWhiteSvg,

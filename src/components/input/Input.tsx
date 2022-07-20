@@ -4,8 +4,6 @@ import { Icon } from '../icon';
 import { IInputProps } from './types';
 import { OpenSans } from '../../styles/fonts/Fonts';
 
-// width
-
 export const Input = ({
   value = '',
   placeholder = '',

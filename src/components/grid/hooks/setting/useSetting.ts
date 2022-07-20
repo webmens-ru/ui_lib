@@ -35,9 +35,7 @@ export const useSetting = () => {
     setShow(false);
   }, [setShow, state.column]);
 
-  const checkAll = useCallback(() => {
-    console.log('asdasd');
-    
+  const checkAll = useCallback(() => {    
     setProxyColumn(proxyColumn.map((item) => ({ ...item, visible: 1 })));
   }, [proxyColumn]);
 

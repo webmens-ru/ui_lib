@@ -19,7 +19,7 @@ export function Column({ item, ...props }: TColumn) {
         {item}
       </Cell>
       {body.map((rowItem) => (
-        <Cell key={rowItem.id} onClick={() => state.onCellClick(rowItem[item.code])}>
+        <Cell key={typeof rowItem.id === "object" ? rowItem.id.title : rowItem.id} onClick={() => state.onCellClick(rowItem[item.code])}>
           {{ item: rowItem[item.code], id: rowItem.id }}
         </Cell>
       ))}

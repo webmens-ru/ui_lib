@@ -1,5 +1,5 @@
 import React from "react";
-import { Select } from "../../../../select";
+import Select from '../../../../select';
 import { useCustomContext } from "../../../store/Context";
 import {
   FilterFieldTitle,

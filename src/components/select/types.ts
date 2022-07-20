@@ -7,7 +7,7 @@ export interface ISelectProps {
   value?: SelectPropsValue;
   valueField?: string;
   textField?: string;
-  data?: IDataItem[]|IGroupDataItem[];
+  data?: IDataItem[] | IGroupDataItem[];
   dataUrl?: string;
   remoteMode?: boolean;
   closeOnSelect?: boolean;
@@ -23,15 +23,15 @@ export interface ISelectProps {
 //   | IDataItem 
 //   | IDataItem[]
 
-export type SelectPropsValue = 
+export type SelectPropsValue =
   string[]
   | number[]
-  | IDataItem 
+  | IDataItem
   | IDataItem[]
 
 export type SelectValue = IDataItem[]
 
-export type SelectData = Array<IDataItem|IGroupDataItem>
+export type SelectData = Array<IDataItem | IGroupDataItem>
 
 export interface IDropdownProps {
   isShow?: boolean;
@@ -68,7 +68,7 @@ export type ISelectReducerAction =
   | { type: "setValue", value: IDataItem[] }
   | { type: "setFilterValue", filterValue: string }
   | { type: "setFilteredData", filteredData: SelectData }
-  | {type: "setFetchError"}
+  | { type: "setFetchError" }
 
 export interface IDataItem {
   value: string | number;
@@ -81,5 +81,5 @@ export interface IGroupDataItem {
 }
 
 export interface IQueryParams {
-  [key: string]: string;
+  [key: string]: any;
 }

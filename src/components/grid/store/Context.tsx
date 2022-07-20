@@ -60,7 +60,8 @@ const reducer = (state: IState, action: Action) => {
 export const Context = createContext<IContext>({} as IContext);
 
 export function ContextProvider(props: IGridContext) {
-  const [state, dispatch] = useReducer(reducer, props, init);
+  // TODO: Разобраться, почему TS не валидирует этот редюсер
+  const [state, dispatch] = useReducer(reducer, props as never, init as never);
 
   return (
     <Context.Provider value={{ state, dispatch }}>

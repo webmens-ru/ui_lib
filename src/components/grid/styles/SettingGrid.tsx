@@ -12,7 +12,7 @@ export const GearBtn = styled.div`
 
 export const ModalContainer = styled.div`
   position: fixed;
-  top: 100px;
+  top: 200px;
   left: calc(50vw - 490px);
   padding: 20px;
   width: 980px;
@@ -69,6 +69,7 @@ export const CheckboxBlueContainer = styled.div`
     top: 7px;
     left: 5px;
     padding-top: 5px;
+    margin: 0 3px 0 0;
   }
   & label {
     width: 100%;

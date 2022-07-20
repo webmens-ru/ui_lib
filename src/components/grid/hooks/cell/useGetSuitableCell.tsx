@@ -1,34 +1,39 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { CellInner, ImageCell } from '../../styles';
 
 export const useGetSuitableCell = () => {
   const getUndefCell = useCallback(() => {
-    return <p></p>;
+    return <CellInner></CellInner>;
   }, []);
 
   const getArrayCell = useCallback((cell: any) => {
-    return <p>{cell.map((el: { title: string }) => el.title).join(', ')}</p>;
+    return <CellInner>{cell.map((el: { title: string }) => el.title).join(', ')}</CellInner>;
   }, []);
 
   const getStringCell = useCallback((cell: any) => {
-    return <p>{cell}</p>;
+    return <CellInner>{cell}</CellInner>;
   }, []);
 
   const getNumberCell = useCallback((cell: any) => {
     return (
-      <p>
+      <CellInner>
         {Number(cell).toLocaleString('ru-RU', {
           maximumFractionDigits: 5,
         })}
-      </p>
+      </CellInner>
     );
   }, []);
+
+  const getImageCell = useCallback((cell: any) => {
+    return <ImageCell src={cell.url} />
+  }, [])
 
   const getDateCell = useCallback((cell: any) => {
     const date = new Date(cell.title);
     const year = date.getFullYear();
     return (
-      <p>
+      <CellInner>
         {(cell.format || '')
           .replace('YYYY', `${year}`)
           .replace('YY', `${year % 100}`)
@@ -37,7 +42,7 @@ export const useGetSuitableCell = () => {
           .replace('hh', `${date.getHours()}`.padStart(2, '0'))
           .replace('mm', `${date.getMinutes()}`.padStart(2, '0'))
           .replace('ss', `${date.getSeconds()}`.padStart(2, '0'))}
-      </p>
+      </CellInner>
     );
   }, []);
 
@@ -50,8 +55,11 @@ export const useGetSuitableCell = () => {
       switch (cell.type) {
         case 'date':
           return getDateCell(cell);
+        case 'image':
+          return getImageCell(cell);
         case 'openPath':
         case 'openApplication':
+        case 'openLink':
           return getOpenPathCell(cell);
         default:
           return getUndefCell();
@@ -93,6 +101,7 @@ export const useGetSuitableCell = () => {
 };
 
 const BlueCell = styled.p`
+  padding: 15px 0 0 5px;
   color: #3073ca;
   cursor: pointer;
 `;

@@ -1,6 +1,6 @@
 {
   "name": "@webmens-ru/ui_lib",
-  "version": "0.17.0",
+  "version": "0.18.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -28,7 +28,6 @@
   "bugs": {
     "url": "https://github.com/webmens-ru/ui_lib/issues"
   },
-  
   "homepage": "https://github.com/webmens-ru/ui_lib#readme",
   "peerDependencies": {
     "react": ">=16"
@@ -44,7 +43,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "author": "Philipp Zakharov",
   "module": "dist/ui_lib.esm.js",
   "size-limit": [
     {
@@ -56,6 +54,12 @@
       "limit": "10 KB"
     }
   ],
+  "dependencies": {
+    "@fontsource/open-sans": "^4.5.8",
+    "@ckeditor/ckeditor5-build-classic": "^34.1.0",
+    "@ckeditor/ckeditor5-react": "^5.0.2",
+    "styled-components": "^5.3.5"
+  },
   "devDependencies": {
     "@babel/core": "^7.17.8",
     "@rollup/plugin-image": "^2.1.1",
@@ -91,10 +95,5 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",
     "typescript": "^4.6.3"
-  },
-  "dependencies": {
-    "@fontsource/open-sans": "^4.5.8",
-    "@webmens-ru/datepicker": "^2.2.7",
-    "styled-components": "^5.3.5"
   }
 }

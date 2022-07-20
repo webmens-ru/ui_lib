@@ -6,6 +6,7 @@ import {
   FirstHeaderCellContainer,
 } from '../styles';
 import { TFirstRowCell, TRowItem } from '../types';
+import { getRowID } from '../utils/parser';
 import { BurgerMenu } from './BurgerMenu';
 import { SettingGrid } from './SettingGrid';
 
@@ -26,7 +27,7 @@ const FirstHeaderCell = () => {
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.checked) {
-        const checkboxes = state.row.map((item) => item.id);
+        const checkboxes = state.row.map((item) => getRowID(item));
         state.onChangeCheckboxes(checkboxes);
         dispatch({
           type: 'SET_CHECKED_ID',
@@ -64,13 +65,13 @@ const FirstBodyCell = (item?: TRowItem) => {
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (item) {
       if (e.target.checked) {
-        state.onChangeCheckboxes([...state.checkedRowsId, item.id]);
-        dispatch({ type: 'SET_CHECKED_ID', id: item.id });
+        state.onChangeCheckboxes([...state.checkedRowsId, getRowID(item)]);
+        dispatch({ type: 'SET_CHECKED_ID', id: getRowID(item) });
       } else {
         state.onChangeCheckboxes(
           state.checkedRowsId.filter((id) => id !== item.id)
         );
-        dispatch({ type: 'DELETE_CHECKED_ID', id: item.id });
+        dispatch({ type: 'DELETE_CHECKED_ID', id: getRowID(item) });
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,7 +79,7 @@ const FirstBodyCell = (item?: TRowItem) => {
 
   const onMouseEnter = useCallback(() => {
     if (item) {
-      dispatch({ type: 'SET_HOVER_ID', hoverId: item.id });
+      dispatch({ type: 'SET_HOVER_ID', hoverId: getRowID(item) });
     }
   }, [dispatch, item]);
 
@@ -90,7 +91,7 @@ const FirstBodyCell = (item?: TRowItem) => {
       {state.isShowCheckboxes && (
         <input
           type="checkbox"
-          checked={item && state.checkedRowsId.includes(item.id)}
+          checked={item && state.checkedRowsId.includes(getRowID(item))}
           onChange={onChange}
         />
       )}

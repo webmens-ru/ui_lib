@@ -57,7 +57,7 @@ export const Select = ({
     if (canSelectMore) {
       if (remoteMode && filterValue.length >= minInputLength) {
         dispatch({ type: 'setLoading', loading: true })
-          await buildFilterQuery(dataUrl, queryParams, filterValue, queryTitleName)
+        await buildFilterQuery(dataUrl, queryParams, filterValue, queryTitleName)
           .then(response => response.json())
           .then(data => filteredData = data)
           .catch(err => {
@@ -67,9 +67,9 @@ export const Select = ({
       } else {
         filteredData = filterSelectData(select.data, filterValue)
       }
-  
+
       dispatch({ type: 'setFilteredData', filteredData })
-      dispatch({ type: 'setLoading', loading: false }) 
+      dispatch({ type: 'setLoading', loading: false })
     }
   }
 
@@ -98,9 +98,7 @@ export const Select = ({
     dispatch({ type: 'setValue', value })
     onChange(value)
     
-    if (closeOnSelect) {
-      setShow(false)
-    }
+    setShow(!closeOnSelect)
   }
 
   // Срабатывает при нажатии на крестик у тега списка (если Select множественный)
@@ -120,8 +118,10 @@ export const Select = ({
   }
 
   const handleContainerClick = () => {
-    console.log('CONTAINER CLICK');
-    setShow(!isShow)
+    if (closeOnSelect && isShow === true) {
+      return setShow(false)
+    }
+    setShow(true)
   }
 
   // Если данные для списка ещё не были загружены, либо возникла ошибка при их загрузке
@@ -146,7 +146,7 @@ export const Select = ({
   }
 
   return (
-    <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={() => setShow(!isShow)}>
+    <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={handleContainerClick}>
 
       <SelectInner>
         {multiple && (

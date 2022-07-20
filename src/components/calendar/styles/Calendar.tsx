@@ -14,7 +14,7 @@ export const CalendarContainer = styled.div`
   left: ${({ left }: CalendarContainerProps) => left || "auto"};
   right: ${({ right }: CalendarContainerProps) => right || "auto"};
   bottom: ${({ bottom }: CalendarContainerProps) => bottom || "auto"};
-  z-index: 1;
+  z-index: 1000;
   padding: 5px;
   width: 220px;
   height: auto;

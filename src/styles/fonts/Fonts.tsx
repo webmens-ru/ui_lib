@@ -1,49 +1,39 @@
 import { createGlobalStyle } from 'styled-components';
 
-import Light from './woff/OpenSans-Light.woff';
-import Light2 from './woff2/OpenSans-Light.woff2';
-import Regular from './woff/OpenSans-Regular.woff';
-import Regular2 from './woff2/OpenSans-Regular.woff2';
-import SemiBold from './woff/OpenSans-SemiBold.woff';
-import SemiBold2 from './woff2/OpenSans-SemiBold.woff2';
-import Bold from './woff/OpenSans-Bold.woff';
-import Bold2 from './woff2/OpenSans-Bold.woff2';
-import ExtraBold from './woff/OpenSans-ExtraBold.woff';
-import ExtraBold2 from './woff2/OpenSans-ExtraBold.woff2';
+import LightTTF from './ttf/OpenSans-Light.ttf'
+import RegularTTF from './ttf/OpenSans-Regular.ttf';
+import SemiBoldTTF from './ttf/OpenSans-SemiBold.ttf';
+import BoldTTF from './ttf/OpenSans-Bold.ttf';
+import ExtraBoldTTF from './ttf/OpenSans-ExtraBold.ttf';
 
 export const OpenSans = createGlobalStyle`
   @font-face {
   font-family: 'Open Sans';
-  src: url(${Light2}) format("woff2"),
-    url(${Light}) format("woff");
+  src: url(${LightTTF}) format("truetype");
   font-weight: 300;
   font-display: swap;
 }
 @font-face {
   font-family: 'Open Sans';
-  src: url(${Regular2}) format("woff2"),
-    url(${Regular}) format("woff");
+  src: url(${RegularTTF}) format("truetype");
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: 'Open Sans';
-  src: url(${SemiBold2}) format("woff2"),
-    url(${SemiBold}) format("woff");
+  src: url(${SemiBoldTTF}) format("truetype");
   font-weight: 600;
   font-display: swap;
 }
 @font-face {
   font-family: 'Open Sans';
-  src: url(${Bold2}) format("woff2"),
-    url(${Bold}) format("woff");
+  src: url(${BoldTTF}) format("truetype");
   font-weight: 700;
   font-display: swap;
 }
 @font-face {
   font-family: 'Open Sans';
-  src: url(${ExtraBold2}) format("woff2"),
-    url(${ExtraBold}) format("woff");
+  src: url(${ExtraBoldTTF}) format("truetype");
   font-weight: 800;
   font-display: swap;
 }

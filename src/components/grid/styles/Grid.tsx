@@ -7,9 +7,7 @@ type GridContainerProps = {
 
 export const GridContainer = styled.div<GridContainerProps>`
   position: relative;
-  height: calc(
-    100vh - ${({ rowHeight }) => rowHeight}px
-  );
+  height: calc(100vh - 185px);
   min-height: ${({minRowHeight})=>minRowHeight};
   width: 100%;
   display: flex;

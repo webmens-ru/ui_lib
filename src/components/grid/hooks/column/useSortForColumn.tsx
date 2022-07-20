@@ -4,56 +4,65 @@ import styled from 'styled-components';
 import { TRowItem } from '../../types';
 
 export const useSortForColumn = (
-  row: TRowItem[],
+  rows: TRowItem[],
   code: string,
-  callbackForResult: (row: TRowItem[]) => void
+  callbackForResult: (rows: TRowItem[]) => void
 ) => {
   const [isReverse, setReverse] = useState(false);
 
   const sortForColumn = useCallback(() => {
-    const proxyCallback = (row: TRowItem[]) => {
+    const proxyCallback = (rows: TRowItem[]) => {
       if (isReverse) {
-        callbackForResult(row.reverse());
+        callbackForResult(rows.reverse());
       } else {
-        callbackForResult(row);
+        callbackForResult(rows);
       }
       setReverse(!isReverse);
     };
-    switch (typeof row[0][code]) {
+    switch (getCellType(rows, code)) {
       case 'string':
-        proxyCallback(row.slice().sort((a, b) => stringSort(a[code], b[code])));
+        proxyCallback(rows.slice().sort((a, b) => stringSort(a[code], b[code])));
         break;
       case 'number':
-        proxyCallback(row.slice().sort((a, b) => numberSort(a[code], b[code])));
+        proxyCallback(rows.slice().sort((a, b) => numberSort(a[code], b[code])));
         break;
-      case 'object':
-        const rowItem = row.find((item) => !!item?.title);
-        if (rowItem) {
-          switch (rowItem.title) {
-            case 'string':
-              proxyCallback(
-                row
-                  .slice()
-                  .sort((a, b) => stringSort(a[code].title, b[code].title))
-              );
-              break;
-            case 'number':
-              proxyCallback(
-                row
-                  .slice()
-                  .sort((a, b) => numberSort(a[code].title, b[code].title))
-              );
-              break;
-          }
+      case 'object':        
+        switch (getObjectCellTitleType(rows, code)) {
+          case 'string':
+            proxyCallback(rows.slice().sort((a, b) => stringSort(a[code].title, b[code].title)));
+            break;
+          case 'number':
+            proxyCallback(rows.slice().sort((a, b) => numberSort(a[code].title, b[code].title)));
+            break;
         }
         break;
       default:
         console.error('Unsorted values');
     }
-  }, [code, callbackForResult, row, isReverse]);
+  }, [code, callbackForResult, rows, isReverse]);
+
+  const getCellType = (rows: TRowItem[], code: string, rowIndex: number = 0): string => {
+    if (rows.length - 1 === rowIndex) {
+      return "null"
+    }
+    if (!rows[rowIndex][code]) {
+      return getCellType(rows, code, rowIndex + 1)
+    }
+    return typeof rows[rowIndex][code]
+  }
+
+  const getObjectCellTitleType = (rows: TRowItem[], code: string, rowIndex: number = 0): string => {
+    if (rows.length - 1 === rowIndex) {
+      return "null"
+    }
+    if (!rows[rowIndex][code]?.title) {
+      return getObjectCellTitleType(rows, code, rowIndex + 1)
+    }
+    return typeof rows[rowIndex][code].title
+  }
 
   const sortBtn = (
-    <Button isReverse={isReverse} onClick={sortForColumn}></Button>
+    <Button isReverse={isReverse} onClick={sortForColumn} />
   );
   return { sortBtn };
 };

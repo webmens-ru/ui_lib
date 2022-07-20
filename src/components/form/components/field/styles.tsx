@@ -3,17 +3,26 @@ import styled from "styled-components";
 export const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding-bottom: 10px;
+  margin-bottom: 15px;
 
   & > input[type="checkbox"] {
     align-self: self-start;
   }
 `
 
+export const FieldLabelContainer = styled.div`
+  display: flex;
+  margin-bottom: 5px;
+`
+
 export const FieldLabel = styled.label`
   font-size: 14px;
   color: #525c69;
+`
+
+export const FieldLabelSuffix = styled.span`
+  opacity: .5;
+  margin-left: 3px;
 `
 
 export const ValidateMessage = styled.span`

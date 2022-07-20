@@ -21,7 +21,8 @@ export const BurgerMenuContainer = styled.div`
     position: absolute;
     top: 0px;
     left: 45px;
-    width: 100px;
+    width: max-content;
+    max-width: 200px;
     background: #fff;
     box-shadow: 0 7px 21px rgba(83, 92, 105, 0.3);
     z-index: 10;

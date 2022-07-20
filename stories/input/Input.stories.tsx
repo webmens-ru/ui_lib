@@ -1,4 +1,4 @@
-import { IInputProps } from "components/input/types";
+import { IInputProps } from "../../src/components/input/types";
 import React from "react";
 import Icons from "../../src/components/icon/icons";
 

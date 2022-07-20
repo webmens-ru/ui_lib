@@ -16,7 +16,7 @@ export function Button(props: ButtonProps) {
 
   return (
     <StrictMode>
-      <Container {...containerProps}>
+      <Container {...containerProps} onClick={props.onClick} >
         {props.variant === 'square' ? (
           <>{outsideAfterSvg}</>
         ) : (

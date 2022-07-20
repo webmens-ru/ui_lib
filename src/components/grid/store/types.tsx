@@ -4,6 +4,7 @@ import {
   TFooterItem,
   TRowItem,
   TColumnItem,
+  TRowID,
 } from "../types";
 
 export interface IState {
@@ -13,23 +14,23 @@ export interface IState {
   hoverId: number;
   scrollStep: number;
   scrollFactor: number;
-  columnMutation: (arr: TColumnItem[]) => void;
   burgerItems: BurgerItem[];
-  onBurgerItemClick: (arg: BurgerItem, id?: number) => void;
   isShowCheckboxes: boolean;
-  checkedRowsId: number[];
-  onChangeCheckboxes: (arr: number[]) => void;
+  checkedRowsId: TRowID[];
+  columnMutation: (arr: TColumnItem[]) => void;
+  onBurgerItemClick: (arg: BurgerItem, row?: TRowItem) => void;
+  onChangeCheckboxes: (arr: TRowID[]) => void;
   onCellClick: (cell: TRowItem) => void;
 }
 
 export type Action =
-  | { type: "INITIAL"; props?: IGridProps }
+  | { type: "INITIAL"; props: IGridProps }
   | { type: "SET_COLUMN"; column: TColumnItem[] }
   | { type: "SET_ROW"; row: TRowItem[] }
-  | { type: "SET_HOVER_ID"; hoverId: number }
+  | { type: "SET_HOVER_ID"; hoverId: TRowID }
   | { type: "SET_SCROLL_FACTOR"; scrollFactor: number }
-  | { type: "SET_CHECKED_ID"; id: number | number[] }
-  | { type: "DELETE_CHECKED_ID"; id: number };
+  | { type: "SET_CHECKED_ID"; id: TRowID | TRowID[] }
+  | { type: "DELETE_CHECKED_ID"; id: TRowID };
 
 export interface IContext {
   state: IState;

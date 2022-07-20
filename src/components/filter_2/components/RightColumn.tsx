@@ -13,7 +13,7 @@ export function RightColumn({
 }: {
   setShowFilter: (arg: boolean) => void;
 }) {
-  const { state, dispatch } = useCustomContext();
+  const { state, dispatch } = useCustomContext();  
 
   const searchProxy = () => {
     state.onSearch(state.fields.filter((f) => Boolean(f.visible)));

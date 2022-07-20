@@ -2,20 +2,24 @@ import { IDateFieldDataItem } from "../../../types";
 
 export const stringDropDownValues = [
   {
-    title: 'Не указан',
-    value: '',
-  },
-  {
     title: 'Точно',
     value: '=',
+  },
+  {
+    title: 'Не указан',
+    value: '',
   },
   {
     title: 'Не задан',
     value: 'isNull',
   },
   {
+    title: 'Заполнен',
+    value: 'isNotNull',
+  },
+  {
     title: 'Содержится',
-    value: '==%%',
+    value: '=%%',
   },
 ];
 

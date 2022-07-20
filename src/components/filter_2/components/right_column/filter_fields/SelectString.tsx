@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Select, { IDataItem } from '../../../../select';
+import Input from '../../../../input';
 import { useCustomContext } from '../../../store/Context';
 import {
   FilterFieldTitle,
@@ -7,9 +9,6 @@ import {
 import { stringDropDownValues } from './const';
 import { IField } from '../../../types';
 import { useFieldsDraggable } from '../../../utils/useFieldsDraggble';
-import { Select } from '../../../../select';
-import { IDataItem } from '../../../../select/types';
-import { Input } from '../../../../input';
 
 export default function SelectStringField({
   item,

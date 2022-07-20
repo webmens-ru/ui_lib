@@ -2,44 +2,29 @@ import { FormFieldsItem } from "../../types";
 import React from "react";
 import Field from "../field";
 import { IViewFormProps } from "./types";
-import { ViewFieldList, ViewFieldText } from "./styles";
 import { IDataItem } from "../../../select/types";
+import { IFileInputItem } from "../../../file_input/types";
+import { FileVF, InputVF, MultifieldVF, RichtextVF, SelectVF } from "./entries";
+import { MultifieldItem } from "../../../multifield/types";
 
 export const ViewForm = ({
-  form, 
+  form,
   fields,
 }: IViewFormProps) => {
-  const FIELD_PLACEHOLDER = "Не задано";
 
   const getEntry = (field: FormFieldsItem): JSX.Element => {
-    switch(field.type) {
+    switch (field.type) {
       case 'input':
-        const text = form.values[field.name] || FIELD_PLACEHOLDER as string;
-        return <ViewFieldText children={text} hasValue={!!form.values[field.name]} />
+        return <InputVF value={form.values[field.name] as string} />
+      case 'richtext':
+        return <RichtextVF value={form.values[field.name] as string} />
       case 'select':
-        const selectValues = form.values[field.name] as IDataItem[]
-
-        if (!selectValues.length) {
-          return <ViewFieldText children={FIELD_PLACEHOLDER} hasValue={false} />
-        }
-        else if (field.fieldParams?.multiple) {
-          return (
-            <ViewFieldList>
-              {selectValues.map(item => {
-                return (<li>
-                  <ViewFieldText children={item.title} hasValue={!!item.title} />
-                </li>)
-              })}
-            </ViewFieldList>
-          )
-        } else {
-          if (typeof selectValues !== "undefined") {
-            return <ViewFieldText children={selectValues[0]?.title || FIELD_PLACEHOLDER} hasValue={!!selectValues[0]?.title} />
-          } else {
-            return <ViewFieldText children={FIELD_PLACEHOLDER} hasValue={false} />
-          }         
-        }
-      default: 
+        return <SelectVF value={form.values[field.name] as IDataItem|IDataItem[]} fieldParams={field.fieldParams} />
+      case 'multifield':
+        return <MultifieldVF value={form.values[field.name] as unknown as Array<string|MultifieldItem>} fieldParams={field.fieldParams} />
+      case 'file':
+        return <FileVF value={form.values[field.name] as IFileInputItem[]} />
+      default:
         return <span>Error!</span>
     }
   }
@@ -48,7 +33,7 @@ export const ViewForm = ({
     <>
       {fields.map(field => {
         return (
-          <Field label={field.label} children={getEntry(field)}></Field>
+          <Field key={field.name} label={field.label} children={getEntry(field)} />
         )
       })}
     </>

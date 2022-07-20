@@ -1,35 +1,47 @@
 import React from "react";
+import Field from "../field";
+import Input from "../../../input";
+import Select from "../../../select";
+import FileInput from "../../../file_input";
+import Multifield from "../../../multifield";
+import Richtext from "../../../richtext";
 import { FormFieldsItem, FormFieldsItemShort } from "../../../form/types";
 import { DatePicker } from "../../../date_picker";
 import { Checkbox } from "../../../checkbox";
 import { CheckboxValue } from "../../../checkbox/types";
-import { GlobalStyleForm } from "../../../form/styles";
-import { validator } from "../../../form/utils/onBlurHandler";
-import { Input } from "../../../input";
+import { validator } from "../../utils/validator";
 import { InputValue } from "../../../input/types";
-import { Select } from "../../../select";
-import { ISelectValue } from "../../../select/types";
-import Field from "../field";
+import { SelectPropsValue } from "../../../select/types";
 import { IEditFormProps } from "./types";
+import { IFileInputItem } from "../../../file_input/types";
+import { MultifieldItem, MultifieldItemComboValue } from "../../../multifield/types";
 
 export const EditForm = ({
-  form, 
+  form,
   fields,
-  dispatch, 
-  validationRules = [], 
-  onFieldChange = () => {}, 
+  dispatch,
+  validationRules = [],
 }: IEditFormProps) => {
-  const handleFieldChange = ({name, value}: FormFieldsItemShort) => {
-    console.log('%cField has been changed:', 'font-size: 1.5rem;color: green');
-    console.log(name, value);
+  const handleFieldChange = (field: FormFieldsItem, value: any) => {    
+    let parsedValue = value
+    
+    switch (field.type) {
+      case "multifield":
+        parsedValue = (value as MultifieldItem[]).map(item => typeof item.value === 'object'
+          ? (item.value as MultifieldItemComboValue).text
+          : item.value
+        )
+        break;
+      case "richtext":
+        parsedValue = (value as string).replace(/<\/?[^>]+(>|$)/g, "").replaceAll('&nbsp;', ' ')
+        break;
+    }
 
-    const errors = validateField({name, value})
-    dispatch({type: 'set_form', form: { field: {name, value}, errors } })
-    onFieldChange(name, value)
+    const errors = validateField({ name: field.name, value: parsedValue })
+    dispatch({ type: 'set_form', form: { field: { name: field.name, value }, errors } })
   }
 
-  const validateField = ({name, value}: FormFieldsItemShort) => {
-    // TODO: Доделать
+  const validateField = ({ name, value }: FormFieldsItemShort) => {    
     const errors = validator(name, value, validationRules)
 
     if (!errors.length) {
@@ -42,50 +54,67 @@ export const EditForm = ({
   }
 
   const getEntry = (field: FormFieldsItem) => {
+    const formValue = form.tempValues[field.name];
+
     switch (field.type) {
       case 'input':
         return (
-          <Input 
-            {...field} 
-            {...field.fieldParams} 
-            onChange={(value) => handleFieldChange({name: field.name, value})} 
-            value={form.tempValues[field.name] as InputValue}
+          <Input
+            {...field}
+            {...field.fieldParams}
+            onChange={(value) => handleFieldChange(field, value)}
+            value={formValue as InputValue}
           />
         )
       case 'select':
         return (
           <Select
-            {...field} 
-            {...field.fieldParams} 
-            onChange={(value) => handleFieldChange({name: field.name, value})}
-            value={form.tempValues[field.name] as ISelectValue}
+            {...field}
+            {...field.fieldParams}
+            onChange={(value) => handleFieldChange(field, value)}
+            value={formValue as SelectPropsValue}
           />
         )
       case 'date':
         return (
-          <DatePicker 
+          <DatePicker
             {...field}
-            {...field.fieldParams} 
-            initialDateISO={form.tempValues[field.name] as string} 
-            onSelect={(value) => handleFieldChange({name: field.name, value})} 
+            {...field.fieldParams}
+            initialDateISO={formValue as string}
+            onSelect={(value) => handleFieldChange(field, value)}
           />
         )
       case 'checkbox':
         return (
-          <Checkbox 
-            value={form.tempValues[field.name] as CheckboxValue}
-            onCheck={() => handleFieldChange({name: field.name, value: !form.tempValues[field.name]})}
+          <Checkbox
+            value={formValue as CheckboxValue}
+            onCheck={(value) => handleFieldChange(field, value)}
           />
         )
-      // case 'radiobox':
-      //   return (
-      //     <RadioList 
-      //       list={field.fieldParams.list} 
-      //       name={field.name} 
-      //       value={form.tempValues[field.name]}
-      //       onRadioChange={(e) => handleFieldChange(field.name, e.target.value)}
-      //     />
-      //   )
+      case 'file':
+        return (
+          <FileInput
+            {...field.fieldParams}
+            defaultFileList={formValue as IFileInputItem[]}
+            onChange={(file) => handleFieldChange(field, file)}
+          />
+        )
+      case 'multifield':
+        return (
+          <Multifield
+            {...field.fieldParams}
+            fields={formValue as unknown as MultifieldItem[]}
+            onChange={(values) => handleFieldChange(field, values)}
+          />
+        )
+      case 'richtext':
+        return (
+          <Richtext
+            {...field.fieldParams}
+            value={formValue as string}
+            onChange={(value) => handleFieldChange(field, value)}
+          />
+        )
       default:
         return <h1>Type Error!</h1>
     }
@@ -93,10 +122,8 @@ export const EditForm = ({
 
   return (
     <>
-      <GlobalStyleForm />
-
       {fields.map(field =>
-        <Field name={field.name} key={field.name} label={field.label} errors={form.errors} >
+        <Field name={field.name} key={field.name} label={field.label} labelSuffix={field.labelSuffix} errors={form.errors} >
           {getEntry(field)}
         </Field>
       )}

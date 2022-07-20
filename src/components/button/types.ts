@@ -31,4 +31,5 @@ export type ButtonProps = {
   itemsProps?: any;
   dropdownDirection?: Direction;
   dropdownWidth?: string;
+  onClick?: VoidFunction;
 };

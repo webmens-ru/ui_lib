@@ -7,8 +7,8 @@ export interface IGridProps {
   burgerItems?: BurgerItem[];
   isShowCheckboxes?: boolean;
   columnMutation?: (arr: TColumnItem[]) => void;
-  onBurgerItemClick?: (arg: BurgerItem) => void;
-  onChangeCheckboxes?: (arr: number[]) => void;
+  onBurgerItemClick?: (arg: BurgerItem, row?: TRowItem) => void;
+  onChangeCheckboxes?: (arr: TRowID[]) => void;
   onCellClick?: (cell: TRowItem) => void;
 }
 
@@ -25,8 +25,10 @@ export type TColumnItem = {
   width: number;
 };
 
+export type TRowID = number | string;
+
 export type TRowItem = {
-  id: number;
+  id: TRowID | {title: TRowID, [key: string]: any};
   [key: string]: any;
 };
 

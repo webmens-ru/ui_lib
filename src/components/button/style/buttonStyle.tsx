@@ -23,7 +23,7 @@ export const Container = styled.div<IContainer>`
   align-items: center;
   background: ${({ palette }) => palette.static};
   border-radius: ${({ variant }) => (variant === "circle" ? "50px" : "3px")};
-  transition: all 200ms;
+  transition: all 220ms ease;
   & * {
     font-size: 12px;
     font-weight: 700;
@@ -42,6 +42,7 @@ export const Container = styled.div<IContainer>`
     cursor: pointer;
     user-select: none;
     white-space: nowrap;
+    transition: 220ms all ease;
     & img {
       position: relative;
       left: -10px;
@@ -112,16 +113,15 @@ export const DropdownContainer = styled.div`
   background: #fff;
   box-shadow: 0 7px 21px rgba(83, 92, 105, 0.12),
     0 -1px 6px 0 rgba(83, 92, 105, 0.06);
-  z-index: 10;
+  z-index: 100;
   & > span {
     margin: 0;
-    padding: 0 15px;
+    padding: 5px 15px;
     min-width: inherit;
-    min-height: 36px;
     color: #535c69;
     font-size: 13px;
     font-weight: 400;
-    line-height: 36px;
+    line-height: 20px;
     vertical-align: middle;
     cursor: pointer;
     &:hover {

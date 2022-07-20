@@ -7,13 +7,19 @@ export { Filter } from './components/filter';
 export { FilterAlpha } from './components/filter_2';
 export { Grid } from './components/grid';
 export { Icon } from './components/icon';
-export { Input } from './components/input';
+export { Input } from './components/input/Input';
 export { Loader } from './components/loader';
 export { Menu } from './components/menu';
 export { Modal } from './components/modal';
 export { ResetStyles } from './components/reset_styles';
-export { Select } from './components/select';
+export { Select } from './components/select/Select';
 export { Title } from './components/title';
+export { Badge } from './components/badge/Badge'
+export { Toolbar } from './components/toolbar/Toolbar'
+export { Richtext } from './components/richtext/Richtext'
+export { Form } from './components/form/Form'
+export { Multifield } from './components/multifield/Multifield'
+export { FileInput } from './components/file_input/FileInput'
 
 export * as hooks from './hooks';
 export { OpenSans } from './styles/fonts/Fonts';

@@ -1,3 +1,4 @@
+import { headersGeneric } from '../../../api';
 import { SelectValue, IGroupDataItem, SelectData, IQueryParams } from './../types';
 import { SelectPropsValue, IDataItem } from '../types';
 
@@ -51,7 +52,7 @@ export const filterSelectData = (data: SelectData, filterBy: string) => {
         const parsedTitle = item.title.toString().toLowerCase()
         return parsedTitle.includes(parsedFilterBy)
       })
-      return matchedOptions.length > 0 ? {...option, options: matchedOptions} : undefined
+      return matchedOptions.length > 0 ? { ...option, options: matchedOptions } : undefined
     } else {
       const parsedTitle = option.title.toString().toLowerCase()
       if (parsedTitle.includes(parsedFilterBy)) {
@@ -63,19 +64,19 @@ export const filterSelectData = (data: SelectData, filterBy: string) => {
   }).filter((option) => option !== undefined) as any //TODO: Поправить типизацию
 }
 
-export const buildFilterQuery = (url: string,queryParams: IQueryParams, filterBy: string, queryFilterBy: string): Promise<Response> => {
+export const buildFilterQuery = (url: string, queryParams: IQueryParams, filterBy: string, queryFilterBy: string): Promise<Response> => {
   const selectQueryParams = new URLSearchParams({
     ...queryParams,
     [queryFilterBy]: filterBy.trim()
   }).toString()
   const queryUrl = `${url}?${selectQueryParams}`
 
-  return fetch(queryUrl)
+  return fetch(queryUrl, {
+    headers: headersGeneric
+  })
 }
 
-export const buildCallbackValue = (value: IDataItem[], multiple: boolean = false): string|string[] => {
-  console.log(value);
-  
+export const buildCallbackValue = (value: IDataItem[], multiple: boolean = false): string | string[] => {
   if (multiple) {
     return value.map(item => item.value.toString())
   } else {

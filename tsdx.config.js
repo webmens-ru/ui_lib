@@ -7,7 +7,7 @@ module.exports = {
       ...config,
       plugins: [
         url({
-          include: ['**/*.svg', '**/*.png', '**/*.jp(e)?g', '**/*.woff', '**/*.woff2'],
+          include: ['**/*.svg', '**/*.png', '**/*.jp(e)?g', '**/*.woff', '**/*.woff2', '**/*.ttf'],
           fileName: '[dirname][hash][extname]',
           sourceDir: path.join(__dirname, 'src'),
         }),

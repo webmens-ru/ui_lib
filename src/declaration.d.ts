@@ -9,6 +9,13 @@ declare namespace NodeJS {
   }
 }
 
+interface Window {
+  "_ACCESS_TOKEN_": string;
+  "_PARAMS_": any;
+  "_APP_URL_": string;
+  "_HOSTNAME_": string;
+}
+
 declare module '*.avif' {
   const src: string;
   export default src;
@@ -25,6 +32,11 @@ declare module '*.woff' {
 }
 
 declare module '*.woff2' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.ttf' {
   const src: string;
   export default src;
 }
@@ -50,8 +62,8 @@ declare module '*.png' {
 }
 
 declare module '*.webp' {
-    const src: string;
-    export default src;
+  const src: string;
+  export default src;
 }
 
 declare module '*.svg' {
@@ -83,7 +95,36 @@ declare module '*.module.sass' {
 declare const BX24: {
   openPath: (path: string, callback?: (...args: any[]) => void) => void;
   openApplication: (
-    params: { bx24_width?: string; [index: string]: any },
+    params: { bx24_width?: string | number; [index: string]: any },
     callback?: () => void,
   ) => void;
+  closeApplication: () => void;
+  getScrollSize: () => { scrollWidth: number, scrollHeight: number }
+  resizeWindow: (width: number, height: number, cb?: any) => void;
 };
+
+declare module '@ckeditor/ckeditor5-react' {
+  import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+  import Event from '@ckeditor/ckeditor5-utils/src/eventinfo'
+  import { EditorConfig } from '@ckeditor/ckeditor5-core/src/editor/editorconfig'
+  import * as React from 'react';
+  const CKEditor: React.FunctionComponent<{
+      disabled?: boolean;
+      editor: typeof ClassicEditor;
+      data?: string;
+      id?: string;
+      config?: EditorConfig;
+      onReady?: (editor: ClassicEditor) => void;
+      onChange?: (event: Event, editor: ClassicEditor) => void;
+      onBlur?: (event: Event, editor: ClassicEditor) => void;
+      onFocus?: (event: Event, editor: ClassicEditor) => void;
+      onError?: (event: Event, editor: ClassicEditor) => void;
+  }>
+  export { CKEditor };
+}
+
+declare module '@ckeditor/ckeditor5-build-classic' {
+  const ClassicEditorBuild: any;
+
+  export = ClassicEditorBuild;
+}

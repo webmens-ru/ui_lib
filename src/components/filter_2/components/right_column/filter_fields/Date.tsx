@@ -14,7 +14,7 @@ import { useCustomContext } from '../../../store/Context';
 import { IField, IThreeField, ITwoField } from '../../../types';
 import { useFieldsDraggable } from '../../../utils/useFieldsDraggble';
 import { DatePicker } from '../../../../date_picker';
-import { Select } from '../../../../select';
+import Select from '../../../../select';
 import { IDataItem } from '../../../../select/types';
 
 export default function DateField({ item, updateField, ...props }: IField) {

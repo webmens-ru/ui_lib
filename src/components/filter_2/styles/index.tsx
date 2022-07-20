@@ -321,7 +321,8 @@ export const DateFieldContainer = styled(FieldContainer)`
 `;
 
 export const FilterFieldTitle = styled.h3`
-  margin: 7px 0 2px;
+  margin: 7px 1px 6px;
+  cursor: default;
   font-size: 13px;
   font-weight: 400;
   color: #a9adb2;

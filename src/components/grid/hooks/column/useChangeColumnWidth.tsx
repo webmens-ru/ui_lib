@@ -7,28 +7,40 @@ export const useChangeColumnWidth = (
 ) => {
   const popUpRef = useRef<HTMLDivElement>(null);
   const [isMouseDown, setIsMouseDown] = useState(false);
+  const [isStartResize, setIsStartResize] = useState(false);
   const [width, setWidth] = useState(initialWidth);
 
   const onMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
+    (e: React.MouseEvent<HTMLDivElement>) => {      
       if (isMouseDown) {
         if (width + e.movementX > 100) {
-          setWidth(width + e.movementX);
+          const increment = e.movementX <= 0 ? 0 : 1.5
+          const startingIncrement = (isStartResize && e.movementX > 0) ? 10 : 0
+          setWidth(width + e.movementX + increment + startingIncrement);
         }
+      }
+
+      if (isStartResize) {
+        setIsStartResize(false)
       }
     },
     [isMouseDown, width]
   );
 
-  const onMouseUp = useCallback(() => {
+  const onMouseUp = useCallback(() => {    
     if (isMouseDown) {
       updateWidth(width);
     }
     setIsMouseDown(false);
   }, [isMouseDown, updateWidth, width]);
 
+  const handleStartResize = () => {
+    setIsMouseDown(true)
+    setIsStartResize(true)
+  }
+
   const line = useMemo(
-    () => <Line draggable={false} onMouseDown={() => setIsMouseDown(true)} />,
+    () => <Line draggable={false} onMouseDown={handleStartResize} />,
     []
   );
 
