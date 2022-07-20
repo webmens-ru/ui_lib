@@ -7,34 +7,34 @@ import BoldTTF from './ttf/OpenSans-Bold.ttf';
 import ExtraBoldTTF from './ttf/OpenSans-ExtraBold.ttf';
 
 export const OpenSans = createGlobalStyle`
-  @font-face {
+@font-face {
   font-family: 'Open Sans';
   src: url(${LightTTF}) format("truetype");
   font-weight: 300;
-  font-display: swap;
+  font-style: normal;
 }
 @font-face {
   font-family: 'Open Sans';
   src: url(${RegularTTF}) format("truetype");
   font-weight: 400;
-  font-display: swap;
+  font-style: normal;
 }
 @font-face {
   font-family: 'Open Sans';
   src: url(${SemiBoldTTF}) format("truetype");
   font-weight: 600;
-  font-display: swap;
+  font-style: normal;
 }
 @font-face {
   font-family: 'Open Sans';
   src: url(${BoldTTF}) format("truetype");
   font-weight: 700;
-  font-display: swap;
+  font-style: normal;
 }
 @font-face {
   font-family: 'Open Sans';
   src: url(${ExtraBoldTTF}) format("truetype");
   font-weight: 800;
-  font-display: swap;
+  font-style: normal;
 }
 `;
