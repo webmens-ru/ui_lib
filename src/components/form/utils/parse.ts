@@ -3,7 +3,7 @@ import { IFormReducerState, FormValues } from './../types';
 import { ISelectProps, IDataItem } from './../../select/types';
 import { buildCallbackValue } from './../../select/utils/selectUtils';
 
-export const prepareFormData = ({fields, tempValues: values}: IFormReducerState): FormValues => {  
+export const prepareFormData = ({ fields, tempValues: values }: IFormReducerState): FormValues => {
   const parsedValues = Object.entries(values)
   let result = {} as FormValues
 
@@ -15,7 +15,7 @@ export const prepareFormData = ({fields, tempValues: values}: IFormReducerState)
       const multiple = (field?.fieldParams as ISelectProps).multiple
       parsedValue = buildCallbackValue(parsedValue as IDataItem[], multiple)
     }
-    if (field?.type === 'multifield') {      
+    if (field?.type === 'multifield') {
       const fieldType = (field?.fieldParams as IMultifieldProps).type
       const multifieldValue = (value as unknown as MultifieldItem[])
       switch (fieldType) {
@@ -29,7 +29,7 @@ export const prepareFormData = ({fields, tempValues: values}: IFormReducerState)
     }
 
     result[name] = parsedValue
-  })  
+  })
 
   return result
 }

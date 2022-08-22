@@ -1,4 +1,4 @@
-import { svgBeforeList, defaultThemes } from '.';
+import { defaultThemes, svgBeforeList } from '.';
 
 export type Palette = {
   static?: string;
@@ -28,6 +28,7 @@ export type ButtonProps = {
   svgBefore?: SvgBefore;
   buttonProps?: any;
   items?: Item[];
+  disabled?: boolean;
   itemsProps?: any;
   dropdownDirection?: Direction;
   dropdownWidth?: string;

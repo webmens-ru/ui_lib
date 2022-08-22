@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { InputContainer, PrefixIconContainer, PostfixIconContainer } from './styles';
 import { Icon } from '../icon';
+import { InputContainer, PostfixIconContainer, PrefixIconContainer } from './styles';
 import { IInputProps } from './types';
-import { OpenSans } from '../../styles/fonts/Fonts';
 
 export const Input = ({
   value = '',
@@ -44,30 +43,27 @@ export const Input = ({
   }
 
   return (
-    <>
-      <OpenSans />
-      <InputContainer readonly={readonly} focus={input.focus} width={width} >
-        {(iconPosition === "left" || iconPosition === "both") && (
-          <PrefixIconContainer>
-            <Icon iconName={iconLeftName} iconWidth="18px" />
-          </PrefixIconContainer>
-        )}
-        <input
-          type="text"
-          value={input.value}
-          placeholder={placeholder}
-          readOnly={readonly}
-          onChange={handleInputChange}
-          onFocus={handleInputFocused}
-          onBlur={handleInputBlured}
-          {...nativeInputProps}
-        />
-        {(iconPosition === "right" || iconPosition === "both") && (
-          <PostfixIconContainer>
-            <Icon iconName={iconRightName} iconWidth="18px" />
-          </PostfixIconContainer>
-        )}
-      </InputContainer>
-    </>
+    <InputContainer readonly={readonly} focus={input.focus} width={width} >
+      {(iconPosition === "left" || iconPosition === "both") && (
+        <PrefixIconContainer>
+          <Icon iconName={iconLeftName} iconWidth="18px" />
+        </PrefixIconContainer>
+      )}
+      <input
+        type="text"
+        value={input.value}
+        placeholder={placeholder}
+        readOnly={readonly}
+        onChange={handleInputChange}
+        onFocus={handleInputFocused}
+        onBlur={handleInputBlured}
+        {...nativeInputProps}
+      />
+      {(iconPosition === "right" || iconPosition === "both") && (
+        <PostfixIconContainer>
+          <Icon iconName={iconRightName} iconWidth="18px" />
+        </PostfixIconContainer>
+      )}
+    </InputContainer>
   )
 }

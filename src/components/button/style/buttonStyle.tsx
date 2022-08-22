@@ -9,6 +9,7 @@ interface IContainer {
     fontColorHover?: string;
     borderColor?: string;
   };
+  disabled?: boolean;
   variant?: Variant;
   dropdownDirection?: Direction;
   dropdownWidth?: string;
@@ -22,6 +23,7 @@ export const Container = styled.div<IContainer>`
   display: flex;
   align-items: center;
   background: ${({ palette }) => palette.static};
+  opacity: ${({ disabled }) => disabled ? ".5" : "1"};
   border-radius: ${({ variant }) => (variant === "circle" ? "50px" : "3px")};
   transition: all 220ms ease;
   & * {
@@ -39,7 +41,7 @@ export const Container = styled.div<IContainer>`
     border: 1px solid ${({ palette }) => palette.borderColor};
     border-radius: inherit;
     text-transform: uppercase;
-    cursor: pointer;
+    cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
     user-select: none;
     white-space: nowrap;
     transition: 220ms all ease;

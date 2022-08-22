@@ -1,11 +1,8 @@
 import React, { RefObject, useMemo } from 'react';
 import {
   BlackArrow,
-  BlackTriangle,
-  SquareBtn,
-  WhiteTriangle,
-  SimpleWhiteTriangle,
-  ButtonProps,
+  BlackTriangle, ButtonProps, SimpleWhiteTriangle, SquareBtn,
+  WhiteTriangle
 } from '..';
 import { useShowControl } from '../../../hooks';
 import { defaultThemes } from '../style/defaultTheme';
@@ -19,6 +16,7 @@ export const useButtonProps = (
     svgBefore = 'without',
     buttonProps,
     items = [],
+    disabled = false,
     itemsProps,
     dropdownDirection = 'right',
     dropdownWidth = '150px',
@@ -130,6 +128,7 @@ export const useButtonProps = (
       ref,
       isShow,
       palette: completePalette,
+      disabled,
       variant: variant,
       setShow,
     },

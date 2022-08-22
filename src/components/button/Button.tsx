@@ -1,5 +1,5 @@
 import React, { StrictMode, useRef } from 'react';
-import { Container, ButtonProps, DropdownContainer, useButtonProps } from '.';
+import { ButtonProps, Container, DropdownContainer, useButtonProps } from '.';
 
 export function Button(props: ButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,7 +16,7 @@ export function Button(props: ButtonProps) {
 
   return (
     <StrictMode>
-      <Container {...containerProps} onClick={props.onClick} >
+      <Container {...containerProps} onClick={!props.disabled ? props.onClick : () => {}} >
         {props.variant === 'square' ? (
           <>{outsideAfterSvg}</>
         ) : (

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const HeaderCellContainer = styled.div`
   position: sticky;
   top: 0;
-  min-height: 45px;
+  height: 42px;
   display: flex;
   background: #fff;
   box-shadow: rgb(0 0 0 / 10%) 0px 3px 6px -4px;
@@ -38,7 +38,9 @@ export const HeaderCellContainer = styled.div`
 
 export const BodyCellContainer = styled.div`
   position: relative;
+  height: 45px;
   min-height: 45px;
+  max-height: 45px;
   background: ${({ hover }: { hover: boolean }) =>
     hover && "rgba(194, 197, 202, 0.15)"};
   border-bottom: 1px solid rgb(238, 242, 244);

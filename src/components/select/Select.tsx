@@ -1,11 +1,10 @@
-import React, { useRef, useReducer } from "react";
+import React, { useReducer, useRef } from "react";
 import { useShowControl } from "../../hooks/useShowControl";
-import { reducer, init } from "./reducer";
-import { ISelectProps, IDataItem } from "./types";
-import LoadingSelect from './components/loading_select';
 import SelectDropdown from "./components/dropdown";
-import { SelectContainer, SelectInner, SelectFilter, SelectErrorMsg, SelectSuffix, Suffix, SelectTagsContainer, SelectTag, TagTitle, TagRemove } from "./styles";
-import { OpenSans } from "../../styles/fonts/Fonts";
+import LoadingSelect from './components/loading_select';
+import { init, reducer } from "./reducer";
+import { SelectContainer, SelectErrorMsg, SelectFilter, SelectInner, SelectSuffix, SelectTag, SelectTagsContainer, Suffix, TagRemove, TagTitle } from "./styles";
+import { IDataItem, ISelectProps } from "./types";
 import { buildFilterQuery, filterSelectData } from "./utils/selectUtils";
 
 export const Select = ({
@@ -18,12 +17,12 @@ export const Select = ({
   data = [],
   dataUrl = "",
   remoteMode = false,
-  closeOnSelect = false,
+  closeOnSelect = true,
   selectWidth = '100%',
   queryParams = {},
   queryTitleName = "title_like",
   onChange = () => { },
-}: ISelectProps) => {  
+}: ISelectProps) => {
   const { ref, isShow, setShow } = useShowControl()
   const filterRef = useRef(null)
   const [select, dispatch] = useReducer(reducer, {
@@ -97,7 +96,7 @@ export const Select = ({
 
     dispatch({ type: 'setValue', value })
     onChange(value)
-    
+
     setShow(!closeOnSelect)
   }
 
@@ -128,20 +127,17 @@ export const Select = ({
   // Отобразить простой контейнер без логики
   if (!select.inited || select.hasErrorsOnFetch) {
     return (
-      <>
-        <OpenSans />
-        <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={handleContainerClick}>
-          {select.hasErrorsOnFetch && <SelectErrorMsg children="Произошла ошибка при загрузке данных" />}
+      <SelectContainer width={selectWidth} isShow={isShow} ref={ref} onClick={handleContainerClick}>
+        {select.hasErrorsOnFetch && <SelectErrorMsg children="Произошла ошибка при загрузке данных" />}
 
-          <SelectSuffix isShow={isShow}>
-            <Suffix />
-          </SelectSuffix>
+        <SelectSuffix isShow={isShow}>
+          <Suffix />
+        </SelectSuffix>
 
-          <SelectDropdown isShow={isShow}>
-            <LoadingSelect />
-          </SelectDropdown>
-        </SelectContainer>
-      </>
+        <SelectDropdown isShow={isShow}>
+          <LoadingSelect />
+        </SelectDropdown>
+      </SelectContainer>
     )
   }
 
@@ -159,10 +155,6 @@ export const Select = ({
             ))}
           </SelectTagsContainer>
         )}
-
-        {/* {(!multiple && !isShow && select.value.length > 0) && (
-          <SelectCurrentValue children={select.value[0][textField] || <i>Нет данных</i>} />
-        )} */}
 
         <SelectFilter
           ref={filterRef}
