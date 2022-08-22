@@ -1,25 +1,34 @@
 import React, { useMemo } from "react";
-import Badge from "../badge";
-import { BlockItem, ToolbarBlock, ToolbarContainer } from "./styles";
-import { IToolbarProps } from "./types";
-import { sortBlocks } from "./utils";
+import { ToolbarBlock, ToolbarContainer } from "./styles";
+import { BlockItems, IToolbarBlock, IToolbarProps } from "./types";
+import { getSuitableBlockItem, sortBlocks } from "./utils";
 
 export function Toolbar({
   blocks = [],
-  onItemClick = () => {}
+  onItemClick = () => { },
+  onMetricFilterClick = () => {},
+  onMetricLinkClick = () => {}
 }: IToolbarProps) {
   const sortedBlocks = useMemo(() => sortBlocks(blocks), [blocks])
-  
+
+  const handleBlockItemClick = (item: BlockItems, block: IToolbarBlock) => {
+    switch (item.type) {
+      case "metric-filter":
+        onMetricFilterClick(item, block)
+        break;
+      case "metric-link":
+        onMetricLinkClick(item, block)
+        break;
+    }
+
+    onItemClick(item, block)
+  }
+
   return (
     <ToolbarContainer>
       {sortedBlocks.map((block, index) => (
         <ToolbarBlock key={index} >
-          {block.items.map((item, index) => (
-            <BlockItem key={index} title={item.title} onClick={() => onItemClick(item, block)}>
-              <Badge count={item.value} />
-              <span>{item.title}</span>
-            </BlockItem>
-          ))}
+          {block.items.map((item) => getSuitableBlockItem(item, (blockItem) => handleBlockItemClick(blockItem, block)))}
         </ToolbarBlock>
       ))}
     </ToolbarContainer>

@@ -1,31 +1,58 @@
+import { IBadgeTypes } from "../badge";
+
 export interface IToolbarProps {
-  blocks?: IBlockItem[];
-  onItemClick?: (item: IListItem, block: IBlockItem) => void;
+  blocks?: IToolbarBlock[];
+  onItemClick?: (item: BlockItems, block: IToolbarBlock) => void;
+  onMetricFilterClick?: (item: IBlockItemMetricFilter, block: IToolbarBlock) => void;
+  onMetricLinkClick?: (item: IBlockItemMetricLink, block: IToolbarBlock) => void;
 }
 
-export interface IBlockItem {
+export interface IToolbarBlock {
   order: number;
   title?: string;
-  items: IListItem[]
+  items: Array<BlockItems>;
 }
 
-export interface IToolbarList extends Array<IListItem | "separator"> {}
+export type BlockItemTypes = "metric-filter" | "metric-link" | "separator"
+export type BlockItems = IBlockItemMetricFilter | IBlockItemMetricLink | IBlockItemSeparator
 
-export type ListItemTypes = "metric-filter" | "metric-link" | "separator"
-
-export interface IListItemGeneric {
+export interface IBlockItemGeneric {
   order: number;
-  type: ListItemTypes;
+  type: BlockItemTypes;
 }
 
-export interface IListItem extends IListItemGeneric {
-  order: number;
+export interface IBlockItemMetricFilter extends IBlockItemGeneric {
+  type: "metric-filter";
   title: string;
   value: string | number;
-  params?: IListItemParams;
+  params: {
+    url: string;
+    color?: IBadgeTypes;
+    [key: string]: any;
+  };
 }
 
-export interface IListItemParams {
-  url?: string;
-  [key: string]: any;
+export interface IBlockItemMetricLink extends IBlockItemGeneric {
+  type: "metric-link";
+  title: string;
+  value?: string | number;
+  params: {
+    type: string;
+    title: string;
+    path: string;
+    mainDetailTitle?: string;
+    entity: string;
+    menuId: number;
+    bx24_width: number;
+    updateOnCloseSlider: boolean;
+  }
+}
+
+export interface IBlockItemSeparator extends IBlockItemGeneric {
+  type: "separator";
+}
+
+export interface IBlockItemPropsGeneric<T> {
+  blockItem: T;
+  onClick: (blockItem: T) => void;
 }

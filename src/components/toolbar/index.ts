@@ -1,4 +1,2 @@
-import { Toolbar } from "./Toolbar";
-
-export default Toolbar;
-export * from './types'
+export * from './Toolbar';
+export * from './types';
