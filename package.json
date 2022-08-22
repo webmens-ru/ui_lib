@@ -1,6 +1,6 @@
 {
   "name": "@webmens-ru/ui_lib",
-  "version": "0.18.12",
+  "version": "0.20.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -55,10 +55,12 @@
     }
   ],
   "dependencies": {
-    "@fontsource/open-sans": "^4.5.8",
     "@ckeditor/ckeditor5-build-classic": "^34.1.0",
     "@ckeditor/ckeditor5-react": "^5.0.2",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "react-data-grid": "^7.0.0-beta.14",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
@@ -86,9 +88,8 @@
     "eslint-plugin-storybook": "^0.5.7",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-is": "^17.0.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "rollup-plugin-svg": "^2.0.0",
     "rollup-plugin-svg-import": "^1.6.0",
     "size-limit": "^7.0.8",

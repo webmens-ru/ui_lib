@@ -1,25 +1,26 @@
+export { Badge } from './components/badge/Badge';
 export { Button } from './components/button';
 export { Calendar } from './components/calendar';
 export { Checkbox } from './components/checkbox';
 export { DatePicker } from './components/date_picker';
 export { Field } from './components/field/Field';
+export { FileInput } from './components/file_input/FileInput';
 export { Filter } from './components/filter';
 export { FilterAlpha } from './components/filter_2';
+export { Form } from './components/form/Form';
 export { Grid } from './components/grid';
+export { Grid2 } from './components/grid_2';
 export { Icon } from './components/icon';
 export { Input } from './components/input/Input';
 export { Loader } from './components/loader';
 export { Menu } from './components/menu';
 export { Modal } from './components/modal';
+export { Multifield } from './components/multifield/Multifield';
 export { ResetStyles } from './components/reset_styles';
+export { Richtext } from './components/richtext/Richtext';
 export { Select } from './components/select/Select';
 export { Title } from './components/title';
-export { Badge } from './components/badge/Badge'
-export { Toolbar } from './components/toolbar/Toolbar'
-export { Richtext } from './components/richtext/Richtext'
-export { Form } from './components/form/Form'
-export { Multifield } from './components/multifield/Multifield'
-export { FileInput } from './components/file_input/FileInput'
-
+export { Toolbar } from './components/toolbar';
 export * as hooks from './hooks';
 export { OpenSans } from './styles/fonts/Fonts';
+
