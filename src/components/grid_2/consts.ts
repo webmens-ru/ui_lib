@@ -13,7 +13,7 @@ export const COLUMN_INSTANCE_PLUG: TRawColumnItem = {
   code: '',
   type: "string",
   title: '',
-  visible: 1,
+  visible: true,
   order: 0,
   width: 0
 }

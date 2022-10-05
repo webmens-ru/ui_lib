@@ -31,7 +31,7 @@ export const Grid2 = ({
   const { gridKey, reloadGrid } = useGridReload()
   const { gridRef, refReady } = useGridRef()
 
-  const { draggableColumns, sortColumns, showSettings, setShowSettings, setSortColumns } = useColumns({ createColumns: mutableColumns, onReorder: handleColumnsMutation, onColumnFrozenToggle: handleColumnsMutation })
+  const { draggableColumns, sortColumns, showSettings, setShowSettings, setSortColumns } = useColumns({ createColumns: mutableColumns, onReorder: handleColumnsMutation })
   const { sortedRows, selectedRows, setSelectedRows } = useRows({ createColumns: columns, createRows: rows, sortColumns, burgerItems, gridRef, onBurgerItemClick })
   const { onColumnResize } = useColumnResize({ mutableColumns, draggableColumns, onResizeEnd: handleColumnsMutation })    
   
@@ -42,8 +42,13 @@ export const Grid2 = ({
   function handleColumnsMutation(columns: TColumnItem[]) {
     setMutableColumns(columns)
     columnMutation(toRawColumns(columns))
+  }
+
+  function handleSettingsUpdate(columns: TColumnItem[]) {
+    setMutableColumns(columns)
+    columnMutation(toRawColumns(columns))
     reloadGrid()
-  }  
+  }
 
   const rowKeyGetter = (row: TRowItem) => {
     const id = typeof row.id !== "object" ? row.id : row.id.title
@@ -53,7 +58,7 @@ export const Grid2 = ({
   return (
     <>
       <GridStyle />
-      {showSettings && <SettingsModal columns={mutableColumns} onClose={() => setShowSettings(false)} onSubmit={handleColumnsMutation} />}
+      {showSettings && <SettingsModal columns={mutableColumns} onClose={() => setShowSettings(false)} onSubmit={handleSettingsUpdate} />}
       <GridContainer>
         {refReady && <SideScroll gridRef={gridRef} />}
         <DndProvider backend={HTML5Backend} >

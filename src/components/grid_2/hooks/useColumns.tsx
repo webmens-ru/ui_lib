@@ -9,10 +9,9 @@ import { updateInstance } from "../utils/grid_parser";
 interface IUseColumnsProps {
   createColumns: TColumnItem[];
   onReorder: (columns: TColumnItem[]) => void;
-  onColumnFrozenToggle: (columns: TColumnItem[]) => void;
 }
 
-export default function useColumns({ createColumns, onReorder, onColumnFrozenToggle }: IUseColumnsProps) {
+export default function useColumns({ createColumns, onReorder }: IUseColumnsProps) {
   const [columns, setColumns] = useState(createColumns);
   const [sortColumns, setSortColumns] = useState<SortColumn[]>([]);
   const [showSettings, setShowSettings] = useState(false)
@@ -21,7 +20,7 @@ export default function useColumns({ createColumns, onReorder, onColumnFrozenTog
 
   const draggableColumns = useMemo(() => {
     function HeaderRenderer(props: HeaderRendererProps<TRowItem>) {
-      return <DraggableHeaderRenderer {...props} onColumnsReorder={handleColumnsReorder} onColumnFrozenToggle={handleColumnFrozenToggle} />;
+      return <DraggableHeaderRenderer {...props} onColumnsReorder={handleColumnsReorder} />;
     }
 
     function handleColumnsReorder(sourceKey: string, targetKey: string) {
@@ -41,20 +40,6 @@ export default function useColumns({ createColumns, onReorder, onColumnFrozenTog
       setColumns(resultColumns);
     }
 
-    function handleColumnFrozenToggle(column: TColumnItem) {
-      const changedColumns = columns.map(item => {
-        if (item.key === column.key) {
-          return { ...item, frozen: !item.frozen }
-        }
-        return item
-      })
-      
-      const resultColumns = updateInstance(changedColumns)
-
-      onColumnFrozenToggle(resultColumns)
-      setColumns(resultColumns)
-    }
-
     return columns
       .filter((c) => !!c.instance.visible)
       .map((c) => {        
@@ -65,7 +50,7 @@ export default function useColumns({ createColumns, onReorder, onColumnFrozenTog
         };
         return { ...c, headerRenderer: HeaderRenderer };
       });
-  }, [columns, onColumnFrozenToggle, onReorder])
+  }, [columns, onReorder])
 
   return {
     draggableColumns,

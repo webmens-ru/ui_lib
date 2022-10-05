@@ -1,21 +1,21 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { DatePicker } from '../../../../date_picker';
+import Select from '../../../../select';
+import { IDataItem } from '../../../../select/types';
+import { useCustomContext } from '../../../store/Context';
 import {
   DateFieldContainer,
   DateInput,
-  FilterFieldTitle,
+  FilterFieldTitle
 } from '../../../styles';
+import { IField, IThreeField, ITwoField } from '../../../types';
+import { useFieldsDraggable } from '../../../utils/useFieldsDraggble';
 import {
   dateDropDown,
   monthsDropDown,
   quartersDropDown,
-  yearsDropDown,
+  yearsDropDown
 } from './const';
-import { useCustomContext } from '../../../store/Context';
-import { IField, IThreeField, ITwoField } from '../../../types';
-import { useFieldsDraggable } from '../../../utils/useFieldsDraggble';
-import { DatePicker } from '../../../../date_picker';
-import Select from '../../../../select';
-import { IDataItem } from '../../../../select/types';
 
 export default function DateField({ item, updateField, ...props }: IField) {
   const [dropDownValue, setDropDownValue] = useState<IDataItem>(() => {
@@ -257,9 +257,10 @@ function ThreeField({ value, setValue, updateValue, item }: IThreeField) {
     [item?.params?.data, selectYear, setYear]
   );
 
-  const [selectMonth, setSelectMonth] = useState<IDataItem[]>([
-    { title: `${new Date().getMonth()}`, value: new Date().getMonth() },
-  ]);
+  const [selectMonth, setSelectMonth] = useState<IDataItem[]>(() => {
+    const currentMonth = new Date().getMonth() + 1
+    return [monthsDropDown.find(item => item.value === currentMonth) as IDataItem]
+  });
 
   const setMonth = useCallback(
     (month: IDataItem[]) => {

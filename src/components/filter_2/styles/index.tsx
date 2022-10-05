@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import searchSvg from "../../icon/assets/ui-search-white.svg";
-import spriteSvg from "../../icon/assets/sprite-interface.min.svg";
 import gearSvg from "../../icon/assets/grid-gear.svg";
+import spriteSvg from "../../icon/assets/sprite-interface.min.svg";
+import searchSvg from "../../icon/assets/ui-search-white.svg";
 
 export const FilterContainer = styled.div`
   position: relative;
@@ -34,7 +34,8 @@ export const FilterContainer = styled.div`
     }
     & > div {
       margin: 4px;
-      padding: 5px;
+      height: 30px;
+      padding: 0 15px;
       display: flex;
       background: #bcedfc;
       border-radius: 2px;

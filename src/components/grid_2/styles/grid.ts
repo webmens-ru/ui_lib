@@ -59,10 +59,6 @@ export const GridStyle = createGlobalStyle`
           transition: opacity 200ms;
         }
       }
-
-      &:hover .frozen-lock-icon {
-        opacity: .5;
-      }
     }
   }
 `
@@ -109,13 +105,13 @@ export const RightSideArrow = styled(LeftSideArrow)`
   transform: rotate(180deg);
 `;
 
-export const LockIcon = styled.img.attrs({ className: "frozen-lock-icon", alt: "", width: 16 })`
+export const LockIcon = styled.img.attrs({ alt: "", width: 16 })`
   position: absolute;
   right: 10px;
   
-  opacity: 0;
+  opacity: .5;
   transition: opacity 200ms;
-  cursor: pointer;
+  cursor: copy;
 
   &:hover {
     opacity: 1 !important;

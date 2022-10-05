@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Button, Checkbox, Input } from "../../../";
 import LockClosed from "../assets/svg/lock-closed.svg";
-import LockOpened from "../assets/svg/lock-open.svg";
+import LockOpen from "../assets/svg/lock-open.svg";
 import { IGNORED_COLUMN_KEYS } from "../consts";
 import { ActionsContainer, BodyModalContainer, ButtonsContainer, ColumnsList, ColumnsListItem, ColumnsListItemTitle, FooterInnerContainer, FooterModalContainer, HeaderCancelButton, HeaderModalContainer, LockIcon, SettingsModalBackdrop, SettingsModalContainer, SettingsModalInnerContainer, TogglersContainer } from "../styles";
 import { TColumnItem } from "../types";
@@ -57,7 +57,14 @@ export default function SettingsModal({ columns, onClose, onSubmit }: SettingsMo
   }
 
   const toggleCheckboxes = (check: boolean) => {
-    setColumnsSettings(columnsSettings.map(column => ({ ...column, instance: { ...column.instance, visible: check } })))
+    const toggledColumns = columnsSettings.map(column => {
+      if (IGNORED_COLUMN_KEYS.includes(column.key)) {
+        return { ...column }
+      }
+
+      return { ...column, instance: { ...column.instance, visible: check } }
+    })
+    setColumnsSettings(toggledColumns)
   }
 
   return (
@@ -77,7 +84,7 @@ export default function SettingsModal({ columns, onClose, onSubmit }: SettingsMo
                 <ColumnsListItem key={column.key} selected={column.instance.visible} onClick={() => handleColumnCheck(column)}>
                   <Checkbox value={column.instance.visible} onCheck={() => handleColumnCheck(column)} />
                   <ColumnsListItemTitle children={column.name} />
-                  <LockIcon title={column.frozen ? "Открепить столбец" : "Закрепить столбец"} src={column.frozen ? LockClosed : LockOpened} onClick={(e) => handleColumnFrozen(e, column)} />
+                  <LockIcon title={column.frozen ? "Открепить столбец" : "Закрепить столбец"} src={column.frozen ? LockClosed : LockOpen} onClick={(e) => handleColumnFrozen(e, column)} />
                 </ColumnsListItem>
               ))}
             </ColumnsList>

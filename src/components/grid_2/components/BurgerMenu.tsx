@@ -33,7 +33,7 @@ export function BurgerMenu({ items = [], gridRef, onBurgerItemClick }: IBurgerMe
       <span />
       <span />
       <span />
-      {(isShow && items.length) && <Menu items={items} left={pos.left} top={pos.top} onBurgerItemClick={onBurgerItemClick} />}
+      {(isShow && !!items.length) && <Menu items={items} left={pos.left} top={pos.top} onBurgerItemClick={onBurgerItemClick} />}
     </BurgerMenuContainer>
   );
 }

@@ -5,9 +5,9 @@ import { IBlockItemMetricLink, IBlockItemPropsGeneric } from "../../types";
 
 interface IMetricLinkProps extends IBlockItemPropsGeneric<IBlockItemMetricLink> {}
 
-export function MetricLink({ blockItem, onClick }: IMetricLinkProps) {
+export function MetricLink({ blockItem, key, onClick }: IMetricLinkProps) {
   return (
-    <MetricLinkContainer onClick={() => onClick(blockItem)} >
+    <MetricLinkContainer key={key} onClick={() => onClick(blockItem)} >
       {blockItem.value && <Badge count={blockItem.value} />}
       <span children={blockItem.title} />
     </MetricLinkContainer>

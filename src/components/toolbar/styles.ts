@@ -46,6 +46,10 @@ export const BlockItemContainer = styled.div`
   }
 `
 
+export const BlockTitle = styled(BlockItemContainer)`
+  cursor: default;
+`
+
 export const MetricFilterContainer = styled(BlockItemContainer)`
   &:hover {
     background: rgba(82,92,105,.15);
@@ -66,6 +70,7 @@ export const MetricLinkContainer = styled(BlockItemContainer)`
   }
 
   & > span {
+    position: relative;
     opacity: .8;
     transition: opacity 200ms;
 
@@ -78,7 +83,7 @@ export const MetricLinkContainer = styled(BlockItemContainer)`
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 5px;
+      bottom: -4px;
       height: 2px;
       opacity: 0;
       background: rgba(82, 92, 105, 0.4);

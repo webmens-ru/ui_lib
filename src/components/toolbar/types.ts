@@ -54,5 +54,6 @@ export interface IBlockItemSeparator extends IBlockItemGeneric {
 
 export interface IBlockItemPropsGeneric<T> {
   blockItem: T;
+  key: React.Key;
   onClick: (blockItem: T) => void;
 }
