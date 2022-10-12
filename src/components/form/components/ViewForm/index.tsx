@@ -1,11 +1,11 @@
-import { FormFieldsItem } from "../../types";
 import React from "react";
-import Field from "../field";
-import { IViewFormProps } from "./types";
-import { IDataItem } from "../../../select/types";
 import { IFileInputItem } from "../../../file_input/types";
-import { FileVF, InputVF, MultifieldVF, RichtextVF, SelectVF } from "./entries";
 import { MultifieldItem } from "../../../multifield/types";
+import { IDataItem } from "../../../select/types";
+import { FormFieldsItem } from "../../types";
+import Field from "../field";
+import { FileVF, InputVF, MultifieldVF, SelectVF } from "./entries";
+import { IViewFormProps } from "./types";
 
 export const ViewForm = ({
   form,
@@ -16,8 +16,6 @@ export const ViewForm = ({
     switch (field.type) {
       case 'input':
         return <InputVF value={form.values[field.name] as string} />
-      case 'richtext':
-        return <RichtextVF value={form.values[field.name] as string} />
       case 'select':
         return <SelectVF value={form.values[field.name] as IDataItem|IDataItem[]} fieldParams={field.fieldParams} />
       case 'multifield':

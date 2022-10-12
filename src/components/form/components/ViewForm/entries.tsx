@@ -1,8 +1,8 @@
-import React from "react"
+import React from "react";
 import { IFileInputItem } from "../../../file_input/types";
 import { IMultifieldProps, MultifieldItem, MultifieldItemComboValue, MultifieldItemValue } from "../../../multifield/types";
 import { IDataItem, ISelectProps } from "../../../select/types";
-import { ViewFieldLink, ViewFieldList, ViewFieldText, ViewRichText } from "./styles";
+import { ViewFieldLink, ViewFieldList, ViewFieldText } from "./styles";
 
 const FIELD_PLACEHOLDER = "Не задано";
 
@@ -25,15 +25,6 @@ export interface IMultifieldInner extends IMultifieldViewField {
 export const InputVF = ({ value }: IViewField<string>) => {
   const text = value || FIELD_PLACEHOLDER;
   return <ViewFieldText children={text} hasValue={!!value} />
-}
-
-export const RichtextVF = ({ value }: IViewField<string>) => {
-  const html = value;
-  if (html) {
-    return <ViewRichText dangerouslySetInnerHTML={{ __html: html }} />
-  } else {
-    return <ViewFieldText children={FIELD_PLACEHOLDER} hasValue={false} />
-  }
 }
 
 export const SelectVF = ({ value, fieldParams }: ISelectViewField) => {

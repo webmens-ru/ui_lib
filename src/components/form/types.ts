@@ -1,11 +1,10 @@
-import { RichTextValue, IRichTextProps } from './../richtext/types';
-import { MultifieldItemProps, IMultifieldProps } from './../multifield/types';
-import { IFileInputProps, FileInputPropsValue, IFileInputItem } from './../file_input/types';
-import { IDataItem } from './../select/types';
-import { CheckboxValue, ICheckboxProps } from './../checkbox/types';
 import { IDatePicker } from '../date_picker/types';
-import { ISelectProps, SelectPropsValue } from '../select/types';
 import { IInputProps, InputValue } from '../input/types';
+import { ISelectProps, SelectPropsValue } from '../select/types';
+import { CheckboxValue, ICheckboxProps } from './../checkbox/types';
+import { FileInputPropsValue, IFileInputItem, IFileInputProps } from './../file_input/types';
+import { IMultifieldProps, MultifieldItemProps } from './../multifield/types';
+import { IDataItem } from './../select/types';
 import { ErrorsItem } from './components/field/types';
 
 export interface IFormProps {
@@ -41,7 +40,6 @@ export type FormFieldsItem = FormFieldsItemGeneric &
     | {type: 'checkbox', value?: CheckboxValue, fieldParams?: ICheckboxProps}
     | {type: 'file', value?: FileInputPropsValue, fieldParams?: IFileInputProps}
     | {type: 'multifield', value?: MultifieldItemProps[], fieldParams?: IMultifieldProps}
-    | {type: 'richtext', value?: RichTextValue, fieldParams?: IRichTextProps}
   )
 
 export type FormFieldsItemShort = {

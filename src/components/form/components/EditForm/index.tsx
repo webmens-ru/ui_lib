@@ -1,20 +1,19 @@
 import React from "react";
-import Field from "../field";
-import Input from "../../../input";
-import Select from "../../../select";
-import FileInput from "../../../file_input";
-import Multifield from "../../../multifield";
-import Richtext from "../../../richtext";
-import { FormFieldsItem, FormFieldsItemShort } from "../../../form/types";
-import { DatePicker } from "../../../date_picker";
 import { Checkbox } from "../../../checkbox";
 import { CheckboxValue } from "../../../checkbox/types";
-import { validator } from "../../utils/validator";
-import { InputValue } from "../../../input/types";
-import { SelectPropsValue } from "../../../select/types";
-import { IEditFormProps } from "./types";
+import { DatePicker } from "../../../date_picker";
+import FileInput from "../../../file_input";
 import { IFileInputItem } from "../../../file_input/types";
+import { FormFieldsItem, FormFieldsItemShort } from "../../../form/types";
+import Input from "../../../input";
+import { InputValue } from "../../../input/types";
+import Multifield from "../../../multifield";
 import { MultifieldItem, MultifieldItemComboValue } from "../../../multifield/types";
+import Select from "../../../select";
+import { SelectPropsValue } from "../../../select/types";
+import { validator } from "../../utils/validator";
+import Field from "../field";
+import { IEditFormProps } from "./types";
 
 export const EditForm = ({
   form,
@@ -31,9 +30,6 @@ export const EditForm = ({
           ? (item.value as MultifieldItemComboValue).text
           : item.value
         )
-        break;
-      case "richtext":
-        parsedValue = (value as string).replace(/<\/?[^>]+(>|$)/g, "").replaceAll('&nbsp;', ' ')
         break;
     }
 
@@ -105,14 +101,6 @@ export const EditForm = ({
             {...field.fieldParams}
             fields={formValue as unknown as MultifieldItem[]}
             onChange={(values) => handleFieldChange(field, values)}
-          />
-        )
-      case 'richtext':
-        return (
-          <Richtext
-            {...field.fieldParams}
-            value={formValue as string}
-            onChange={(value) => handleFieldChange(field, value)}
           />
         )
       default:

@@ -1,5 +1,4 @@
 import { IFormProps } from './../types';
-// TODO: Types: TimeInput, TextArea, RichText, FileInput
 
 export const formConfig = {
   fields: [
