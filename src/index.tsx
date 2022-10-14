@@ -14,7 +14,7 @@ export { Icon } from './components/icon';
 export { Input } from './components/input/Input';
 export { Loader } from './components/loader';
 export { Menu } from './components/menu';
-export { Modal } from './components/modal';
+export { Modal } from './components/modal_2/Modal';
 export { Multifield } from './components/multifield/Multifield';
 export { ResetStyles } from './components/reset_styles';
 export { Select } from './components/select/Select';

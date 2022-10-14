@@ -1,7 +1,12 @@
 export const parseDate = (dateText: string, format: string): string => {
   const date = new Date(dateText)
+  const isDateValid = isValidDate(date)
 
-  if (isValidDate(date)) {
+  if (!isDateValid) {
+    return dateText
+  } else if (isDateValid && !!!format) {
+    return date.toLocaleDateString()
+  } else {
     const year = date.getFullYear()
     const month = `${date.getMonth() + 1}`.padStart(2, '0')
     const day = `${date.getMonth()}`.padStart(2, '0')
@@ -17,8 +22,6 @@ export const parseDate = (dateText: string, format: string): string => {
       .replace('hh', hours)
       .replace('mm', minutes)
       .replace('ss', seconds)
-  } else {
-    return dateText
   }
 }
 
