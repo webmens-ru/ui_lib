@@ -8,15 +8,19 @@ interface IUseRowsProps {
   createColumns: TRawColumnItem[]
   sortColumns: SortColumn[];
   burgerItems: BurgerItem[];
+  burgerKey: string;
   gridRef: React.RefObject<DataGridHandle>;
-  onBurgerItemClick: (item: BurgerItem) => void;
+  onBurgerItemClick: (item: BurgerItem, row: TRowItem) => void;
 }
 
-export default function useRows({ createRows, createColumns, sortColumns, burgerItems, gridRef, onBurgerItemClick }: IUseRowsProps) {
+export default function useRows({ createRows, createColumns, sortColumns, burgerItems, burgerKey, gridRef, onBurgerItemClick }: IUseRowsProps) {
   const [selectedRows, setSelectedRows] = useState<ReadonlySet<number>>(() => new Set());
 
   const sortedRows = useMemo((): readonly TRowItem[] => {
-    const actionRows = createRows.map(row => ({ ...row, action: { burgerItems, onBurgerItemClick, gridRef } }))
+    const actionRows = createRows.map(row => {
+      const rowBurgerItems = burgerItems.filter(item => row[burgerKey].includes(item.id))
+      return { ...row, action: { burgerItems: rowBurgerItems, onBurgerItemClick, gridRef } }
+    })
 
     if (sortColumns.length === 0) return actionRows;
 
@@ -30,7 +34,7 @@ export default function useRows({ createRows, createColumns, sortColumns, burger
       }
       return 0;
     });
-  }, [burgerItems, createColumns, createRows, gridRef, onBurgerItemClick, sortColumns]);
+  }, [burgerItems, burgerKey, createColumns, createRows, gridRef, onBurgerItemClick, sortColumns]);
 
   return {
     sortedRows,

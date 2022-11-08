@@ -1,12 +1,11 @@
-import React from "react";
-import { TField } from "../types";
+import { Button } from "@webmens-ru/ui_lib";
+import { useShowControl } from "../hooks/useShowControl";
 import { useCustomContext } from "../store/Context";
 import { AddFieldsMenu, FilterMenuFooter } from "../styles";
+import { TField } from "../types";
 import { DashedBlueBtn, DashedGreyBtn } from "./Buttons";
 import { AddFieldInput } from "./mini_components/Input";
 import { FilterFields } from "./right_column/FilterFields";
-import { useShowControl } from "../../../hooks";
-import { Button } from "../../button";
 
 export function RightColumn({
   setShowFilter,

@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import draggableIcon from "../assets/draggable.svg";
+import { DRAG_TYPE } from "../components/Tab";
 
 export const TabsContainer = styled.div`
   & > div:first-of-type {
@@ -20,30 +21,13 @@ export const TabsContainer = styled.div`
   }
 `;
 
-export const TabsBtn = styled.button`
-  position: relative;
-  margin-left: 20px;
-  border-bottom: ${({ current }: { current: boolean; isDraggable: boolean }) =>
-    current ? "2px solid #1058d0" : "2px solid transparent"};
-  color: ${({ current }) => (current ? "#1058d0" : "#545c6a")};
-  font-size: 15px;
-  font-weight: 600;
-  white-space: nowrap;
-  background: none;
-  cursor: pointer;
-  outline: none;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 19px;
-    left: -12px;
-    width: 10px;
-    height: 20px;
-    display: ${({ isDraggable }) => (isDraggable ? "block" : "none")};
-    background: url(${draggableIcon}) no-repeat center;
-    cursor: move;
-  }
-`;
+export const TabDragHandle = styled.div`
+  display: ${({ isDraggable }: { isDraggable: boolean }) => isDraggable ? "block" : "none"};
+  width: 10px;
+  height: 15px;
+  background: url(${draggableIcon}) no-repeat center;
+  cursor: move;
+`
 
 export const MoreBtn = styled.button`
   position: relative;
@@ -63,7 +47,7 @@ export const MenuContainer = styled.div`
   top: 70px;
   right: 10px;
   width: 230px;
-  display: flex;
+  display: ${({ isShow }: { isShow: boolean }) => isShow ? 'flex' : 'none'};
   flex-direction: column;
   background: #fff;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
@@ -114,26 +98,36 @@ export const SettingBtn = styled.button`
   }
 `;
 
-export const MenuBtn = styled.button`
-  position: relative;
-  padding: 10px;
-  padding-left: 25px;
-  font-size: 13px;
-  text-align: left;
+export const TabContainer = styled.button<{ current: boolean, position: keyof typeof DRAG_TYPE }>`
+  display: flex;
+  align-items: center;
+  gap: 3px;
   cursor: pointer;
-  &:hover {
-    background: #ececec;
-  }
-  &::before {
-    content: "";
-    position: absolute;
-    top: 8px;
-    left: 10px;
-    display: ${({ isDraggable }: { isDraggable: boolean }) =>
-      isDraggable ? "block" : "none"};
-    width: 10px;
-    height: 20px;
-    background: url(${draggableIcon}) no-repeat center;
-    cursor: move;
-  }
+
+  ${({ position, current }) => {
+    switch (position) {
+      case 'TOP_TAB':
+        return css`
+          margin-left: 20px;
+          border-bottom: ${() => current ? "2px solid #1058d0" : "2px solid transparent"};
+          color: ${() => (current ? "#1058d0" : "#545c6a")};
+          font-size: 15px;
+          font-weight: 600;
+          white-space: nowrap;
+          background: none;
+          outline: none;
+        `
+      case 'HIDDEN_TAB':
+        return css`
+          position: relative;
+          padding: 10px 0px 10px 20px;
+          font-size: 13px;
+          text-align: left;
+          
+          &:hover {
+            background: #ececec;
+          }
+        `
+    }
+  }}
 `;

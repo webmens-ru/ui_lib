@@ -1,8 +1,8 @@
 import React from 'react';
-import LoadingSelect from '../loading_select';
-import { IDropdownProps, IDataItem } from '../../types';
-import { SelectDropdownContainer, DropdownItem, DropdownGroup, GroupTitle } from './styles';
 import { DropdownMessage } from '../../styles';
+import { IDataItem, IDropdownProps } from '../../types';
+import LoadingSelect from '../loading_select';
+import { DropdownGroup, DropdownItem, GroupTitle, SelectDropdownContainer } from './styles';
 
 const SelectDropdown = ({
   isShow = false,

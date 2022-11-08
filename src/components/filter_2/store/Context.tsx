@@ -1,11 +1,11 @@
-import React, { createContext, useReducer, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import {
   TField,
   TFilter,
   TFilterFieldsItem,
   TGetSelectItems,
   TProps,
-  TUpdateFilter,
+  TUpdateFilter
 } from "../types";
 import { propsFormatter } from "../utils/propsFormatter";
 
@@ -135,15 +135,14 @@ const reducer = (state: IState, action: Action) => {
           .map((item) => (item.id === action.field.id ? action.field : item)),
       };
     case "SET_FILTER_FIELD_VALUE":
-      const index: number = state.fields.findIndex(
-        (item) => item.id === action.field.id,
-      );
-      let fields = state.fields.slice();
+      
+      const index = state.fields.findIndex(item => item.id === action.field.id);
+      const fields = state.fields.slice();
+      
+      console.log(fields[index], action.field);
       fields[index].value = action.field.value;
-      return {
-        ...state,
-        fields,
-      };
+
+      return { ...state, fields };
     default:
       return state;
   }

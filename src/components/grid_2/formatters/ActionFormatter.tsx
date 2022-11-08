@@ -11,7 +11,7 @@ export default function ActionFormatter({ row }: FormatterProps<TRowItem, unknow
     row.action.onBurgerItemClick(item, row)
   }
 
-  if (!burgerItems) {
+  if (!burgerItems || !burgerItems.length) {
     return <></>
   }
   

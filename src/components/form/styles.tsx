@@ -1,8 +1,9 @@
 import styled, { createGlobalStyle } from "styled-components";
-import { FormMode } from "./types";
+import { FormMode, FormViewType } from "./types";
 
 export type FormContainerProps = {
   mode: FormMode;
+  viewType: FormViewType;
   width?: string;
   height?: string;
 }
@@ -17,7 +18,7 @@ export const GlobalStyleForm = createGlobalStyle`
 `
 
 export const FormContainer = styled.div<FormContainerProps>`
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
   max-height: 100vh;
   min-height: ${({height}) => height || "100vh"};
   height: ${({height}) => height || "100vh"};
@@ -63,9 +64,10 @@ export const FormModeToggler = styled.span`
 `
 
 export const FormInnerContainer = styled.div<FormContainerProps>`
+  font-family: 'Open Sans', sans-serif;
   padding: 15px 10px;
   height: 100%;
-  background: ${({mode}) => mode === "edit" ? '#ffffff' : '#f9fafb'};
+  background: ${({mode, viewType}) => mode === "edit" && viewType === "full" ? '#ffffff' : viewType === "full" ? '#f9fafb' : "transparent"};
   overflow-y: auto;
 `
 

@@ -8,7 +8,7 @@ type DropdownItemProps = {
   selected: boolean
 }
 
-export const SelectDropdownContainer = styled.div`
+export const SelectDropdownContainer = styled.div.attrs({ className: 'dropdown' })`
   position: absolute;
   top: 105%;
   max-height: 240px;

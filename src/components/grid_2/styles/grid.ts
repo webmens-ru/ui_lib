@@ -21,12 +21,20 @@ export const GridStyle = createGlobalStyle`
         font-weight: normal;
         font-size: 14px;
         margin: 0;
+
+        &:nth-child(2) {
+          z-index: 100;
+        }
       }
     }
 
     .rdg-row {
       &:hover .rdg-cell {
         background: #f6f8f9;
+      }
+
+      .rdg-cell:nth-child(2) {
+        z-index: 99;
       }
     }
 

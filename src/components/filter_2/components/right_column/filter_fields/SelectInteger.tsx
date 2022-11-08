@@ -1,73 +1,49 @@
 import React, { useState } from 'react';
-import Select, { IDataItem } from '../../../../select';
-import Input from '../../../../input';
+import { Input, Select } from '../../../../../';
+import { IDataItem } from '../../../../select';
 import { useCustomContext } from '../../../store/Context';
+import { FilterFieldTitle, SelectTextStyle } from '../../../styles';
 import { IField } from '../../../types';
-import {
-  FilterFieldTitle,
-  SelectTextStyle,
-} from '../../../styles';
-import { integerDropDownValues } from './const';
 import { useFieldsDraggable } from '../../../utils/useFieldsDraggble';
+import { integerDropDownValues } from './const';
 
 export default function SelectIntegerField({
   item,
   updateField,
   ...props
 }: IField) {
+  const { dispatch } = useCustomContext();
+  const { draggable, events } = useFieldsDraggable();
+
   const [selectValue, setSelectValue] = useState<IDataItem>(
     integerDropDownValues.find((val) => val.value === item.value[0]) ||
-      integerDropDownValues[0]
+    integerDropDownValues[0]
   );
-  const { dispatch } = useCustomContext();
 
   const checkFirstValue = (value: string) => {
     if (value.match(/^\d*$/)) {
-      dispatch({
-        type: 'SET_FILTER_FIELD_VALUE',
-        field: {
-          ...item,
-          value: [item.value[0], value, item.value[2]],
-        },
-      });
+      dispatch({ type: 'SET_FILTER_FIELD_VALUE', field: { ...item, value: [item.value[0], value, item.value[2]] } });
     }
   };
 
   const checkSecondValue = (value: string) => {
     if (value.match(/^\d*$/)) {
-      dispatch({
-        type: 'SET_FILTER_FIELD_VALUE',
-        field: {
-          ...item,
-          value: [item.value[0], item.value[1], value],
-        },
-      });
+      dispatch({ type: 'SET_FILTER_FIELD_VALUE', field: { ...item, value: [item.value[0], item.value[1], value] } });
     }
   };
 
   const changeAttr = (valuesItem: IDataItem[]) => {
-    const field = {
-      ...item,
-      value: [`${valuesItem[0].value}`, item.value[1], item.value[2]],
-    };
-    dispatch({
-      type: "SET_FILTER_FIELD_VALUE",
-      field,
-    });
+    const field = { ...item, value: [`${valuesItem[0].value}`, item.value[1], item.value[2]] };
+    dispatch({ type: "SET_FILTER_FIELD_VALUE", field, });
     setSelectValue(valuesItem[0]);
     updateField(field, "value");
   };
 
   const hideField = () => {
-    const field = {
-      ...item,
-      visible: false,
-    };
+    const field = { ...item, visible: false };
     updateField(field, 'hide');
     dispatch({ type: 'UPDATE_FILTER_FIELD', field });
   };
-
-  const { draggable, events } = useFieldsDraggable();
 
   return (
     <SelectTextStyle draggable={draggable} {...props}>
@@ -76,7 +52,7 @@ export default function SelectIntegerField({
         <Select
           filterable={false}
           value={selectValue}
-          data={item?.params?.data || integerDropDownValues}
+          data={item?.options?.variants || integerDropDownValues}
           closeOnSelect={true}
           selectWidth="33%"
           onChange={changeAttr}

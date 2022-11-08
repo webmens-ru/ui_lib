@@ -1,4 +1,5 @@
-import { IDataItem } from "../../select/types";
+import { IDataItem } from '@webmens-ru/ui_lib/dist/components/select/types';
+
 
 export type TProps = {
   filters?: TFilter[];
@@ -45,7 +46,8 @@ export type TField = {
   queryKey: string;
   code: string;
   visible: boolean | number;
-  params: any
+  params: any;
+  options: any;
 };
 
 export type TFilterFieldsItem = {

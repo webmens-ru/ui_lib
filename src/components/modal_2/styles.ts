@@ -66,6 +66,7 @@ export const HeaderCancelButton = styled.span`
 
 export const BodyModalContainer = styled.div`
   overflow: auto;
+  background: #eef2f4;
 `
 
 export const FooterModalContainer = styled.div`

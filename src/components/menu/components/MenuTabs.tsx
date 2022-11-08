@@ -1,50 +1,74 @@
 import React from "react";
+import { useCustomContext } from "../store";
 import { IMenuTabs } from "../types";
-import { MenuBtn } from "../styles";
+import Tab from "./Tab";
 
 export default function MenuTabs({
-  firstPart,
-  secondPart,
+  abroadTabs,
+  hiddenTabs,
   isDraggable,
-  dragStart,
-  dragEnter,
-  dragEndThenUpdate,
-  dragToHide,
   setTab,
 }: IMenuTabs) {
+  const { state, dispatch } = useCustomContext()
+
+  const moveTabs = (dragId: number, hoverId: number) => {
+    const [dragItem, hoverItem] = [state.items.find(item => item.id === dragId)!, state.items.find(item => item.id === hoverId)!]
+    
+    const [dragOrder, hoverOrder] = [dragItem.order, hoverItem.order]
+
+    if (dragOrder === hoverOrder) {
+      hoverItem.order += 1
+    } else {
+      dragItem.order = hoverOrder
+      hoverItem.order = dragOrder
+    }
+
+    dispatch({ type: "set_items", items: [
+      ...state.items.filter(item => item.id !== dragItem.id && item.id !== hoverItem.id),
+      dragItem,
+      hoverItem
+    ] })
+  }
+
+  const hideTab = (dragId: number, _hoverId: number) => {
+    const [dragItem] = [state.items.find(item => item.id === dragId)!]    
+
+    dragItem.visible = false
+
+    dispatch({ type: "set_items", items: [ ...state.items.filter(item => item.id !== dragItem.id), dragItem ] })
+  }
+
   return (
     <>
-      {firstPart.map((item, index) => (
-        <MenuBtn
-          key={index}
-          draggable={isDraggable}
-          onDragStart={() => dragStart(item)}
-          onDragEnter={(e: React.MouseEvent<HTMLElement>) => dragEnter(e, item)}
-          onDrop={(e: React.MouseEvent<HTMLElement>) => e.preventDefault()}
-          onDragEnd={dragEndThenUpdate}
+      {abroadTabs.map(item => (
+        <Tab
+          key={item.id}
+          title={item.title}
+          tab={item}
+          isCurrent={false}
           onClick={() => setTab(item)}
+          onMoveTabs={moveTabs}
+          onHideTab={hideTab}
           isDraggable={isDraggable}
-        >
-          {item.title}
-        </MenuBtn>
+          dragType="HIDDEN_TAB"
+        />
       ))}
       <span>Скрытые</span>
-      {secondPart.length === 0 && (
-        <p onDragEnter={(e: React.MouseEvent<HTMLElement>) => dragToHide(e)}>Перетащите сюда, чтобы скрыть</p>
+      {hiddenTabs.length === 0 && (
+        <p>Перетащите сюда, чтобы скрыть</p>
       )}
-      {secondPart.map((item, index) => (
-        <MenuBtn
-          key={index}
-          draggable={isDraggable}
-          onDragStart={() => dragStart(item)}
-          onDragEnter={(e: React.MouseEvent<HTMLElement>) => dragEnter(e, item)}
-          onDrop={(e: React.MouseEvent<HTMLElement>) => e.preventDefault()}
-          onDragEnd={dragEndThenUpdate}
+      {hiddenTabs.sort((a, b) => a.order - b.order).map(item => (
+        <Tab
+          key={item.id}
+          title={item.title}
+          tab={item}
+          isCurrent={false}
           onClick={() => setTab(item)}
+          onMoveTabs={moveTabs}
+          onHideTab={hideTab}
           isDraggable={isDraggable}
-        >
-          {item.title}
-        </MenuBtn>
+          dragType="HIDDEN_TAB"
+        />
       ))}
       <span>Управление</span>
     </>

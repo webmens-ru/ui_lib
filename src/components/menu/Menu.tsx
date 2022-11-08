@@ -1,9 +1,11 @@
 import React, { StrictMode } from "react";
-import { IMenuProps } from "./types";
-import PseudoRender from "./components/PseudoRender";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import CountTabs from "./components/CountTabs";
 import MainRender from "./components/MainRender";
+import PseudoRender from "./components/PseudoRender";
 import { ContextProvider } from "./store";
+import { IMenuProps } from "./types";
 
 /**
  * @param items - items array
@@ -16,11 +18,13 @@ import { ContextProvider } from "./store";
 export function Menu(props: IMenuProps) {
   return (
     <StrictMode>
-      <ContextProvider {...props}>
-        <PseudoRender />
-        <CountTabs />
-        <MainRender />
-      </ContextProvider>
+      <DndProvider backend={HTML5Backend}>
+        <ContextProvider {...props}>
+          <PseudoRender />
+          <CountTabs />
+          <MainRender />
+        </ContextProvider>
+      </DndProvider>
     </StrictMode>
   );
 }

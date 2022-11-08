@@ -1,10 +1,9 @@
-import React from 'react';
-import { useCustomContext, FilterContextProvider } from './store/Context';
-import { FilterContainer, FilterMenuContainer, PopUp } from './styles';
-import { TProps } from './types';
 import { LeftColumn } from './components/LeftColumn';
 import { RightColumn } from './components/RightColumn';
-import { useShowControl } from '../../hooks';
+import { useShowControl } from './hooks/useShowControl';
+import { FilterContextProvider, useCustomContext } from './store/Context';
+import { FilterContainer, FilterMenuContainer, PopUp } from './styles';
+import { TProps } from './types';
 
 /**
  * @param filters array of filters;

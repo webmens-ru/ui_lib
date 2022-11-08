@@ -1,16 +1,17 @@
-import React, { useReducer, useEffect } from "react";
-import { reducer, init } from "./reducer";
-import { IFormProps } from "./types";
+import React, { useEffect, useReducer } from "react";
+import { Button } from "../button";
 import { EditForm } from "./components/EditForm";
 import { ViewForm } from "./components/ViewForm";
+import { init, reducer } from "./reducer";
 import { FormButtonsContainer, FormContainer, FormHeader, FormInnerContainer, FormModeToggler, FormTitle, GlobalStyleForm } from "./styles";
-import { Button } from "../button";
+import { IFormProps } from "./types";
 import { prepareFormData } from "./utils/parse";
 
 export const Form = ({
   fields = [],
   values = {},
   mode = "edit",
+  viewType = "full",
   formTitle = "Форма",
   width = "100%",
   height = "100vh",
@@ -18,9 +19,9 @@ export const Form = ({
   validationRules = [],
   onFieldChange = () => { },
   onSubmit = () => Promise.resolve(),
-  onAfterSubmit = () => {},
-  onInit = () => {},
-  onEditEnd = () => {}
+  onAfterSubmit = () => { },
+  onInit = () => { },
+  onEditEnd = () => { }
 }: IFormProps) => {
   const [form, dispatch] = useReducer(reducer, {
     fields,
@@ -52,18 +53,22 @@ export const Form = ({
       onSubmit(prepareFormData(form)).then(response => {
         dispatch({ type: "submit_form" })
         onAfterSubmit(response)
-      }).catch(({response}) => {
+      }).catch(({ response }) => {
         console.error(response);
         if (response.status !== 500) {
-          dispatch({type: "set_errors", errors: response.data})
+          dispatch({ type: "set_errors", errors: response.data })
         }
       })
     }
   }
 
-  if (form.inited) {
+  if (!form.inited) {
+    return <></>
+  }
+
+  if (viewType === "full") {
     return (
-      <FormContainer mode={form.mode} width={width} height={height} >
+      <FormContainer mode={form.mode} viewType={viewType} width={width} height={height} >
         <GlobalStyleForm />
         <FormHeader>
           <FormTitle children={formTitle} />
@@ -74,7 +79,7 @@ export const Form = ({
             />
           }
         </FormHeader>
-        <FormInnerContainer mode={form.mode}>
+        <FormInnerContainer mode={form.mode} viewType={viewType} >
           {form.mode === 'edit'
             ? <EditForm
               form={form}
@@ -98,5 +103,20 @@ export const Form = ({
 
       </FormContainer>
     )
-  } else return <></>
+  } else {
+    return (
+      <>
+        <GlobalStyleForm />
+        <FormInnerContainer mode="edit" viewType={viewType} >
+          <EditForm
+            form={form}
+            dispatch={dispatch}
+            fields={fields}
+            validationRules={form.validationRules}
+            onFieldChange={onFieldChange}
+          />
+        </FormInnerContainer>
+      </>
+    )
+  }
 }

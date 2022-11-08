@@ -1,21 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { DatePicker } from '../../../../date_picker';
-import Select from '../../../../select';
-import { IDataItem } from '../../../../select/types';
+import Select, { IDataItem } from '../../../../select';
 import { useCustomContext } from '../../../store/Context';
-import {
-  DateFieldContainer,
-  DateInput,
-  FilterFieldTitle
-} from '../../../styles';
+import { DateFieldContainer, DateInput, FilterFieldTitle } from '../../../styles';
 import { IField, IThreeField, ITwoField } from '../../../types';
 import { useFieldsDraggable } from '../../../utils/useFieldsDraggble';
-import {
-  dateDropDown,
-  monthsDropDown,
-  quartersDropDown,
-  yearsDropDown
-} from './const';
+import { dateDropDown, getYearsDropDown, monthsDropDown, quartersDropDown, yearsDropDown } from './const';
 
 export default function DateField({ item, updateField, ...props }: IField) {
   const [dropDownValue, setDropDownValue] = useState<IDataItem>(() => {
@@ -148,14 +138,14 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
     [updateValue, value.title]
   );
 
-  switch (value.title) {
-    case 'Год':
+  switch (value.value) {
+    case 'year':
       return (
         <>
           <Select
             filterable={false}
             value={value}
-            data={dateDropDown}
+            data={item?.params?.data || dateDropDown}
             closeOnSelect={true}
             selectWidth="49%"
             onChange={setValue}
@@ -163,20 +153,20 @@ function TwoField({ value, setValue, updateValue, item }: ITwoField) {
           <Select
             filterable={false}
             value={selectYear}
-            data={yearsDropDown}
+            data={getYearsDropDown()}
             closeOnSelect={true}
             selectWidth="49%"
             onChange={setYear}
           />
         </>
       );
-    case 'Точная дата':
+    case 'exactDate':
       return (
         <>
           <Select
             filterable={false}
             value={value}
-            data={dateDropDown}
+            data={item?.params?.data || dateDropDown}
             closeOnSelect={true}
             selectWidth="49%"
             onChange={setValue}

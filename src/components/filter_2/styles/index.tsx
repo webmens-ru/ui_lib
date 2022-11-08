@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import gearSvg from "../../icon/assets/grid-gear.svg";
-import spriteSvg from "../../icon/assets/sprite-interface.min.svg";
-import searchSvg from "../../icon/assets/ui-search-white.svg";
+import gearSvg from "../assets/svg/grid-gear.svg";
+import spriteSvg from "../assets/svg/sprite-interface.min.svg";
+import searchSvg from "../assets/svg/ui-search-white.svg";
 
 export const FilterContainer = styled.div`
   position: relative;

@@ -21,6 +21,8 @@ export const Grid2 = ({
   burgerItems = [],
   isShowCheckboxes = true,
   height = 400,
+  rowKey = "id",
+  burgerKey = "actions",
   columnMutation = () => { },
   onChangeCheckboxes = () => {},
   onBurgerItemClick = () => {},
@@ -32,7 +34,7 @@ export const Grid2 = ({
   const { gridRef, refReady } = useGridRef()
 
   const { draggableColumns, sortColumns, showSettings, setShowSettings, setSortColumns } = useColumns({ createColumns: mutableColumns, onReorder: handleColumnsMutation })
-  const { sortedRows, selectedRows, setSelectedRows } = useRows({ createColumns: columns, createRows: rows, sortColumns, burgerItems, gridRef, onBurgerItemClick })
+  const { sortedRows, selectedRows, setSelectedRows } = useRows({ createColumns: columns, createRows: rows, sortColumns, burgerItems, burgerKey, gridRef, onBurgerItemClick })
   const { onColumnResize } = useColumnResize({ mutableColumns, draggableColumns, onResizeEnd: handleColumnsMutation })    
   
   useEffect(() => {
@@ -51,7 +53,7 @@ export const Grid2 = ({
   }
 
   const rowKeyGetter = (row: TRowItem) => {
-    const id = typeof row.id !== "object" ? row.id : row.id.title
+    const id = typeof row[rowKey] !== "object" ? row[rowKey] : row[rowKey].title
     return typeof id === "string" ? parseInt(id) : id
   }
 

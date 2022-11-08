@@ -11,12 +11,13 @@ export interface IFormProps {
   fields: FormFieldsItem[];
   values?: FormValues;
   mode?: FormMode;
+  viewType?: FormViewType;
   canToggleMode?: boolean;
   validationRules?: ValidationItem[];
   formTitle?: string;
   width?: string;
   height?: string;
-  onFieldChange?: (field: FormFieldsItemShort, values: FormValues) => void;
+  onFieldChange?: (field: FormFieldsItemShort, values: FormValues, errors: ErrorsItem[]) => void;
   onSubmit?: (form: FormValues) => Promise<any>;
   onAfterSubmit?: (response: any) => void;
   onInit?: (form: FormValues) => void;
@@ -24,6 +25,7 @@ export interface IFormProps {
 }
 
 export type FormMode = "edit" | "view";
+export type FormViewType = "short" | "full"
 
 export interface FormFieldsItemGeneric {
   name: string;
@@ -68,7 +70,7 @@ export interface IFormReducerProps {
   values: FormValues;
   mode: FormMode;
   validationRules: ValidationItem[];
-  onFieldChange: (field: FormFieldsItemShort, values: FormValues) => void;
+  onFieldChange: (field: FormFieldsItemShort, values: FormValues, errors: ErrorsItem[]) => void;
 }
 
 export interface IFormReducerState {
@@ -79,7 +81,7 @@ export interface IFormReducerState {
   validationRules: ValidationItem[];
   mode: FormMode;
   inited: boolean;
-  onFieldChange: (field: FormFieldsItemShort, values: FormValues) => void;
+  onFieldChange: (field: FormFieldsItemShort, values: FormValues, errors: ErrorsItem[]) => void;
 }
 
 /* Validation */

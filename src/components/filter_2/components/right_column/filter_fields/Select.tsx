@@ -1,13 +1,9 @@
 import React from "react";
-import Select from '../../../../select';
+import Select, { IDataItem } from '../../../../select';
 import { useCustomContext } from "../../../store/Context";
-import {
-  FilterFieldTitle,
-  SelectContainer,
-} from "../../../styles";
+import { FilterFieldTitle, SelectContainer } from "../../../styles";
 import { IField } from "../../../types";
 import { useFieldsDraggable } from "../../../utils/useFieldsDraggble";
-import { IDataItem } from "../../../../select/types";
 
 export function SelectWrapper({ item, updateField, ...props }: IField) {
   const { draggable, events } = useFieldsDraggable();
@@ -16,10 +12,7 @@ export function SelectWrapper({ item, updateField, ...props }: IField) {
   const updateValue = (options: IDataItem[]) => {    
     // const value = item.params.multiple ? options.map(option => option.value.toString()) : [options[0].value.toString()]
     const field = { ...item, value: options as unknown as any };
-    dispatch({
-      type: "SET_FILTER_FIELD_VALUE",
-      field,
-    });
+    dispatch({ type: "SET_FILTER_FIELD_VALUE", field });
     updateField(field, "valueWithRefetch");
   };
 

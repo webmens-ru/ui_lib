@@ -1,32 +1,49 @@
+import { IDataItem } from '../../../../select';
 import { IDateFieldDataItem } from "../../../types";
 
 export const stringDropDownValues = [
+  {
+    title: 'Не используется',
+    value: '',
+  },
   {
     title: 'Точно',
     value: '=',
   },
   {
-    title: 'Не указан',
-    value: '',
-  },
-  {
-    title: 'Не задан',
+    title: 'Не заполнено',
     value: 'isNull',
   },
   {
-    title: 'Заполнен',
+    title: 'Заполнено',
     value: 'isNotNull',
   },
   {
     title: 'Содержится',
-    value: '=%%',
+    value: '%like%',
+  },
+  {
+    title: 'Начинается с',
+    value: 'like%',
+  },
+  {
+    title: 'Заканчивается на',
+    value: '%like',
   },
 ];
 
 export const integerDropDownValues = [
   {
+    title: 'Не используется',
+    value: 'isNotUsed',
+  },
+  {
     title: 'Не заполнено',
     value: 'isNull',
+  },
+  {
+    title: 'Заполнено',
+    value: 'isNotNull',
   },
   {
     title: 'Точно',
@@ -34,27 +51,27 @@ export const integerDropDownValues = [
   },
   {
     title: 'Не равно',
-    value: '=<>',
+    value: '<>',
   },
   {
     title: 'Диапазон',
-    value: '',
+    value: 'range',
   },
   {
     title: 'Больше чем',
-    value: '=>',
+    value: '>',
   },
   {
     title: 'Меньше чем',
-    value: '=<',
+    value: '<',
   },
   {
     title: 'Больше или равно',
-    value: '=>=',
+    value: '>=',
   },
   {
     title: 'Меньше или равно',
-    value: '=<=',
+    value: '<=',
   },
 ];
 
@@ -194,6 +211,17 @@ export const yearsDropDown = [
   { value: 20, title: '2020' },
   { value: 21, title: '2021' },
 ];
+
+export const getYearsDropDown = (): IDataItem[] => {
+  const currentYear = new Date().getFullYear()
+  const result: IDataItem[] = []
+  for (let i = -20; i < 6; i++) {
+    const year = currentYear + i
+    result.push({ value: year, title: year })
+  }
+
+  return result
+}
 
 export const quartersDropDown = [
   { value: 1, title: 'I' },

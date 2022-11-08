@@ -1,7 +1,5 @@
 type TTabsMutation = (props: Item[]) => void;
 type TSetTab = (props: Item) => void;
-type TMouseEvent = (e: React.MouseEvent<HTMLElement>) => void;
-type TMouseEventItem = (e: React.MouseEvent<HTMLElement>, item: Item) => void;
 
 export interface IMenuProps {
   items?: Item[];
@@ -14,7 +12,7 @@ export interface IMenuProps {
 export type Item = {
   id: number;
   title: string;
-  visible: number;
+  visible: boolean;
   order: number;
   menuId: number;
   type: string;
@@ -33,22 +31,13 @@ export interface IRenderParagraph {
 export interface ITopTabs {
   arr: Item[];
   isDraggable: boolean;
-  dragStart: (item: Item) => void;
-  dragEnter: TMouseEventItem;
-  dragEndThenUpdate: TMouseEvent;
   currentId: number;
   setTab: TSetTab;
 }
 
-
-
 export interface IMenuTabs {
-  firstPart: Item[];
-  secondPart: Item[];
+  abroadTabs: Item[];
+  hiddenTabs: Item[];
   isDraggable: boolean;
-  dragStart: (item: Item) => void;
-  dragEnter: TMouseEventItem;
-  dragEndThenUpdate: TMouseEvent
-  dragToHide: TMouseEvent
   setTab: (item: Item) => void;
 }

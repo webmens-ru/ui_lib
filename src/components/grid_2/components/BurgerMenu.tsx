@@ -45,8 +45,8 @@ function Menu({ items, top, left, onBurgerItemClick }: IMenuProps) {
     <MenuContainer top={top} left={left} ref={ref} >
       {items.map((item) => (
         <MenuItem
-          key={item.label}
-          children={item.label}
+          key={item.title}
+          children={item.title}
           onClick={() => onBurgerItemClick(item)}
         />
       ))}

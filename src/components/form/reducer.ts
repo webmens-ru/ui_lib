@@ -1,4 +1,4 @@
-import { IFormReducerState, IFormReducerProps, IFormReducerAction } from "./types"
+import { IFormReducerAction, IFormReducerProps, IFormReducerState } from "./types";
 
 export const reducer = function (state: IFormReducerState, action: IFormReducerAction): IFormReducerState {
   switch (action.type) {
@@ -14,7 +14,7 @@ export const reducer = function (state: IFormReducerState, action: IFormReducerA
     case 'set_form':
       const setFormValues = { ...state.tempValues }
       setFormValues[action.form.field.name] = action.form.field.value
-      state.onFieldChange(action.form.field, setFormValues)
+      state.onFieldChange(action.form.field, setFormValues, action.form.errors)
       return { ...state, tempValues: setFormValues, errors: action.form.errors }
     case 'submit_form':
       return { ...state, values: state.tempValues, mode: "view", errors: [] }

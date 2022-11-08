@@ -9,7 +9,7 @@ type SuffixProps = {
 }
 
 /* SELECT BASE */
-export const SelectContainer = styled.div<SelectContainerProps>`
+export const SelectContainer = styled.div.attrs({ className: 'wm-select' })<SelectContainerProps>`
   font-family: 'Open Sans';
   font-size: 14px;
   position: relative;
