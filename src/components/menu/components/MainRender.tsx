@@ -20,7 +20,7 @@ export default function MainRender() {
   };
 
   return (
-    <TabsContainer>
+    <TabsContainer menuStyle={state.menuStyle}>
       <div >
         <TopTabs
           arr={state.items

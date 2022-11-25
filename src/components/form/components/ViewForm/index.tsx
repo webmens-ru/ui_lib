@@ -4,7 +4,7 @@ import { MultifieldItem } from "../../../multifield/types";
 import { IDataItem } from "../../../select/types";
 import { FormFieldsItem } from "../../types";
 import Field from "../field";
-import { FileVF, InputVF, MultifieldVF, SelectVF } from "./entries";
+import { DateVF, FileVF, InputVF, MultifieldVF, SelectVF } from "./entries";
 import { IViewFormProps } from "./types";
 
 export const ViewForm = ({
@@ -22,6 +22,8 @@ export const ViewForm = ({
         return <MultifieldVF value={form.values[field.name] as unknown as Array<string|MultifieldItem>} fieldParams={field.fieldParams} />
       case 'file':
         return <FileVF value={form.values[field.name] as IFileInputItem[]} />
+      case 'date':
+        return <DateVF value={form.values[field.name] as string} />
       default:
         return <span>Error!</span>
     }

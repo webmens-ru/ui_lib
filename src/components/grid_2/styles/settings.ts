@@ -6,6 +6,7 @@ export const ColumnsList = styled.div`
   column-gap: 12px;
   row-gap: 5px;
   width: 100%;
+  padding: 5px;
 `
 
 export const ColumnsListItem = styled.div<{ selected: boolean }>`

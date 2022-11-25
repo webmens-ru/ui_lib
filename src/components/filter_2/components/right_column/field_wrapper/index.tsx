@@ -1,43 +1,52 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop, XYCoord } from "react-dnd";
-import { FieldContainer, FieldDragHandle, FieldRemoveHandle } from "./styles";
+import { FieldContainer, FieldDragHandle, FieldInnerContainer, FieldLabel, FieldRemoveHandle } from "./styles";
 
 interface FieldWrapperProps {
-  fieldProps: any;
-  field: React.ReactNode;
-  onMoveFields: (dragId: number, hoverId: number) => void;
+  field: {
+    id: number;
+    title: string;
+    [key: string]: any;
+  };
+  children: React.ReactNode;
+  onMoveFields: (dragField: any, hoverField: any) => void;
+  onHideField: (field: any) => void;
+  onDragEnd: () => void;
 }
 
-export default function FieldWrapper({ fieldProps, field, onMoveFields }: FieldWrapperProps) {
+export default function FieldWrapper({ field, children, onMoveFields, onHideField, onDragEnd }: FieldWrapperProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   const [{ isDragging }, drag, preview] = useDrag({
     type: "FILTER_FIELD",
-    item: () => ({ id: fieldProps.item.id }),
+    item: () => ({ dragField: field }),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
-    }),
+    })
   });
 
   const [, drop] = useDrop({
     accept: ["FILTER_FIELD"],
     hover: (item: any, monitor) => {
-      const [dragId, hoverId] = [item.id, fieldProps.item.id]
+      const [dragField, hoverField] = [item.dragField, field]
 
-      if (!ref.current || dragId === hoverId) {
+      if (!ref.current || dragField.id === hoverField.id) {
         return
       }
 
       const hoverBoundingRect = ref.current.parentElement!.getBoundingClientRect()
       const clientOffset = monitor.getClientOffset() as XYCoord
       const [hoverMiddleY, hoverClientY] = [(hoverBoundingRect.top + hoverBoundingRect.bottom) / 2, clientOffset.y]
+      console.log(hoverMiddleY, hoverClientY);
+      
 
       if (hoverClientY > hoverMiddleY) {
-        onMoveFields(dragId, hoverId)
+        onMoveFields(dragField, hoverField)
       }
     },
+    drop: onDragEnd
   })
-  
+
   drag(ref)
 
   return (
@@ -46,11 +55,14 @@ export default function FieldWrapper({ fieldProps, field, onMoveFields }: FieldW
         drop(ref)
         preview(ref)
       }}
-      style={{ opacity: isDragging ? 0.5 : 1 }}
+      style={{ opacity: isDragging ? 0 : 1 }}
     >
-      <FieldDragHandle ref={ref} />
-      {field}
-      <FieldRemoveHandle />
+      <FieldLabel children={field.title} />
+      <FieldInnerContainer>
+        <FieldDragHandle ref={ref} />
+          {children}
+        <FieldRemoveHandle onClick={() => onHideField(field)} />
+      </FieldInnerContainer>
     </FieldContainer>
   )
 }

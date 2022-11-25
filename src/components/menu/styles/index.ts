@@ -1,12 +1,13 @@
 import styled, { css } from "styled-components";
 import draggableIcon from "../assets/draggable.svg";
 import { DRAG_TYPE } from "../components/Tab";
+import { MenuStyles } from './../types/index';
 
-export const TabsContainer = styled.div`
+export const TabsContainer = styled.div<{ menuStyle: MenuStyles }>`
   & > div:first-of-type {
-    height: 60px;
+    height: ${({ menuStyle }) => menuStyle === "main" ? "60px" : "45px"};
     display: flex;
-    background: #fff;
+    background: ${({ menuStyle }) => menuStyle === "main" ? "#fff" : "transparent"};
     overflow: auto;
   }
   * {
@@ -98,21 +99,28 @@ export const SettingBtn = styled.button`
   }
 `;
 
-export const TabContainer = styled.button<{ current: boolean, position: keyof typeof DRAG_TYPE }>`
+export const TabContainer = styled.button<{ menuStyle: MenuStyles, disabled: boolean, current: boolean, position: keyof typeof DRAG_TYPE }>`
   display: flex;
   align-items: center;
   gap: 3px;
   cursor: pointer;
 
-  ${({ position, current }) => {
+  ${({ position, current, disabled, menuStyle }) => {
+    if (disabled) {
+      return css`
+        opacity: .5;
+        cursor: not-allowed;
+      `
+    }
+
     switch (position) {
       case 'TOP_TAB':
         return css`
           margin-left: 20px;
           border-bottom: ${() => current ? "2px solid #1058d0" : "2px solid transparent"};
           color: ${() => (current ? "#1058d0" : "#545c6a")};
-          font-size: 15px;
-          font-weight: 600;
+          font-size: ${() => menuStyle === "main" ? "15px" : "13px"};
+          font-weight: ${() => menuStyle === "main" ? "600" : "400"};
           white-space: nowrap;
           background: none;
           outline: none;

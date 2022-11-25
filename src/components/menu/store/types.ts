@@ -1,7 +1,10 @@
 import { IMenuProps, Item } from "../types";
+import { MenuStyles } from './../types/index';
 
 export type State = {
   items: Item[];
+  disabled: boolean;
+  menuStyle: MenuStyles;
   currentItem: Item | undefined;
   isReadyForRender: boolean;
   countTopItems: number;

@@ -24,6 +24,11 @@ export interface IFormProps {
   onEditEnd?: () => void;
 }
 
+export interface IFormRefHandlers {
+  validateAllFields: () => boolean;
+  submit: () => Promise<boolean> | false;
+}
+
 export type FormMode = "edit" | "view";
 export type FormViewType = "short" | "full"
 

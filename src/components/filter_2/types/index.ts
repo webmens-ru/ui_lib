@@ -1,4 +1,4 @@
-import { IDataItem } from '@webmens-ru/ui_lib/dist/components/select/types';
+import { IDataItem } from "../../select";
 
 
 export type TProps = {
@@ -8,7 +8,7 @@ export type TProps = {
   createFilter?: (f: TFilter) => void;
   updateFilter?: (f: TUpdateFilter) => void;
   deleteFilter?: (f: TFilter) => void;
-  updateFiltersOrder?: (f: TFilter[]) => void;
+  updateFiltersOrder?: (f: Array<{id: number, order: number}>) => void;
   fields?: TField[];
   updateField?: (f: TField, param: string) => void;
   updateFieldsOrder?: (f: TField[]) => void;
@@ -19,6 +19,9 @@ export type TProps = {
 }
 
 export type TGetSelectItems = (type: string, queryKey: string) => Promise<any[]>;
+export type FieldTypes = "integer" | "number" | "string" | "select" | "multiple_select" | "select_dynamic" | "multiple_select_dynamic" | "date"
+export type FieldOperator = "" | "=" | "in" | "isNull" | "isNotNull" | "isNotUsed" | "range" | "%like%" | "%like" | "like%" | "=<>" | ">=" | "<=" | "=>=" | "=<=";
+export type DateFieldOperator = "anyDate"|"yesterday"|"today"|"tomorrow"|"currentWeek"|"currentMonth"|"currentQuarter"|"last7Days"|"last30Days"|"last60Days"|"last90Days"|"lastNDays"|"nextNDays"|"nextWeek"|"nextMonth"|"month"|"quarter"|"year"|"exactDate"|"lastWeek"|"lastMonth"|"range"
 
 export type TFilter = {
   id: number;
@@ -41,7 +44,7 @@ export type TField = {
   filterId: number;
   order: number;
   value: string[];
-  type: string;
+  type: FieldTypes;
   title: string;
   queryKey: string;
   code: string;
@@ -92,9 +95,6 @@ export interface IDashedGreyBtn {
 
 export interface IField {
   item: TField;
-  onDragStart: () => void;
-  onDragEnter: (e: React.MouseEvent<HTMLElement>) => void;
-  onDragEnd: (e: React.MouseEvent<HTMLElement>) => void;
   updateField: (props: TField, param: string) => void;
 }
 

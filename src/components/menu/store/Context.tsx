@@ -1,9 +1,5 @@
 import React, {
-  createContext,
-  useReducer,
-  useContext,
-  useCallback,
-  useEffect,
+  createContext, useCallback, useContext, useEffect, useReducer
 } from "react";
 import { Action, IContext, IPropsContext, State } from "./types";
 
@@ -42,6 +38,8 @@ export function ContextProvider(props: IPropsContext) {
 
     return {
       items,
+      disabled: props.disabled || false,
+      menuStyle: props.menuStyle || "main",
       currentItem,
       isReadyForRender: false,
       countTopItems: 0,

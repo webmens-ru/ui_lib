@@ -3,11 +3,15 @@ type TSetTab = (props: Item) => void;
 
 export interface IMenuProps {
   items?: Item[];
+  disabled?: boolean;
+  menuStyle?: MenuStyles;
   setItem?: TSetTab;
   itemsMutation?: TTabsMutation;
   isEditable?: boolean;
   initialMenuId?: number;
 }
+
+export type MenuStyles = "main" | "card";
 
 export type Item = {
   id: number;

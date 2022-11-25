@@ -117,3 +117,12 @@ export const FileVF = ({ value }: IViewField<IFileInputItem[] | IFileInputItem>)
     </ViewFieldList>
   )
 }
+
+export const DateVF = ({ value }: IViewField<string>) => {
+  if (value) {
+    const text = new Date(value).toLocaleDateString()
+    return <ViewFieldText children={text} hasValue={true} />
+  } else {
+    return <ViewFieldText children={FIELD_PLACEHOLDER} hasValue={false} />
+  }
+}

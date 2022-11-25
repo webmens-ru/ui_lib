@@ -34,7 +34,7 @@ export const SelectInner = styled.div`
   flex-wrap: wrap;
   width: 100%;
   height: 100%;
-  min-height: 40px;
+  min-height: 38px;
   padding: 5px 32px 5px 8px;
 `
 

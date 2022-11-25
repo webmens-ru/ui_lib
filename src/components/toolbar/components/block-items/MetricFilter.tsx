@@ -7,10 +7,10 @@ interface IMetricFilterProps extends IBlockItemPropsGeneric<IBlockItemMetricFilt
   color?: IBadgeTypes
 }
 
-export function MetricFilter({ blockItem, color, onClick, key }: IMetricFilterProps) {
+export function MetricFilter({ blockItem, onClick, key }: IMetricFilterProps) {
   return (
     <MetricFilterContainer key={key} title={blockItem.title} onClick={() => onClick(blockItem)} >
-      <Badge count={blockItem.value} type={color} />
+      <Badge count={blockItem.value} type={blockItem.params.color} />
       <span>{blockItem.title}</span>
     </MetricFilterContainer>
   )

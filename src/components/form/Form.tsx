@@ -1,13 +1,14 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useImperativeHandle, useReducer } from "react";
 import { Button } from "../button";
 import { EditForm } from "./components/EditForm";
 import { ViewForm } from "./components/ViewForm";
 import { init, reducer } from "./reducer";
 import { FormButtonsContainer, FormContainer, FormHeader, FormInnerContainer, FormModeToggler, FormTitle, GlobalStyleForm } from "./styles";
-import { IFormProps } from "./types";
+import { IFormProps, IFormRefHandlers, IValidationErrorItem } from "./types";
+import { validator } from "./utils/onBlurHandler";
 import { prepareFormData } from "./utils/parse";
 
-export const Form = ({
+export const Form = React.forwardRef(({
   fields = [],
   values = {},
   mode = "edit",
@@ -22,7 +23,7 @@ export const Form = ({
   onAfterSubmit = () => { },
   onInit = () => { },
   onEditEnd = () => { }
-}: IFormProps) => {
+}: IFormProps, ref: React.ForwardedRef<IFormRefHandlers>) => {
   const [form, dispatch] = useReducer(reducer, {
     fields,
     values,
@@ -33,6 +34,7 @@ export const Form = ({
 
   useEffect(() => {
     onInit(form.values)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.inited])
 
   const toggleFormMode = () => {
@@ -48,19 +50,37 @@ export const Form = ({
     }
   }
 
+  const validateAllFields = () => {
+    const errors: IValidationErrorItem[] = form.fields.map((field) => {
+      const value = form.tempValues[field.name]
+      return validator(field.name, value, validationRules)
+    }).flat()
+    dispatch({ type: "set_errors", errors })
+
+    return errors.length === 0
+  }
+
   const handleFormSubmit = () => {
-    if (!form.errors.length) {
-      onSubmit(prepareFormData(form)).then(response => {
+    const isValid = validateAllFields()
+
+    if (isValid) {
+      return onSubmit(prepareFormData(form)).then(response => {
         dispatch({ type: "submit_form" })
         onAfterSubmit(response)
+        return true
       }).catch(({ response }) => {
         console.error(response);
         if (response.status !== 500) {
           dispatch({ type: "set_errors", errors: response.data })
         }
+        return false
       })
+    } else {
+      return false
     }
   }
+
+  useImperativeHandle(ref, () => ({ validateAllFields, submit: handleFormSubmit }))
 
   if (!form.inited) {
     return <></>
@@ -119,4 +139,4 @@ export const Form = ({
       </>
     )
   }
-}
+})

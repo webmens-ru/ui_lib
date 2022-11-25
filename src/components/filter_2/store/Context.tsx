@@ -1,12 +1,5 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
-import {
-  TField,
-  TFilter,
-  TFilterFieldsItem,
-  TGetSelectItems,
-  TProps,
-  TUpdateFilter
-} from "../types";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { TField, TFilter, TGetSelectItems, TProps, TUpdateFilter } from "../types";
 import { propsFormatter } from "../utils/propsFormatter";
 
 interface IState {
@@ -16,7 +9,7 @@ interface IState {
   createFilter: (f: TFilter) => void;
   updateFilter: (f: TUpdateFilter) => void;
   deleteFilter: (f: TFilter) => void;
-  updateFiltersOrder: (f: TFilter[]) => void;
+  updateFiltersOrder: (f: Array<{id: number, order: number}>) => void;
   fields: TField[];
   updateField: (f: TField, param: string) => void;
   updateFieldsOrder: (f: TField[]) => void;
@@ -56,13 +49,14 @@ type Action =
   | { type: "INITIAL"; props: TProps }
   | { type: "SET_CURRENT_FILTER"; filter: TFilter }
   | { type: "SET_IS_SETUP"; isSetup: boolean }
+  | { type: "SET_FILTERS", filters: TFilter[] }
   | { type: "SET_FILTER_TEMPLATE_VALUE"; title: string }
   | { type: "SET_RENAME_FILTER"; filter: TFilter }
   | { type: "SAVE_RENAME_FILTER" }
   | { type: "SET_IS_CREATE_FILTER"; isCreate: boolean }
   | { type: "SAVE_CREATE_FILTER" }
   | { type: "DELETE_CURRENT_FILTER" }
-  | { type: "SET_FILTER_FIELDS"; fields: TFilterFieldsItem[] }
+  | { type: "SET_FILTER_FIELDS"; fields: TField[] }
   | { type: "UPDATE_FILTER_FIELD"; field: TField }
   | { type: "SET_FILTER_FIELD_VALUE"; field: TField };
 
@@ -79,6 +73,10 @@ const reducer = (state: IState, action: Action) => {
         ...state,
         currentFilter: action.filter,
       };
+    case "SET_FILTERS":
+      return { ...state, filters: action.filters }
+    case "SET_FILTER_FIELDS":
+      return { ...state, fields: action.fields }
     case "SET_IS_SETUP": {
       return {
         ...state,

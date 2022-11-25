@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCustomContext } from '../store';
-import { ITopTabs } from '../types/index';
+import { Item, ITopTabs } from '../types/index';
 import Tab from './Tab';
 
 export default function TopTabs({ arr, isDraggable, currentId, setTab }: ITopTabs) {  
@@ -35,6 +35,12 @@ export default function TopTabs({ arr, isDraggable, currentId, setTab }: ITopTab
     dispatch({ type: "set_items", items: [ ...state.items.filter(item => item.id !== dragItem.id), dragItem ] })
   }
 
+  const handleTabClick = (tab: Item) => {
+    if (!state.disabled) {
+      setTab(tab)
+    }
+  }
+
   return (<>{arr.sort((a, b) => a.order - b.order).map(item => (
     <Tab
       key={item.id}
@@ -43,7 +49,7 @@ export default function TopTabs({ arr, isDraggable, currentId, setTab }: ITopTab
       isDraggable={isDraggable}
       dragType='TOP_TAB'
       title={item.title}
-      onClick={() => setTab(item)}
+      onClick={() => handleTabClick(item)}
       onMoveTabs={moveTabs}
       onShowTab={showTab}
     />

@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop, XYCoord } from "react-dnd";
+import { useCustomContext } from "../store";
 import { TabContainer, TabDragHandle } from "../styles";
 import { Item } from "../types";
 
@@ -26,6 +27,7 @@ export const DRAG_TYPE = {
 
 export default function Tab({ tab, isDraggable, dragType, isCurrent, title, onClick, onMoveTabs = () => {}, onHideTab = () => {}, onShowTab = () => {} }: MenuTabProps) {
   const ref = useRef<HTMLDivElement>(null)
+  const { state } = useCustomContext()
 
   const [, drop] = useDrop<DragMenuItem, void, any>({
     accept: [DRAG_TYPE.TOP_TAB, DRAG_TYPE.HIDDEN_TAB],
@@ -85,6 +87,8 @@ export default function Tab({ tab, isDraggable, dragType, isCurrent, title, onCl
         preview(ref)
       }}
       onClick={(evt) => !isDraggable ? onClick(evt) : null}
+      menuStyle={state.menuStyle}
+      disabled={state.disabled}
       current={isCurrent}
       position={dragType}
       style={{ opacity: isDragging ? 0.5 : 1 }}

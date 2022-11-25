@@ -37,7 +37,7 @@ export const init = function ({ fields, values: defaultValues, mode, validationR
         values[field.name] = values[field.name] || []
         break;
       case 'date':
-        values[field.name] = values[field.name] || new Date().getTime()
+        values[field.name] = values[field.name] || new Date().toISOString()
         break;
       default:
         return
