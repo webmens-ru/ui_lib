@@ -68,11 +68,11 @@ export const BodyModalContainer = styled.div`
   overflow: auto;
   background: #eef2f4;
 
-  > * {
-    position: absolute;
-    width: 95%;
-    height: 150%;
-  }
+  &.modal-select > * {
+      position: absolute;
+      width: 95%;
+      height: 150%;
+    }
 `
 
 export const FooterModalContainer = styled.div`
