@@ -34,7 +34,6 @@ export type SelectValue = IDataItem[]
 export type SelectData = Array<IDataItem | IGroupDataItem>
 
 export interface IDropdownProps {
-  isShow?: boolean;
   children?: React.ReactElement;
   multiple?: boolean;
   isShowLettersCount?: boolean;
@@ -44,6 +43,7 @@ export interface IDropdownProps {
   isLoading?: boolean;
   selectedOptions?: IDataItem[];
   data?: SelectData;
+  position?: DropdownPosition;
   onChange?: (option: IDataItem) => void;
 }
 
@@ -82,4 +82,10 @@ export interface IGroupDataItem {
 
 export interface IQueryParams {
   [key: string]: any;
+}
+
+export interface DropdownPosition {
+  width: number;
+  top: number;
+  left: number;
 }

@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from "react";
+import React, { useReducer, useRef, useState } from "react";
 import { useShowControl } from "../../hooks/useShowControl";
 import SelectDropdown from "./components/dropdown";
 import LoadingSelect from './components/loading_select';
@@ -23,6 +23,7 @@ export const Select = ({
   queryTitleName = "title_like",
   onChange = () => { },
 }: ISelectProps) => {
+  const [dropdownPosition, setDropdownPosition] = useState({ width: 0, left: 0, top: 0 })
   const { ref, isShow, setShow } = useShowControl()
   const filterRef = useRef(null)
   const [select, dispatch] = useReducer(reducer, {
@@ -79,8 +80,6 @@ export const Select = ({
     } else {
       updateFilteredData(select.filterValue)
     }
-    // else if (select.filterValue) {
-    // }
   }
 
   // Срабатывает при выборе элемента списка
@@ -116,10 +115,19 @@ export const Select = ({
     } else return ''
   }
 
-  const handleContainerClick = () => {
+  const setCoordinates = (evt: React.MouseEvent<HTMLElement>) => {
+    const { left, bottom, width } = evt.currentTarget.getBoundingClientRect()
+    setDropdownPosition({ width, left, top: bottom + 10 })
+  }
+
+  const handleContainerClick = (evt: React.MouseEvent<HTMLElement>) => {
+    console.log(evt.currentTarget)
+    setCoordinates(evt)
+
     if (closeOnSelect && isShow === true) {
       return setShow(false)
     }
+
     setShow(true)
   }
 
@@ -134,9 +142,11 @@ export const Select = ({
           <Suffix />
         </SelectSuffix>
 
-        <SelectDropdown isShow={isShow}>
-          <LoadingSelect />
-        </SelectDropdown>
+        {isShow && (
+          <SelectDropdown>
+            <LoadingSelect />
+          </SelectDropdown>
+        )}
       </SelectContainer>
     )
   }
@@ -172,8 +182,7 @@ export const Select = ({
         <Suffix />
       </SelectSuffix>
 
-      <SelectDropdown
-        isShow={isShow}
+      {isShow && <SelectDropdown
         multiple={multiple}
         isShowLettersCount={minInputLength > 0 && !isEnoughFilterLength}
         lettersRemaining={minInputLength - select.filterValue.length}
@@ -182,8 +191,9 @@ export const Select = ({
         isLoading={select.loading}
         selectedOptions={select.value}
         data={select.filteredData}
+        position={dropdownPosition}
         onChange={handleSelectChange}
-      />
+      />}
 
     </SelectContainer>
   )

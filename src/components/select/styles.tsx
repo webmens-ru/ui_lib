@@ -9,13 +9,14 @@ type SuffixProps = {
 }
 
 /* SELECT BASE */
-export const SelectContainer = styled.div.attrs({ className: 'wm-select' })<SelectContainerProps>`
+export const SelectContainer = styled.div.attrs({ className: 'wm-select' }) <SelectContainerProps>`
+  display: flex;
   font-family: 'Open Sans';
   font-size: 14px;
   position: relative;
   width: ${({width}) => width || '100%'};
-  height: calc(100% - 2px);
-  max-width: ${({width}) => width || '100%'};
+  max-width: ${({ width }) => width || '100%'};
+  height: auto;
   border: 1px solid transparent;
   border-color: ${({isShow}) => isShow ? '#66afe9' : 'rgba(83, 92, 105, 0.2)'};
   background: #fff;
@@ -32,14 +33,14 @@ export const SelectInner = styled.div`
   position: relative;
   display: flex;
   flex-wrap: wrap;
+  min-height: 28px;
   width: 100%;
-  height: 100%;
-  min-height: 38px;
   padding: 5px 32px 5px 8px;
 `
 
 export const SelectFilter = styled.input`
   height: auto;
+  width: auto;
   border: none;
   color: #535c69;
   outline: none;
@@ -109,11 +110,12 @@ export const SelectTagsContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 4px;
+  margin-right: 4px;
   z-index: 500;
 `
 
 export const SelectTag = styled.div`
+  height: 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -121,7 +123,6 @@ export const SelectTag = styled.div`
   padding: 2px 8px;
   background: #bcedfc;
   color: #535c69;
-  height: 32px;
   cursor: default;
 `
 

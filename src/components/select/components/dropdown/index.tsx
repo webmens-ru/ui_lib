@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { BodyPortal } from '../../../body_portal';
 import { DropdownMessage } from '../../styles';
-import { IDataItem, IDropdownProps } from '../../types';
+import { IDataItem, IDropdownProps, IGroupDataItem } from '../../types';
 import LoadingSelect from '../loading_select';
-import { DropdownGroup, DropdownItem, GroupTitle, SelectDropdownContainer } from './styles';
+import { DropdownItem, DropdownItemProps, GroupDropdownItem } from './dropdown_item';
+import { SelectDropdownContainer } from './styles';
 
 const SelectDropdown = ({
-  isShow = false,
-  multiple,
+  multiple = false,
   isShowLettersCount,
   lettersRemaining,
   isNoData,
@@ -14,8 +15,14 @@ const SelectDropdown = ({
   isLoading,
   selectedOptions = [],
   data = [],
-  onChange = () => {},
+  position = { width: 0, top: 0, left: 0 },
+  onChange = () => { },
 }: IDropdownProps) => {
+  const dropdownPosition = useMemo((): React.CSSProperties => ({
+    position: "absolute",
+    ...position
+  }), [position])
+
   const getIsOptionSelected = (option: IDataItem) => {
     return selectedOptions.some((item) => item.value === option.value);
   };
@@ -23,64 +30,44 @@ const SelectDropdown = ({
   const handleSelectChange = (evt: React.MouseEvent, option: IDataItem) => {
     evt.preventDefault();
     onChange(option);
-  };  
+  };
 
   return (
-    <SelectDropdownContainer isShow={isShow}>
-      {isShowLettersCount && (
-        <DropdownMessage>
-          Введите ещё {lettersRemaining} символов, чтобы отобразить результат поиска
-        </DropdownMessage>
-      )}
-      {isNoData && <DropdownMessage>Нет данных</DropdownMessage>}
-      {!canSelectMore && <DropdownMessage>Достигнут предел выбранных записей</DropdownMessage>}
-      {isLoading && <LoadingSelect />}
+    <BodyPortal container="wm-select-dropdown">
+      <SelectDropdownContainer style={dropdownPosition}>
+        {isShowLettersCount && (
+          <DropdownMessage>
+            Введите ещё {lettersRemaining} символов, чтобы отобразить результат поиска
+          </DropdownMessage>
+        )}
+        {isNoData && <DropdownMessage>Нет данных</DropdownMessage>}
+        {!canSelectMore && <DropdownMessage>Достигнут предел выбранных записей</DropdownMessage>}
+        {isLoading && <LoadingSelect />}
 
-      {(isShow && !isLoading && canSelectMore) &&
-        data.map((option, index) => {
-          if ('title' in option && 'options' in option) {
-            return (
-              <DropdownGroup className='test' key={index} >
-                <GroupTitle children={option.title} />
-                {option.options.map((item) => (
-                  <DropdownItem
-                    key={item.value}
-                    className="dropdown-item"
-                    selected={multiple ? false : getIsOptionSelected(item)}
-                    onClick={(event) => handleSelectChange(event, item)}
-                  >
-                    {multiple && (
-                      <input
-                        type="checkbox"
-                        readOnly
-                        checked={getIsOptionSelected(item)}
-                      />
-                    )}
-                    {item.title}
-                  </DropdownItem>
-                ))}
-              </DropdownGroup>
-            )
-          } else {
-            return (
-              <DropdownItem
-                key={option.value}
-                selected={multiple ? false : getIsOptionSelected(option)}
-                onClick={(event) => handleSelectChange(event, option)}
-              >
-                {multiple && (
-                  <input
-                    type="checkbox"
-                    readOnly
-                    checked={getIsOptionSelected(option)}
-                  />
-                )}
-                {option.title}
-              </DropdownItem>
-            )
-          }
-        })}
-    </SelectDropdownContainer>
+        {(!isLoading && canSelectMore) &&
+          data.map((option, index) => {
+            const props: DropdownItemProps<IDataItem | IGroupDataItem> = {
+              option: option,
+              multiple: multiple,
+              checkIsSelected: getIsOptionSelected,
+              onChange: handleSelectChange,
+            }
+
+            if ('title' in option && 'options' in option) {
+              return (
+                // @ts-ignore
+                <GroupDropdownItem {...props} key={index} />
+              )
+            } else {
+              return (
+                // @ts-ignore
+                <DropdownItem {...props} key={option.value} />
+              )
+            }
+          })}
+      </SelectDropdownContainer>
+    </BodyPortal>
+
   );
 };
 

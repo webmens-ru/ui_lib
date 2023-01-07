@@ -1,4 +1,5 @@
 export { Badge } from './components/badge/Badge';
+export { BodyPortal } from './components/body_portal';
 export { Button } from './components/button';
 export { Calendar } from './components/calendar';
 export { Checkbox } from './components/checkbox';
