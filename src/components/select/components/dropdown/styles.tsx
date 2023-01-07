@@ -1,29 +1,22 @@
 import styled from "styled-components"
 
-type DropdownProps = {
-  isShow: boolean
-}
-
 type DropdownItemProps = {
   selected: boolean
 }
 
 export const SelectDropdownContainer = styled.div.attrs({ className: 'dropdown' })`
-  position: absolute;
-  top: 105%;
+  position: fixed;
+  top: 0px;
   max-height: 240px;
   width: 100%;
   z-index: 1000;
   overflow-y: auto;
   background: white;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-  visibility: ${({isShow}: DropdownProps) => isShow ? 'visible' : 'hidden'};
-  transform: ${({isShow}: DropdownProps) => isShow ? 'translateY(0)' : 'translateY(25%)'};
-  opacity: ${({isShow}: DropdownProps) => isShow ? '1' : '0'};
   transition: transform 75ms linear, opacity 150ms linear;
 `
 
-export const DropdownItem = styled.div`
+export const DropdownItemContainer = styled.div`
   display: flex;
   align-items: center;
   min-height: 40px;
@@ -46,7 +39,7 @@ export const DropdownItem = styled.div`
   }
 `
 
-export const DropdownGroup = styled.div`
+export const DropdownGroupContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 5px;
