@@ -77,4 +77,6 @@ export const BodyModalContainer = styled.div`
 
 export const FooterModalContainer = styled.div`
   margin-top: 10px;
+  padding-bottom: 5px;
+  overflow-x: auto;
 `

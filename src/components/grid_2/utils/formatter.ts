@@ -9,6 +9,11 @@ export const getSuitableFormatter = (column: TRawColumnItem, onCellClick: (cell:
   return (props: FormatterProps<TRowItem, unknown>) => {
     const value = props.row[column.code]
     const formatterProps = { ...props, rowKey: column.code, value, onCellClick }
-    return !value ? FORMATTERS.empty(formatterProps) : formatter(formatterProps)
+
+    if (value === undefined || value === null || value === "" || (typeof value === "string" && value.trim() === "")) {
+      return FORMATTERS.empty(formatterProps)
+    } else {
+      return formatter(formatterProps)
+    }
   }
 }

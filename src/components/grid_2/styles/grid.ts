@@ -3,8 +3,11 @@ import styled, { createGlobalStyle } from "styled-components";
 export const GridStyle = createGlobalStyle`
   .wm-grid {
     font-family: "Open Sans";
-    scroll-behavior: smooth;
     border: 0;
+
+    scroll-behavior: smooth;
+    user-select: auto;
+    cursor: default;
 
     .rdg-header-row {
       .cell-action {
