@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DataGrid from 'react-data-grid';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { Pagination } from "../pagination";
 import SettingsModal from "./components/SettingsModal";
 import SideScroll from "./components/SideScroll";
 import CheckboxFormatter from "./formatters/CheckboxFormatter";
@@ -23,20 +24,24 @@ export const Grid2 = ({
   height = 400,
   rowKey = "id",
   burgerKey = "actions",
+  pagination,
   columnMutation = () => { },
-  onChangeCheckboxes = () => {},
-  onBurgerItemClick = () => {},
-  onCellClick = () => {}
+  onChangeCheckboxes = () => { },
+  onBurgerItemClick = () => { },
+  onRowMutation = () => { },
+  onCellClick = () => { }
 }: IGridProps) => {
   const [mutableColumns, setMutableColumns] = useState<TColumnItem[]>(fromRawColumns(columns, isShowCheckboxes, onCellClick))
-  
+  const [createRows, setCreateRows] = useState<TRowItem[]>(rows)
+
   const { gridKey, reloadGrid } = useGridReload()
   const { gridRef, refReady } = useGridRef()
 
-  const { draggableColumns, sortColumns, showSettings, setShowSettings, setSortColumns } = useColumns({ createColumns: mutableColumns, onReorder: handleColumnsMutation })
-  const { sortedRows, selectedRows, setSelectedRows } = useRows({ createColumns: columns, createRows: rows, sortColumns, burgerItems, burgerKey, gridRef, onBurgerItemClick })
-  const { onColumnResize } = useColumnResize({ mutableColumns, draggableColumns, onResizeEnd: handleColumnsMutation })    
-  
+  const { draggableColumns, sortColumns, showSettings, setShowSettings, setSortColumns } = useColumns({ createColumns: mutableColumns, onReorder: handleColumnsMutation, onChangeEnd: onRowMutation })
+  const { sortedRows, selectedRows, setSelectedRows } = useRows({ createColumns: columns, createRows, sortColumns, burgerItems, burgerKey, gridRef, onBurgerItemClick })
+  // @ts-ignore
+  const { onColumnResize } = useColumnResize({ mutableColumns, draggableColumns, onResizeEnd: handleColumnsMutation })
+
   useEffect(() => {
     onChangeCheckboxes(Array.from(selectedRows))
   }, [onChangeCheckboxes, selectedRows])
@@ -57,6 +62,10 @@ export const Grid2 = ({
     return typeof id === "string" ? parseInt(id) : id
   }
 
+  useEffect(() => {
+    setCreateRows(rows)
+  }, [rows])
+
   return (
     <>
       <GridStyle />
@@ -67,6 +76,7 @@ export const Grid2 = ({
           <DataGrid
             key={gridKey}
             ref={gridRef}
+            // @ts-ignore
             columns={draggableColumns}
             sortColumns={sortColumns}
             rows={sortedRows}
@@ -78,10 +88,14 @@ export const Grid2 = ({
             summaryRows={footer}
             rowKeyGetter={rowKeyGetter}
             onColumnResize={onColumnResize}
+            onRowsChange={setCreateRows}
             onSortColumnsChange={setSortColumns}
-            renderers={{ checkboxFormatter: CheckboxFormatter }}            
+            renderers={{ checkboxFormatter: CheckboxFormatter }}
             style={{ height }}
           />
+          {pagination && (
+            <Pagination {...pagination} />
+          )}
         </DndProvider>
       </GridContainer>
     </>

@@ -3,15 +3,18 @@ import { HeaderRendererProps, SortColumn } from "react-data-grid";
 import { DraggableHeaderRenderer } from "../components/DraggableHeader";
 import SettingsCellHeader from "../components/SettingsCellHeader";
 import { IGNORED_COLUMN_KEYS } from "../consts";
+import { EditorProps } from "../types/editors";
 import { TColumnItem, TRowItem } from "../types/types";
+import { getSuitableEditor } from "../utils/editor";
 import { updateInstance } from "../utils/grid_parser";
 
-interface IUseColumnsProps {
+interface UseColumnsProps {
   createColumns: TColumnItem[];
+  onChangeEnd: (row: TRowItem, key: string, value: any) => void;
   onReorder: (columns: TColumnItem[]) => void;
 }
 
-export default function useColumns({ createColumns, onReorder }: IUseColumnsProps) {
+export default function useColumns({ createColumns, onReorder, onChangeEnd }: UseColumnsProps) {
   const [columns, setColumns] = useState(createColumns);
   const [sortColumns, setSortColumns] = useState<SortColumn[]>([]);
   const [showSettings, setShowSettings] = useState(false)
@@ -42,15 +45,20 @@ export default function useColumns({ createColumns, onReorder }: IUseColumnsProp
 
     return columns
       .filter((c) => !!c.instance.visible)
-      .map((c) => {        
+      .map((c) => {     
         if (c.key === "action") {
           return { ...c, headerRenderer: () => SettingsCellHeader({ onClick: () => setShowSettings(true) }) }
         } else if (IGNORED_COLUMN_KEYS.includes(c.key) || !c.instance.reordering) {
-          return c
+          return { ...c }
         };
-        return { ...c, headerRenderer: HeaderRenderer };
+        return {
+          ...c,
+          headerRenderer: HeaderRenderer,
+          editable: !!c.instance.editable,
+          editor: (props: EditorProps) => getSuitableEditor({ ...props, onChangeEnd  })
+        };
       });
-  }, [columns, onReorder])
+  }, [columns, onChangeEnd, onReorder])
 
   return {
     draggableColumns,

@@ -1,5 +1,6 @@
 import { SelectColumn } from 'react-data-grid';
 import SettingsCellHeader from './components/SettingsCellHeader';
+import TextEditor from './editors/TextEditor';
 import ActionFormatter from './formatters/ActionFormatter';
 import { CommonFormatter } from './formatters/CommonFormatter';
 import { DateFormatter } from './formatters/DateFormatter';
@@ -7,6 +8,7 @@ import { EmptyFormatter } from './formatters/EmptyFormatter';
 import { ImageFormatter } from './formatters/ImageFormatter';
 import { LinkFormatter } from './formatters/LinkFormatter';
 import { IFormattersCollection, TColumnItem, TRawColumnItem } from './types';
+import { EditorsCollection } from './types/editors';
 
 export const COLUMN_INSTANCE_PLUG: TRawColumnItem = {
   id: 0,
@@ -45,4 +47,11 @@ export const FORMATTERS: IFormattersCollection = {
   link: LinkFormatter,
   date: DateFormatter,
   empty: EmptyFormatter
+}
+
+export const EDITORS: EditorsCollection = {
+  text: TextEditor,
+  date: TextEditor,
+  checkbox: TextEditor,
+  dropdown: TextEditor
 }

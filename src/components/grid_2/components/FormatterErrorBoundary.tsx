@@ -16,6 +16,7 @@ export class FormatterErrorBoundary extends React.Component<{}, { hasError: bool
       return <ErrorFormatter />
     }
 
+    // @ts-ignore
     return this.props.children
   }
 }

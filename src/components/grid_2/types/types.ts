@@ -1,4 +1,6 @@
 import { Column } from 'react-data-grid';
+import { PaginationProps } from '../../pagination';
+import { EditorTypes } from './editors';
 
 export interface IGridProps {
   columns?: TRawColumnItem[];
@@ -9,7 +11,9 @@ export interface IGridProps {
   rowKey?: string;
   burgerKey?: string;
   isShowCheckboxes?: boolean;
+  pagination?: PaginationProps;
   columnMutation?: (arr: TRawColumnItem[]) => void;
+  onRowMutation?: (row: TRowItem, key: string, value: any) => void;
   onBurgerItemClick?: (arg: BurgerItem, row: TRowItem) => void;
   onChangeCheckboxes?: (arr: TRowID[]) => void;
   onCellClick?: (cell: TCellItem) => void;
@@ -27,6 +31,13 @@ export type TRawColumnItem = {
   resizeble?: boolean | null;
   reordering?: boolean | null;
   sortable?: boolean | null;
+  editable?: boolean | null;
+  editor?: {
+    type: EditorTypes,
+    editorProps?: {
+      name?: string
+    }
+  }
   order: number;
   width: number;
 };
