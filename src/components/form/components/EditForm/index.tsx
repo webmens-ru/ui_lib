@@ -49,6 +49,20 @@ export const EditForm = ({
     }
   }
 
+  const buildSelectQueryParams = (fieldNames?: string[], queryParams: any = {}) => {
+    if (!fieldNames) return queryParams
+
+    const valuesEntities = Object.entries(form.values)
+    const parentFields = valuesEntities.filter(([key]) => fieldNames.includes(key))
+    const params = { ...queryParams }
+
+    parentFields.forEach(([key, value]) => {
+      params[key] = value
+    })
+
+    return params
+  }
+
   const getEntry = (field: FormFieldsItem) => {
     const formValue = form.tempValues[field.name];
 
@@ -67,6 +81,7 @@ export const EditForm = ({
           <Select
             {...field}
             {...field.fieldParams}
+            queryParams={buildSelectQueryParams(field.parentQueryFields, field.fieldParams?.queryParams)}
             onChange={(value) => handleFieldChange(field, value)}
             value={formValue as SelectPropsValue}
           />

@@ -37,6 +37,7 @@ export interface FormFieldsItemGeneric {
   label?: string;
   labelSuffix?: string;
   readonly?: boolean;
+  parentQueryFields?: string[];
 }
 
 export type FormFieldsItem = FormFieldsItemGeneric &
