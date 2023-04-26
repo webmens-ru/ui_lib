@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { DatePickerContainer} from './styles';
 import { useShowControl } from "../../hooks";
 import { Calendar } from "../calendar";
 import { Field } from "../field";
@@ -58,7 +58,7 @@ export function DatePicker({
   };
 
   return (
-    <DatePickerContainer ref={ref} fieldWidth={fieldWidth}>
+    <DatePickerContainer ref={ref} width={fieldWidth}>
       <Field
         type="date"
         variant="with_border"
@@ -77,14 +77,6 @@ export function DatePicker({
     </DatePickerContainer>
   );
 }
-
-type StyleProps = {
-  fieldWidth: string;
-};
-
-const DatePickerContainer = styled.div<StyleProps>`
-  width: ${({ fieldWidth }) => fieldWidth};
-`;
 
 function isValidDateISO(dateISO?: string) {
   if (!dateISO) return false;
