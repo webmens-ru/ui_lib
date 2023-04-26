@@ -5,3 +5,8 @@ node_modules
 dist
 package-lock.json
 storybook-static
+.idea/misc.xml
+.idea/modules.xml
+.idea/ui_lib_webmens.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/Project_Default.xml
