@@ -25,23 +25,25 @@ export const Grid2 = ({
   rowKey = "id",
   burgerKey = "actions",
   pagination,
+  rowColorKey = "wmRowColor",
+  cellColorKey,
   columnMutation = () => { },
   onChangeCheckboxes = () => { },
   onBurgerItemClick = () => { },
-  onRowMutation = () => { },
-  onCellClick = () => { }
+  onRowMutation = () => {},
+  onCellClick = () => {}
 }: IGridProps) => {
   const [mutableColumns, setMutableColumns] = useState<TColumnItem[]>(fromRawColumns(columns, isShowCheckboxes, onCellClick))
   const [createRows, setCreateRows] = useState<TRowItem[]>(rows)
-
+  
   const { gridKey, reloadGrid } = useGridReload()
   const { gridRef, refReady } = useGridRef()
 
-  const { draggableColumns, sortColumns, showSettings, setShowSettings, setSortColumns } = useColumns({ createColumns: mutableColumns, onReorder: handleColumnsMutation, onChangeEnd: onRowMutation })
+  const { draggableColumns, sortColumns, showSettings, setShowSettings, setSortColumns } = useColumns({ createColumns: mutableColumns, cellColorKey, onReorder: handleColumnsMutation, onChangeEnd: onRowMutation })
   const { sortedRows, selectedRows, setSelectedRows } = useRows({ createColumns: columns, createRows, sortColumns, burgerItems, burgerKey, gridRef, onBurgerItemClick })
   // @ts-ignore
-  const { onColumnResize } = useColumnResize({ mutableColumns, draggableColumns, onResizeEnd: handleColumnsMutation })
-
+  const { onColumnResize } = useColumnResize({ mutableColumns, draggableColumns, onResizeEnd: handleColumnsMutation })    
+  
   useEffect(() => {
     onChangeCheckboxes(Array.from(selectedRows))
   }, [onChangeCheckboxes, selectedRows])
@@ -60,6 +62,12 @@ export const Grid2 = ({
   const rowKeyGetter = (row: TRowItem) => {
     const id = typeof row[rowKey] !== "object" ? row[rowKey] : row[rowKey].title
     return typeof id === "string" ? parseInt(id) : id
+  }
+
+  const generateRowClassname = (row: TRowItem) => {
+    if (!rowColorKey) return
+
+    return row[rowColorKey]
   }
 
   useEffect(() => {
@@ -85,6 +93,7 @@ export const Grid2 = ({
             className="rdg-light wm-grid"
             headerRowHeight={47}
             rowHeight={47}
+            rowClass={generateRowClassname}
             summaryRows={footer}
             rowKeyGetter={rowKeyGetter}
             onColumnResize={onColumnResize}

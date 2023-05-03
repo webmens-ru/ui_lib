@@ -12,6 +12,8 @@ export interface IGridProps {
   burgerKey?: string;
   isShowCheckboxes?: boolean;
   pagination?: PaginationProps;
+  rowColorKey?: string;
+  cellColorKey?: CellColorKey | CellColorKey[];
   columnMutation?: (arr: TRawColumnItem[]) => void;
   onRowMutation?: (row: TRowItem, key: string, value: any) => void;
   onBurgerItemClick?: (arg: BurgerItem, row: TRowItem) => void;
@@ -20,6 +22,7 @@ export interface IGridProps {
 }
 
 export type TColumnType = "string" | "number" | "date" | "image" | "link"
+export type GridColors = "red" | "blue" | "green" | "yellow" | "orange"
 
 export type TRawColumnItem = {
   id: number;
@@ -55,6 +58,11 @@ export type TRowItem = {
 
 export type TCellItem = {
   [key: string]: any
+}
+
+export interface CellColorKey {
+  column: string;
+  key: string;
 }
 
 interface BurgetItemGeneric {

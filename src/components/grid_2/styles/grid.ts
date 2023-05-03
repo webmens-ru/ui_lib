@@ -39,6 +39,26 @@ export const GridStyle = createGlobalStyle`
       .rdg-cell:nth-child(2) {
         z-index: 99;
       }
+
+      &.red .rdg-cell {
+        background: #f9585487;
+      }
+
+      &.blue .rdg-cell {
+        background: #2fc6f673;
+      }
+
+      &.green .rdg-cell {
+        background: #9bcc0663;
+      }
+
+      &.yellow .rdg-cell {
+        background: #fbfb227a;
+      }
+
+      &.orange .rdg-cell {
+        background: #ffa50078;
+      }
     }
 
     .rdg-cell {
