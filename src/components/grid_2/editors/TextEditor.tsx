@@ -4,7 +4,7 @@ import { EditorProps } from "../types/editors";
 
 export default function TextEditor({ row, column, onRowChange, onClose, onChangeEnd }: EditorProps) {
   const value = row[column.key]
-  const key = column.instance.editor?.editorProps?.name || row[column.key]
+  const key = column.instance.editor?.editorProps?.name || column.key
 
   const handleChangeEnd = () => {
     onClose(true)
