@@ -9,27 +9,35 @@ const meta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
     color: {
-      description: 'Main color',
+      description: 'Цвет кнопки',
+    },
+    variant: {
+      description: "Форма кнопки",
     },
     children: {
-      description: 'Text inside button',
+      description: 'Текст внутри кнопки',
     },
     palette: {
-      description: 'Custom color palette',
+      description: 'Кастомные настройки элементов кнопки',
     },
     svgBefore: {
-      description: 'Svg before text',
+      description: 'Иконка перед текстом',
     },
     buttonProps: {
-      description: "Props for button like 'onClick'",
+      description: "HTML-пропсы тега <button>",
     },
     items: {
-      description:
-        'label: string(required), borderTop: boolean, borderBottom: boolean',
+      description: 'label: string(required), borderTop: boolean, borderBottom: boolean',
     },
     itemsProps: {
       description: "Props for dropdown items like 'onClick'",
     },
+    dropdownDirection: {
+      description: "Горизонтальное направление выпадающего списка"
+    },
+    dropdownWidth: {
+      description: "Ширина выпадающего списка"
+    }
   },
 };
 
