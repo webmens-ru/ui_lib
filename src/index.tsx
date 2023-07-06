@@ -17,6 +17,7 @@ export { Loader } from './components/loader';
 export { Menu } from './components/menu';
 export { Modal } from './components/modal_2/Modal';
 export { Multifield } from './components/multifield/Multifield';
+export { useNotification } from "./components/notification/hooks/useNotification";
 export { ResetStyles } from './components/reset_styles';
 export { Select } from './components/select/Select';
 export { Title } from './components/title';

@@ -1,6 +1,6 @@
 {
   "name": "@webmens-ru/ui_lib",
-  "version": "0.24.24",
+  "version": "0.24.26",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -12,12 +12,13 @@
     "node": ">=10"
   },
   "dependencies": {
-    "react": ">=16",
-    "react-data-grid": "^7.0.0-beta.14",
+    "react": "^18.1.0",
+    "react-data-grid": "7.0.0-beta.14",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.1.0",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
@@ -37,12 +38,13 @@
     "@storybook/react-webpack5": "^7.0.8",
     "@svgr/rollup": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.3",
-    "@testing-library/react": "^12.1.4",
+    "@testing-library/react": "^11.0.0",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.23",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
     "@types/styled-components": "^5.1.24",
+    "@types/react-transition-group": "^4.4.5",
     "babel-loader": "^9.1.2",
     "eslint": "^8.12.0",
     "eslint-config-react-app": "^7.0.0",
@@ -56,6 +58,7 @@
   "scripts": {
     "start": "tsdx watch",
     "sb": "sb dev -p 6006",
+    "sb-build": "sb build",
     "build": "tsdx build",
     "publish": "npm publish --access public",
     "test": "tsdx test --passWithNoTests",
@@ -69,6 +72,9 @@
   },
   "bugs": {
     "url": "https://github.com/webmens-ru/ui_lib/issues"
+  },
+  "overrides": {
+    "enhanced-resolve": "5.10.0"
   },
   "homepage": "https://github.com/webmens-ru/ui_lib#readme",
   "peerDependencies": {

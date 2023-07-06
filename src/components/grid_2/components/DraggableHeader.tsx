@@ -1,5 +1,5 @@
 import React from 'react';
-import { headerRenderer, HeaderRendererProps } from 'react-data-grid';
+import { HeaderRenderer, HeaderRendererProps } from 'react-data-grid';
 import { useDrag, useDrop } from 'react-dnd';
 
 interface DraggableHeaderRendererProps<R> extends HeaderRendererProps<R> {
@@ -42,7 +42,7 @@ export function DraggableHeaderRenderer<R>({
         cursor: 'move'
       }}
     >
-      {headerRenderer({ column, ...props })}
+      {HeaderRenderer({ column, ...props })}
     </div>
   );
 }
