@@ -4,6 +4,7 @@ import { ICheckboxProps } from "./types";
 export const Checkbox = ({
   value = false,
   label = "",
+  disabled = false,
   onCheck = () => { }
 }: ICheckboxProps) => {
   const randomId = useMemo(() => `wm-checkbox-${Math.random() * 100}`, [])
@@ -18,14 +19,12 @@ export const Checkbox = ({
       <input
         type="checkbox"
         id={randomId}
+        disabled={disabled}
         checked={value}
         onChange={handleChange}
       />
       {label && (
-        <label
-          htmlFor={randomId}
-          children={label}
-        />
+        <label htmlFor={randomId} children={label} />
       )}
     </>
   )
