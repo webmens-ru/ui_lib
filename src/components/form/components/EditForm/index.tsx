@@ -56,9 +56,27 @@ export const EditForm = ({
     const parentFields = valuesEntities.filter(([key]) => fieldNames.includes(key))
     const params = { ...queryParams }
 
-    parentFields.forEach(([key, value]) => {
+    for (let [key, value] of parentFields) {
       params[key] = value
-    })
+      switch (typeof value) {
+        case "string":
+        case "boolean":
+          params[key] = value
+          break;
+        case "object":
+          if (!Array.isArray(value) || !value.length) break
+
+          if (value.length > 1) {
+            params[key] = value.map(item => "title" in item ? item.value : item.fileName)
+          } else {
+            params[key] = "title" in value[0] ? value[0].value : value[0].fileName
+          }
+
+          break;
+        default:
+          params[key] = value
+      }
+    }
 
     return params
   }
