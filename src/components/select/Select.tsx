@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useShowControl } from "../../hooks/useShowControl";
 import SelectDropdown from "./components/dropdown";
 import LoadingSelect from './components/loading_select';
@@ -23,7 +23,7 @@ export const Select = ({
   queryTitleName = "title_like",
   onChange = () => { },
 }: ISelectProps) => {
-  const [dropdownPosition, setDropdownPosition] = useState({ width: 0, left: 0, top: 0 })
+  const [dropdownPosition, setDropdownPosition] = useState<DOMRect>()
   const { ref, isShow, setShow } = useShowControl()
   const filterRef = useRef(null)
   const [select, dispatch] = useReducer(reducer, {
@@ -115,21 +115,26 @@ export const Select = ({
     } else return ''
   }
 
-  const setCoordinates = (evt: React.MouseEvent<HTMLElement>) => {
-    const { left, bottom, width } = evt.currentTarget.getBoundingClientRect()
-    setDropdownPosition({ width, left, top: bottom + 10 })
+  const setCoordinates = () => {
+    if (!ref.current) return
+
+    const domRect = ref.current.getBoundingClientRect()
+    setDropdownPosition(domRect)
   }
 
-  const handleContainerClick = (evt: React.MouseEvent<HTMLElement>) => {
-    console.log(evt.currentTarget)
-    setCoordinates(evt)
-
+  const handleContainerClick = () => {
     if (closeOnSelect && isShow === true) {
       return setShow(false)
     }
-
+    
+    setCoordinates()
     setShow(true)
   }
+
+  useEffect(() => {
+    window.addEventListener("resize", setCoordinates)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Если данные для списка ещё не были загружены, либо возникла ошибка при их загрузке
   // Отобразить простой контейнер без логики
@@ -182,18 +187,20 @@ export const Select = ({
         <Suffix />
       </SelectSuffix>
 
-      {isShow && <SelectDropdown
-        multiple={multiple}
-        isShowLettersCount={minInputLength > 0 && !isEnoughFilterLength}
-        lettersRemaining={minInputLength - select.filterValue.length}
-        isNoData={!isEnoughFilterLength && !select.filteredData.length && !select.loading}
-        canSelectMore={canSelectMore}
-        isLoading={select.loading}
-        selectedOptions={select.value}
-        data={select.filteredData}
-        position={dropdownPosition}
-        onChange={handleSelectChange}
-      />}
+      {isShow && (
+        <SelectDropdown
+          multiple={multiple}
+          isShowLettersCount={minInputLength > 0 && !isEnoughFilterLength}
+          lettersRemaining={minInputLength - select.filterValue.length}
+          isNoData={!isEnoughFilterLength && !select.filteredData.length && !select.loading}
+          canSelectMore={canSelectMore}
+          isLoading={select.loading}
+          selectedOptions={select.value}
+          data={select.filteredData}
+          position={dropdownPosition}
+          onChange={handleSelectChange}
+        />
+      )}
 
     </SelectContainer>
   )

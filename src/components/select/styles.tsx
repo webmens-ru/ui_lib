@@ -17,6 +17,7 @@ export const SelectContainer = styled.div.attrs({ className: 'wm-select' }) <Sel
   width: ${({width}) => width || '100%'};
   max-width: ${({ width }) => width || '100%'};
   height: auto;
+  min-height: 40px;
   border: 1px solid transparent;
   border-color: ${({isShow}) => isShow ? '#66afe9' : 'rgba(83, 92, 105, 0.2)'};
   background: #fff;

@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BodyPortal } from '../../../body_portal';
 import { DropdownMessage } from '../../styles';
-import { IDataItem, IDropdownProps, IGroupDataItem } from '../../types';
+import { DropdownPosition, IDataItem, IDropdownProps, IGroupDataItem } from '../../types';
 import LoadingSelect from '../loading_select';
 import { DropdownItem, DropdownItemProps, GroupDropdownItem } from './dropdown_item';
 import { SelectDropdownContainer } from './styles';
@@ -15,13 +15,11 @@ const SelectDropdown = ({
   isLoading,
   selectedOptions = [],
   data = [],
-  position = { width: 0, top: 0, left: 0 },
+  position,
   onChange = () => { },
 }: IDropdownProps) => {
-  const dropdownPosition = useMemo((): React.CSSProperties => ({
-    position: "absolute",
-    ...position
-  }), [position])
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const [dropdownPosition, setDropdownPosition] = useState<DropdownPosition>({ left: 0, width: 0 })
 
   const getIsOptionSelected = (option: IDataItem) => {
     return selectedOptions.some((item) => item.value === option.value);
@@ -32,9 +30,27 @@ const SelectDropdown = ({
     onChange(option);
   };
 
+  useEffect(() => {
+    if (!dropdownRef.current || !position) return
+
+    const dropdownHeight = dropdownRef.current.clientHeight
+
+    const { left, top, bottom, width, height } = position
+    const pxToBottom = window.innerHeight - top - height
+
+    if (pxToBottom <= dropdownHeight && top <= dropdownHeight) {
+      const positionKey = pxToBottom < top ? "top" : "bottom"
+      setDropdownPosition({ width, left, [positionKey]: bottom + 10 })
+    } else if (pxToBottom >= dropdownHeight) {
+      setDropdownPosition({ width, left, top: bottom + 10 })
+    } else if (top >= dropdownHeight) {
+      setDropdownPosition({ width, left, top: "auto", bottom: pxToBottom + height + 10 })
+    }
+  }, [data.length, position])
+
   return (
     <BodyPortal container="wm-select-dropdown">
-      <SelectDropdownContainer style={dropdownPosition}>
+      <SelectDropdownContainer ref={dropdownRef} style={{ position: "absolute", ...dropdownPosition }}>
         {isShowLettersCount && (
           <DropdownMessage>
             Введите ещё {lettersRemaining} символов, чтобы отобразить результат поиска

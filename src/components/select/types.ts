@@ -43,7 +43,7 @@ export interface IDropdownProps {
   isLoading?: boolean;
   selectedOptions?: IDataItem[];
   data?: SelectData;
-  position?: DropdownPosition;
+  position?: DOMRect;
   onChange?: (option: IDataItem) => void;
 }
 
@@ -85,7 +85,8 @@ export interface IQueryParams {
 }
 
 export interface DropdownPosition {
-  width: number;
-  top: number;
-  left: number;
+  width: string | number;
+  top?: string | number;
+  left: string | number;
+  bottom?: string | number;
 }
