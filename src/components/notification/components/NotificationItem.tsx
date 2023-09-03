@@ -8,7 +8,7 @@ export default function NotificationItem({
   id,
   closable = true,
   content = "",
-  timeout = 3000,
+  timeout = 5000,
   type,
   onFinish,
 }: NotificationItemProps) {

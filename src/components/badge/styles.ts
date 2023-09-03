@@ -1,5 +1,5 @@
-import { IBadgeTypes } from './types';
 import styled from "styled-components";
+import { IBadgeTypes } from './types';
 
 interface IBadgeContainerProps {
   type: IBadgeTypes

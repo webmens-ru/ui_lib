@@ -1,7 +1,7 @@
 import React from "react";
 import { BodyModalContainer, FooterModalContainer, HeaderCancelButton, HeaderModalContainer, ModalBackdrop, ModalContainer, ModalInnerContainer } from "./styles";
 
-interface ModalProps {
+export interface ModalProps {
   showBackdrop?: boolean;
   header?: React.ReactNode;
   body?: React.ReactNode;
