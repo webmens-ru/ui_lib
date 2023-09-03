@@ -37,6 +37,10 @@ export const Form = React.forwardRef(({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.inited])
 
+  useEffect(() => {
+    dispatch({ type: "set_mode", mode })
+  }, [mode])
+
   const toggleFormMode = () => {
     if (form.mode === 'edit') {
       const resp = window.confirm('Вы уверены, что хотите отменить изменения?')

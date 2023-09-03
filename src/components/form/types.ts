@@ -67,6 +67,7 @@ export type IFormReducerAction =
   | { type: "toggle_mode" }
   | { type: "submit_form" }
   | { type: "undo_changes" }
+  | { type: "set_mode", mode: FormMode }
   | { type: "set_errors", errors: ErrorsItem[] }
   | { type: "set_field", field: FormFieldsItemShort }
   | { type: "set_form", form: {errors: ErrorsItem[], field: FormFieldsItemShort} }

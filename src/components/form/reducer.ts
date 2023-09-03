@@ -2,6 +2,8 @@ import { IFormReducerAction, IFormReducerProps, IFormReducerState } from "./type
 
 export const reducer = function (state: IFormReducerState, action: IFormReducerAction): IFormReducerState {
   switch (action.type) {
+    case 'set_mode':
+      return { ...state, mode: action.mode }
     case 'toggle_mode':
       const mode = state.mode === "edit" ? "view" : "edit";
       return { ...state, mode }
