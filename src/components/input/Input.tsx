@@ -20,9 +20,14 @@ export const Input = ({
 
   // Срабатывает при изменении значения в поле
   const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const value = evt.target.value
+    let value = evt.target.value
+    const newValue = onChange(value)
+
+    if (newValue !== undefined) {
+      value = newValue
+    }
+
     setInput({ ...input, value })
-    onChange(value)
   }
 
   // Срабатывает при фокусе

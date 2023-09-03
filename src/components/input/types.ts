@@ -9,7 +9,7 @@ export interface IInputProps {
   iconRightName?: IconName;
   width?: string;
   nativeInputProps?: React.InputHTMLAttributes<HTMLInputElement>
-  onChange?: (value: string) => void;
+  onChange?: (value: string) => string | void;
   onFocus?: () => void;
   onBlur?: () => void;
 }
