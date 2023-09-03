@@ -103,16 +103,10 @@ export const TabContainer = styled.button<{ menuStyle: MenuStyles, disabled: boo
   display: flex;
   align-items: center;
   gap: 3px;
-  cursor: pointer;
+  opacity: ${({ disabled }) => disabled ? ".5" : "1"} !important;
+  cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
 
-  ${({ position, current, disabled, menuStyle }) => {
-    if (disabled) {
-      return css`
-        opacity: .5;
-        cursor: not-allowed;
-      `
-    }
-
+  ${({ position, current, menuStyle }) => {
     switch (position) {
       case 'TOP_TAB':
         return css`

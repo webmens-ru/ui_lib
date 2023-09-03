@@ -1,5 +1,6 @@
 type TTabsMutation = (props: Item[]) => void;
 type TSetTab = (props: Item) => void;
+export type SliderOpenner = (params: any) => void
 
 export interface IMenuProps {
   items?: Item[];
@@ -7,6 +8,7 @@ export interface IMenuProps {
   menuStyle?: MenuStyles;
   setItem?: TSetTab;
   itemsMutation?: TTabsMutation;
+  sliderOpenner?: SliderOpenner;
   isEditable?: boolean;
   initialMenuId?: number;
 }

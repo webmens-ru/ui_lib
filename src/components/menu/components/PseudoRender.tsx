@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useCustomContext } from "../store";
 import { IRenderParagraph, Item } from "../types";
@@ -29,17 +29,17 @@ export default function PseudoRender() {
 }
 
 function RenderParagraph({ item, setTab }: IRenderParagraph) {
-  const ref = useRef<HTMLParagraphElement>(null);
+  const [ref, setRef] = useState<HTMLParagraphElement | null>(null)
 
   useEffect(() => {
-    if (ref && ref.current) {
-      return setTab({ ...item, width: ref.current.offsetWidth + 5 });
+    if (ref) {
+      setTab({ ...item, width: ref.offsetWidth + 5 });
     }
-  }, [item, setTab]);
+  }, [item, ref, setTab]);
 
   return (
     <P
-      ref={ref}
+      ref={(ref) => setRef(ref)}
     >
       {item.title}
     </P>

@@ -11,7 +11,7 @@ export default function MainRender() {
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
 
   const { state, dispatch } = useCustomContext();
-  const { setTab } = useSetTab(dispatch);
+  const { setTab } = useSetTab({ dispatch, sliderOpenner: state.sliderOpenner });
   const { ref, isShow, setShow } = useShowControl();
 
   const updateTabs = () => {
@@ -30,9 +30,13 @@ export default function MainRender() {
           currentId={state.currentItem?.id || -1}
           setTab={setTab}
         />
-        <MoreBtn onClick={() => setShow(!isShow)} current={isShow}>
-          Ещё
-        </MoreBtn>
+        {state.menuStyle === "main" && (
+          <MoreBtn
+            current={isShow}
+            children="Ещё"
+            onClick={() => setShow(!isShow)}
+          />
+        )}
       </div>
       <MenuContainer ref={ref} isShow={isShow}>
         <MenuTabs

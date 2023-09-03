@@ -21,6 +21,11 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         currentItem: action.item,
       };
+    case "set_disabled":
+      return {
+        ...state,
+        disabled: action.disabled
+      }
     default:
       return state;
   }
@@ -44,7 +49,8 @@ export function ContextProvider(props: IPropsContext) {
       isReadyForRender: false,
       countTopItems: 0,
       isEditable: props.isEditable || true,
-      itemsMutation: props.itemsMutation || (() => {}),
+      itemsMutation: props.itemsMutation || (() => { }),
+      sliderOpenner: props.sliderOpenner
     };
   }, []);
 
@@ -56,6 +62,10 @@ export function ContextProvider(props: IPropsContext) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.setItem, state.currentItem]);
+
+  useEffect(() => {
+    dispatch({ type: "set_disabled", disabled: props.disabled || false })
+  }, [props.disabled])
 
   return (
     <Context.Provider value={{ state, dispatch }}>
