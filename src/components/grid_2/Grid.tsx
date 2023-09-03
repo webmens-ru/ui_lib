@@ -84,6 +84,7 @@ export const Grid2 = ({
           <DataGrid
             key={gridKey}
             ref={gridRef}
+            
             // @ts-ignore
             columns={draggableColumns}
             sortColumns={sortColumns}
@@ -99,7 +100,7 @@ export const Grid2 = ({
             onColumnResize={onColumnResize}
             onRowsChange={setCreateRows}
             onSortColumnsChange={setSortColumns}
-            renderers={{ checkboxFormatter: CheckboxFormatter }}
+            components={{ checkboxFormatter: CheckboxFormatter }}
             style={{ height }}
           />
           {pagination && (
