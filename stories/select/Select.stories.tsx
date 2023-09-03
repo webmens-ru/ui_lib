@@ -1,6 +1,7 @@
-import { ComponentStory, Meta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import React from "react";
 import { Select } from "../../src";
+import { ISelectProps } from "../../src/components/select";
 import { generateMockData } from "./__mocks__";
 
 const getControlType = (type: string) => {
@@ -30,7 +31,7 @@ const config = {
       table: getTableType("boolean")
     },
     queryParams: {
-      description: "Параметры, которые будут передаваться на сервер, если **remoteMode** установлен в **true**.",
+      description: "Параметры, которые будут передаваться на сервер, если `remoteMode` установлен в **true**.",
       control: getControlType('object'),
       table: getTableType("object")
     },
@@ -89,7 +90,7 @@ const config = {
       table: getTableType("string")
     },
     onChange: {
-      description: "Callback-функция, срабатывающая при выборе или удалении значения. Возвращает массив объектов вида, схожего с параметром **data**",
+      description: "Callback-функция, срабатывающая при выборе или удалении значения. Возвращает массив объектов вида, схожего с параметром `data`",
       control: getControlType('function'),
       table: getTableType("function")
     }
@@ -98,7 +99,7 @@ const config = {
 
 export default config;
 
-const Template: ComponentStory<typeof Select> = (args) => <Select {...args} />;
+const Template = (args: JSX.IntrinsicAttributes & ISelectProps) => <Select {...args} />
 
 export const BasicUsage = Template.bind({});
 BasicUsage.args = {

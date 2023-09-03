@@ -7,6 +7,7 @@ export const mockColumnGenerator = (length: number) => {
       code: 'column' + index,
       title: 'Column`s title №' + index,
       order: index + 1,
+      reordering: true
     }));
 };
 

@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Open Sans';
   src:
-    url(./ttf/OpenSans-Light.ttf) format("ttf");
+    url(./woff2/OpenSans-Light.woff2) format("woff2");
   font-weight: 300;
   font-display: fallback;
 }
@@ -9,7 +9,7 @@
 @font-face {
   font-family: 'Open Sans';
   src:
-    url(./ttf/OpenSans-Regular.ttf) format("ttf");
+    url(./woff2/OpenSans-Regular.woff2) format("woff2");
   font-weight: 400;
   font-display: fallback;
 }
@@ -17,7 +17,7 @@
 @font-face {
   font-family: 'Open Sans';
   src:
-    url(./ttf/OpenSans-SemiBold.ttf) format("ttf");
+    url(./woff2/OpenSans-SemiBold.woff2) format("woff2");
   font-weight: 600;
   font-display: fallback;
 }
@@ -25,7 +25,7 @@
 @font-face {
   font-family: 'Open Sans';
   src:
-    url(./ttf/OpenSans-Bold.ttf) format("ttf");
+    url(./woff2/OpenSans-Bold.woff2) format("woff2");
   font-weight: 700;
   font-display: fallback;
 }
@@ -33,7 +33,7 @@
 @font-face {
   font-family: 'Open Sans';
   src:
-    url(./ttf/OpenSans-ExtraBold.ttf) format("ttf");
+    url(./woff2/OpenSans-ExtraBold.woff2) format("woff2");
   font-weight: 800;
   font-display: fallback;
 }

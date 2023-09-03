@@ -1,6 +1,7 @@
 *,
 *::before,
 *::after {
+  font-family: 'Open Sans';
   box-sizing: border-box;
 }
 

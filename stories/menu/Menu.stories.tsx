@@ -1,4 +1,4 @@
-import { ComponentStory, Meta } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import React from "react";
 import { Menu } from "../../src";
 import { mockTabsGenerator } from "./__mocks__/menuGenerator";
@@ -25,9 +25,14 @@ export default {
   },
 } as Meta<typeof Menu>;
 
-const Template: ComponentStory<typeof Menu> = (args) => <Menu {...args} />;
+const Template: StoryFn<typeof Menu> = (args) => <Menu {...args} />;
 
 export const Simple = Template.bind({});
+Simple.args = {
+  items: mockTabsGenerator(30),
+};
+
+export const Card = Template.bind({});
 Simple.args = {
   items: mockTabsGenerator(30),
 };

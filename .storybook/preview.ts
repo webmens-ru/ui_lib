@@ -1,6 +1,5 @@
 import './assets/css/custom.css';
 import './assets/css/normalize.css';
-import './assets/css/reset.css';
 import './assets/fonts/fonts.css';
 
 // https://storybook.js.org/docs/react/writing-stories/parameters#global-parameters
