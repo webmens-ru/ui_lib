@@ -1,6 +1,6 @@
 {
   "name": "@webmens-ru/ui_lib",
-  "version": "0.24.26",
+  "version": "0.24.33",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -60,7 +60,7 @@
     "sb": "sb dev -p 6006",
     "sb-build": "sb build",
     "build": "tsdx build",
-    "publish": "npm publish --access public",
+    "publish-lib": "npm publish --access public",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "size": "size-limit",

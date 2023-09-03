@@ -67,6 +67,7 @@ export const EditForm = ({
           if (!Array.isArray(value) || !value.length) break
 
           if (value.length > 1) {
+            // @ts-ignore
             params[key] = value.map(item => "title" in item ? item.value : item.fileName)
           } else {
             params[key] = "title" in value[0] ? value[0].value : value[0].fileName
