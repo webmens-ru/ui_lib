@@ -19,6 +19,7 @@ import plusWhite from './assets/ui-plus-white.svg'
 import reloadBlue from './assets/ui-reload-blue.svg'
 import searchWhite from './assets/ui-search-white.svg'
 import settingBack from './assets/ui-setting-black.svg'
+import helpWhite from './assets/ui-help.svg'
 
 const Icons = {
   call,
@@ -41,6 +42,7 @@ const Icons = {
   reloadBlue,
   searchWhite,
   settingBack,
+  helpWhite,
   none: 'none'
 }
 

@@ -8,6 +8,7 @@ import MailBlack from '../../icon/assets/ui-mail-black.svg';
 import ChatBlack from '../../icon/assets/ui-chat-black.svg';
 import SettingBlack from '../../icon/assets/ui-setting-black.svg';
 import ReloadBlue from '../../icon/assets/ui-reload-blue.svg';
+import HelpWhite from '../../icon/assets/ui-help.svg';
 
 export const svg = {
   searchWhite: SearchWhiteSvg,
@@ -19,6 +20,7 @@ export const svg = {
   chatBlack: ChatBlack,
   settingBlack: SettingBlack,
   reloadBlue: ReloadBlue,
+  helpWhite: HelpWhite
 };
 
 export const svgBeforeList = {
@@ -32,4 +34,5 @@ export const svgBeforeList = {
   chat: <img src={svg.chatBlack} alt="" />,
   reload: <img src={svg.reloadBlue} alt="" />,
   setting: <img src={svg.settingBlack} alt="" />,
+  help: <img src={svg.helpWhite} alt="" />,
 };
