@@ -1,5 +1,5 @@
 import React from "react";
-import { IFileInputItem } from "../../../file_input/types";
+import { FileInputItem } from "../../../file_input/types";
 import { IMultifieldProps, MultifieldItem, MultifieldItemComboValue, MultifieldItemValue } from "../../../multifield/types";
 import { IDataItem, ISelectProps } from "../../../select/types";
 import { ViewFieldLink, ViewFieldList, ViewFieldText } from "./styles";
@@ -100,18 +100,18 @@ export const MultifieldInnerVF = ({ itemValue, fieldParams }: IMultifieldInner) 
   }
 }
 
-export const FileVF = ({ value }: IViewField<IFileInputItem[] | IFileInputItem>) => {
+export const FileVF = ({ value }: IViewField<FileInputItem[] | FileInputItem>) => {
   if (!value) {
     return <ViewFieldText children={FIELD_PLACEHOLDER} hasValue={false} />
   }
   if (!Array.isArray(value)) {
-    return <ViewFieldLink children={value.fileName} hasValue={true} href={value.fileLink} target="_blank" />
+    return <ViewFieldLink children={value.name} hasValue={true} href={value.url} target="_blank" />
   }
   return (
     <ViewFieldList>
       {value.map(item => (
         <li>
-          <ViewFieldLink children={item.fileName} hasValue={true} href={item.fileLink} target="_blank" />
+          <ViewFieldLink children={item.name} hasValue={true} href={item.url} target="_blank" />
         </li>
       ))}
     </ViewFieldList>

@@ -1,5 +1,5 @@
 import React from "react";
-import { IFileInputItem } from "../../../file_input/types";
+import { FileInputItem } from "../../../file_input/types";
 import { MultifieldItem } from "../../../multifield/types";
 import { IDataItem } from "../../../select/types";
 import { FormFieldsItem } from "../../types";
@@ -21,7 +21,7 @@ export const ViewForm = ({
       case 'multifield':
         return <MultifieldVF value={form.values[field.name] as unknown as Array<string|MultifieldItem>} fieldParams={field.fieldParams} />
       case 'file':
-        return <FileVF value={form.values[field.name] as IFileInputItem[]} />
+        return <FileVF value={form.values[field.name] as FileInputItem[]} />
       case 'date':
         return <DateVF value={form.values[field.name] as string} />
       default:

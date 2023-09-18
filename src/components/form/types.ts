@@ -2,7 +2,7 @@ import { IDatePicker } from '../date_picker/types';
 import { IInputProps, InputValue } from '../input/types';
 import { ISelectProps, SelectPropsValue } from '../select/types';
 import { CheckboxValue, ICheckboxProps } from './../checkbox/types';
-import { FileInputPropsValue, IFileInputItem, IFileInputProps } from './../file_input/types';
+import { FileInputItem, FileInputPropsValue, IFileInputProps } from './../file_input/types';
 import { IMultifieldProps, MultifieldItemProps } from './../multifield/types';
 import { IDataItem } from './../select/types';
 import { ErrorsItem } from './components/field/types';
@@ -60,7 +60,7 @@ export interface IFormProviderProps extends IFormProps {
 }
 
 export type FormValues = {
-  [key: string]: InputValue|IDataItem[]|CheckboxValue|string|IFileInputItem[]
+  [key: string]: InputValue |IDataItem | IDataItem[] | CheckboxValue | string | FileInputItem[]
 }
 
 export type IFormReducerAction = 

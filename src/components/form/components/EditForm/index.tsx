@@ -3,7 +3,7 @@ import { Checkbox } from "../../../checkbox";
 import { CheckboxValue } from "../../../checkbox/types";
 import { DatePicker } from "../../../date_picker";
 import FileInput from "../../../file_input";
-import { IFileInputItem } from "../../../file_input/types";
+import { FileInputItem } from "../../../file_input/types";
 import { FormFieldsItem, FormFieldsItemShort } from "../../../form/types";
 import Input from "../../../input";
 import { InputValue } from "../../../input/types";
@@ -63,14 +63,19 @@ export const EditForm = ({
         case "boolean":
           params[key] = value
           break;
-        case "object":
-          if (!Array.isArray(value) || !value.length) break
+        case "object":          
+          if (!Array.isArray(value)) {
+            params[key] = value.value
+            break;
+          }
+
+          if (!value.length) break
 
           if (value.length > 1) {
             // @ts-ignore
             params[key] = value.map(item => "title" in item ? item.value : item.fileName)
           } else {
-            params[key] = "title" in value[0] ? value[0].value : value[0].fileName
+            params[key] = "title" in value[0] ? value[0].value : value[0].name
           }
 
           break;
@@ -125,7 +130,7 @@ export const EditForm = ({
         return (
           <FileInput
             {...field.fieldParams}
-            defaultFileList={formValue as IFileInputItem[]}
+            defaultFileList={formValue as FileInputItem[]}
             onChange={(file) => handleFieldChange(field, file)}
           />
         )

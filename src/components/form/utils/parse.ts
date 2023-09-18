@@ -1,7 +1,8 @@
+import { FileInputItem } from '../../file_input';
 import { IMultifieldProps, MultifieldItem } from './../../multifield/types';
-import { IFormReducerState, FormValues } from './../types';
-import { ISelectProps, IDataItem } from './../../select/types';
+import { IDataItem, ISelectProps } from './../../select/types';
 import { buildCallbackValue } from './../../select/utils/selectUtils';
+import { FormValues, IFormReducerState } from './../types';
 
 export const prepareFormData = ({ fields, tempValues: values }: IFormReducerState): FormValues => {
   const parsedValues = Object.entries(values)
@@ -26,6 +27,13 @@ export const prepareFormData = ({ fields, tempValues: values }: IFormReducerStat
           parsedValue = multifieldValue.map(item => buildCallbackValue(item.value as IDataItem[], false))
           break;
       }
+    }
+
+    if (field?.type === "file") {
+      const fileValue = (value as unknown as FileInputItem[])
+      const fileInstances = fileValue.filter(item => !!item.instance).map(item => item.instance)
+      
+      parsedValue = fileInstances.length ? fileInstances[0] : fileValue
     }
 
     result[name] = parsedValue
