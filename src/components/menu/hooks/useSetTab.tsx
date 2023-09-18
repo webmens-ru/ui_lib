@@ -14,12 +14,12 @@ export const useSetTab = ({ dispatch, sliderOpenner }: UseSetTabProps) => {
         dispatch({ type: 'set_current_item', item });
         break;
       case 'openPath':
-        if (!sliderOpenner && !BX24) {
+        if (!sliderOpenner && !("BX24" in window)) {
           window.open(item.params.url, '_blank')?.focus();
         }
 
         if (sliderOpenner) {
-          sliderOpenner(item.params.url)
+          sliderOpenner(item)
         } else if (BX24) {
           BX24.openPath(item.params.url);
         }
@@ -28,7 +28,7 @@ export const useSetTab = ({ dispatch, sliderOpenner }: UseSetTabProps) => {
         window.open(item.params.url, '_blank')?.focus();
         break;
       case 'openApplication':
-        if (!sliderOpenner && !BX24) {
+        if (!sliderOpenner && !("BX24" in window)) {
           let url = '';
           for (const [key, value] of Object.entries(item.params)) {
             url += `${key}=${value}&`;
@@ -37,7 +37,7 @@ export const useSetTab = ({ dispatch, sliderOpenner }: UseSetTabProps) => {
           window.open(url, '_blank')?.focus();
         }
         if (sliderOpenner) {
-          sliderOpenner(item.params)
+          sliderOpenner(item)
         } else if (BX24) {
           BX24.openApplication(item.params);
         }
