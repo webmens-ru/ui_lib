@@ -1,5 +1,6 @@
-import { headersGeneric } from './../../api';
-import { IFileInputItem, FileInputQueryParams } from './types';
+import { headersGeneric } from '../../app/api';
+import { makeID } from '../../app/utils/strings';
+import { FileInputItem, FileInputPropsValue, FileInputQueryParams } from './types';
 
 export const toBase64 = (file: File) => new Promise((resolve, reject) => {
   const reader = new FileReader();
@@ -25,10 +26,30 @@ export const fromBase64 = (base64: string, filename: string): File => {
   return new File([u8arr], filename, { type: mime });
 }
 
-export const getFileSize = (file: IFileInputItem, round: 'kb' | 'mb' = 'mb', digits: number = 2) => {
-  if (!file.size) return
+export const fileInstanceToFileItem = (file: File, url?: string): FileInputItem => {
+  return {
+    key: makeID(),
+    name: file.name,
+    url: url || "",
+    instance: file
+  }
+}
 
-  const bytes = typeof file.size === "string" ? parseInt(file.size) : file.size;
+export const prepareFileItems = (files?: FileInputPropsValue | FileInputPropsValue[]): FileInputItem[] => {
+  if (!files) return []
+  
+  files = Array.isArray(files) ? files : [files]
+
+  return files.map(item => ({
+    ...item,
+    key: makeID()
+  }))
+}
+
+export const getFileSize = (file: FileInputItem, round: 'kb' | 'mb' = 'mb', digits: number = 2) => {
+  if (!file.instance) return
+
+  const bytes = file.instance.size
 
   switch (round) {
     case 'kb': return `${(bytes / 1024).toFixed(digits)} KB`;
@@ -37,8 +58,8 @@ export const getFileSize = (file: IFileInputItem, round: 'kb' | 'mb' = 'mb', dig
   }
 }
 
-export const getFileExtension = (file: IFileInputItem | File): string | null => {
-  const filename = file instanceof File ? file.name : file.fileName
+export const getFileExtension = (file: FileInputItem | File): string | null => {
+  const filename = file instanceof File ? file.name : file.name
   if (!filename) return null
 
   const regexArr = filename.match(/\.(.+)$/gm);
@@ -49,15 +70,7 @@ export const isAllowedExtension = (ext: string, extensions: string[]): boolean =
   return extensions.some((allowedExt) => allowedExt === ext)
 }
 
-export const createFileFromInstance = (file: File, fileLink: string): IFileInputItem => {
-  return {
-    fileName: file.name,
-    size: file.size,
-    fileLink,
-  }
-}
-
-export const validateFile = (newFile: File, files: IFileInputItem[], maxLimit: number, extensions: string[]) => {
+export const validateFile = (newFile: File, files: FileInputItem[], maxLimit: number, extensions: string[]) => {
   if (maxLimit !== 1 && files.length >= maxLimit) {
     return { isShowMessage: true, message: `Достигнут предел в ${maxLimit} файлов` }
   }
@@ -66,7 +79,9 @@ export const validateFile = (newFile: File, files: IFileInputItem[], maxLimit: n
     const extension = getFileExtension(newFile)
     if (extension && isAllowedExtension(extension, extensions)) {
       return true
-    } else return { isShowMessage: true, message: `Недопустимое расширение файла - ${extension}. Допустимые расширения: ${extensions.join(', ')}` }
+    } else {
+      return { isShowMessage: true, message: `Недопустимое расширение файла - ${extension}. Допустимые расширения: ${extensions.join(', ')}` }
+    }
   }
 
   return true

@@ -1,40 +1,54 @@
-import React, { useRef, useReducer, useEffect } from "react";
-import { FileInputContainer, FileItem, FileLink, FileRemove, FileSize } from "./styles";
-import { IFileInputItem, IFileInputProps } from "./types";
+import React, { useRef, useState } from "react";
 import { Button } from "../button";
-import { deleteFileQuery, getFileSize, uploadFileQuery, validateFile } from "./utils";
 import { Icon } from "../icon";
-import { init, reducer } from "./reducer";
+import useNotification from "../notification";
+import { FileInputContainer, FileItem, FileLink, FileRemove, FileSize } from "./styles";
+import { FileInputItem, IFileInputProps } from "./types";
+import { deleteFileQuery, fileInstanceToFileItem, getFileSize, prepareFileItems, uploadFileQuery, validateFile } from "./utils";
 
 export const FileInput = ({
-  defaultFileList = [],
+  defaultFileList,
+  uploadUrl,
+  deleteUrl,
   maxLimit = 1,
   extensions = [],
-  uploadUrl = "",
-  deleteUrl = "",
   onChange = () => { },
   queryParams = {},
   deleteQueryParams = {}
 }: IFileInputProps) => {
   const fileInput = useRef<HTMLInputElement>(null);
-  const [state, dispatch] = useReducer(reducer, {
-    defaultFileList,
-    maxLimit,
-    extensions
-  }, init)
+  const [notificationContext, notificationAPI] = useNotification()
+  
+  const [files, setFiles] = useState<FileInputItem[]>(prepareFileItems(defaultFileList))
 
-  useEffect(() => {
-    if (state.isShowMessage) {
-      alert(state.message)
-      dispatch({type: "HIDE_MSG"})
+  const canUploadMore = maxLimit > files.length
+  const uploadButtonText =
+    (maxLimit === 1 && files.length < 1) ||
+    (maxLimit > 1 && files.length < maxLimit) ||
+    (maxLimit > 1 && files.length >= 1)
+    ? "Добавить файл" : "Заменить файл"
+
+  const addFile = (file: File | FileInputItem, url?: string) => {
+    file = file instanceof File ? fileInstanceToFileItem(file, url) : file
+
+    let newFiles: FileInputItem[] = files
+
+    if (canUploadMore && maxLimit === 1) {
+      newFiles = [file]
+    } else if (canUploadMore && maxLimit > 1) {
+      newFiles = [...files, file]
     }
-  }, [state.isShowMessage, state.message])
 
-  useEffect(() => {
-    onChange(state.defaultFileList)
-  }, [state.defaultFileList])
+    setFiles(newFiles)
+    onChange(newFiles)
+  }
 
-  const uploadButtonText = (maxLimit === 1 && state.defaultFileList.length < 1) || (maxLimit > 1 && state.defaultFileList.length < maxLimit) || (maxLimit > 1 && state.defaultFileList.length >= 1) ? "Добавить файл" : "Заменить файл"
+  const removeFile = (file: FileInputItem) => {
+    const newFiles = files.filter(item => item.key !== file.key)
+
+    setFiles(newFiles)
+    onChange(newFiles)
+  }
 
   const handleStartUpload = () => {
     if (fileInput.current) {
@@ -43,41 +57,50 @@ export const FileInput = ({
     }
   }
 
-  const handleFileUpload = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(evt.target.files as FileList)
-    if (files.length) {
-      const file = files[0]
+  const handleFileUpload = async (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadFiles = Array.from(evt.target.files as FileList)
+    if (!uploadFiles.length) return
 
-      const validationResult = validateFile(file, state.defaultFileList, maxLimit, extensions)
-      if (validationResult === true) {
-        uploadFileQuery(file, uploadUrl, queryParams).then(async response => {
-          if (response.ok) {
-            const data = await response.json()
-            dispatch({ type: "SET_FILE", payload: { file, filelink: data.filelink } })
-          }
-        }).catch(response => {
+    const file = uploadFiles[0]
+    const validationResult = validateFile(file, files, maxLimit, extensions)
+
+    if (validationResult === true) {
+      if (uploadUrl) {
+        const response = await uploadFileQuery(file, uploadUrl, queryParams)
+
+        if (response.ok) {
+          const data = await response.json()
+          addFile(file, data.fileLink)
+        } else {
           console.error(response);
-        })
+        }
       } else {
-        dispatch({type: "SHOW_MSG", payload: {message: validationResult.message}})
+        addFile(file)
       }
+    } else {
+      notificationAPI.show({ type: "error", content: validationResult.message })
     }
   }
 
-  const handleDeleteFile = (file: IFileInputItem) => {
-    deleteFileQuery(deleteUrl, deleteQueryParams).then(_response => {
-      dispatch({ type: "REMOVE_FILE", payload: { file } })
-    }).catch(response => {
-      console.error(response);
-    })
+  const handleDeleteFile = async (file: FileInputItem) => {
+    if (deleteUrl) {
+      const response = await deleteFileQuery(deleteUrl, deleteQueryParams)
+
+      if (response.ok) {
+        removeFile(file)
+      }
+    } else {
+      removeFile(file)
+    }
   }
 
   return (
     <FileInputContainer>
+      {notificationContext}
       <input type="file" ref={fileInput} onChange={handleFileUpload} />
-      {state.defaultFileList.map((file, index) => (
-        <FileItem key={index}>
-          <FileLink href={file.fileLink} children={file.fileName} target="_blank" />
+      {files.map((file) => (
+        <FileItem key={file.key}>
+          <FileLink href={file.url} children={file.name || file.instance?.name} target="_blank" />
           <FileSize children={getFileSize(file)} />
           <FileRemove onClick={() => handleDeleteFile(file)}>
             <Icon iconWidth="16px" iconName="close" />
