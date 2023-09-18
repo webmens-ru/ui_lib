@@ -1,6 +1,6 @@
-import { headersGeneric } from '../../../api';
-import { SelectValue, IGroupDataItem, SelectData, IQueryParams } from './../types';
-import { SelectPropsValue, IDataItem } from '../types';
+import { headersGeneric } from '../../../app/api';
+import { IDataItem, SelectPropsValue } from '../types';
+import { IGroupDataItem, IQueryParams, SelectData, SelectValue } from './../types';
 
 export const getInitialValue = (
   propsValue: SelectPropsValue,
