@@ -41,23 +41,23 @@ export const GridStyle = createGlobalStyle`
       }
 
       &.red .rdg-cell {
-        background: #f9585487;
+        background: #FCA7A4;
       }
 
       &.blue .rdg-cell {
-        background: #2fc6f673;
+        background: #A1E5FB;
       }
 
       &.green .rdg-cell {
-        background: #9bcc0663;
+        background: #D8EB9E;
       }
 
       &.yellow .rdg-cell {
-        background: #fbfb227a;
+        background: #FDFD95;
       }
 
       &.orange .rdg-cell {
-        background: #ffa50078;
+        background: #FFD587;
       }
     }
 

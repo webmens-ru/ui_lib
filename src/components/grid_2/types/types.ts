@@ -81,6 +81,7 @@ interface BurgerOpenApplication extends BurgetItemGeneric {
     updateOnCloseSlider: boolean;
     params: any;
   }
+  iframeUrl?: string;
 }
 
 interface BurgerOpenPath extends BurgetItemGeneric {
