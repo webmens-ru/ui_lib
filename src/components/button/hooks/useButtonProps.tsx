@@ -6,7 +6,7 @@ import {
 } from '..';
 import { useShowControl } from '../../../hooks';
 import { defaultThemes } from '../style/defaultTheme';
-import { svg, svgBeforeList } from '../style/svgConfig';
+import { svgBeforeList } from '../style/svgConfig';
 
 export const useButtonProps = (
   {
@@ -52,21 +52,7 @@ export const useButtonProps = (
   }, [afterSvgConfig, color]);
 
   const squareVariant = useMemo(() => {
-    switch (svgBefore) {
-      case undefined:
-      case 'setting':
-        return <SquareBtn {...afterSvgConfig} svg={svg.settingBlack} />;
-      case 'mail':
-        return <SquareBtn {...afterSvgConfig} svg={svg.mailBlack} />;
-      case 'phone':
-        return <SquareBtn {...afterSvgConfig} svg={svg.phoneCallBlack} />;
-      case 'chat':
-        return <SquareBtn {...afterSvgConfig} svg={svg.chatBlack} />;
-      case 'reload':
-        return <SquareBtn {...afterSvgConfig} svg={svg.reloadBlue} />;
-      default:
-        return null;
-    }
+    return <SquareBtn {...afterSvgConfig} svg={svgBeforeList[svgBefore]} />
   }, [afterSvgConfig, svgBefore]);
 
   const outsideAfterSvg = useMemo(() => {
@@ -92,7 +78,11 @@ export const useButtonProps = (
   }, [variant]);
 
   const insideBefore = useMemo(
-    () => (variant !== 'square' ? svgBeforeList[svgBefore] : null),
+    () => {
+      console.log(svgBefore, svgBeforeList)
+      const icon = svgBeforeList[svgBefore] ? <img src={svgBeforeList[svgBefore]} alt='' /> : null
+      return variant !== 'square' ? icon : null
+    },
     [svgBefore, variant]
   );
 
