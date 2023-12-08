@@ -1,5 +1,5 @@
 import React from "react";
-import Select, { IDataItem } from '../../../../select';
+import Select, { IDataItem, ISelectProps } from '../../../../select';
 import { useCustomContext } from "../../../store/Context";
 import { SelectContainer } from "../../../styles";
 import { IField } from "../../../types";
@@ -19,6 +19,7 @@ export function SelectWrapper({ item, updateField, ...props }: IField) {
     <SelectContainer {...props}>
       <Select
         {...item.params}
+        queryParams={{ ...(item.params as ISelectProps).queryParams, ...item.queryParams }}
         value={item.value.filter(val => val)}
         onChange={updateValue}
       />

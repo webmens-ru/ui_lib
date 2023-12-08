@@ -51,6 +51,7 @@ export type TField = {
   visible: boolean | number;
   params: any;
   options: any;
+  queryParams?: { [key: string]: any }
 };
 
 export type TFilterFieldsItem = {
