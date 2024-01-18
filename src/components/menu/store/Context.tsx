@@ -49,6 +49,7 @@ export function ContextProvider(props: IPropsContext) {
       isReadyForRender: false,
       countTopItems: 0,
       isEditable: props.isEditable || true,
+      showNativeSlider: props.showNativeSlider || true,
       itemsMutation: props.itemsMutation || (() => { }),
       sliderOpenner: props.sliderOpenner
     };

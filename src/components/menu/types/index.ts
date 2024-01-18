@@ -10,6 +10,7 @@ export interface IMenuProps {
   itemsMutation?: TTabsMutation;
   sliderOpenner?: SliderOpenner;
   isEditable?: boolean;
+  showNativeSlider?: boolean;
   initialMenuId?: number;
 }
 

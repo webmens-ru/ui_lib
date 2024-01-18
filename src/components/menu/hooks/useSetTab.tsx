@@ -3,11 +3,12 @@ import { Action } from '../store';
 import { Item } from '../types';
 
 interface UseSetTabProps {
+  showNativeSlider: boolean;
   dispatch: (act: Action) => void
   sliderOpenner?: (params: any) => void
 }
 
-export const useSetTab = ({ dispatch, sliderOpenner }: UseSetTabProps) => {
+export const useSetTab = ({ showNativeSlider, dispatch, sliderOpenner }: UseSetTabProps) => {
   const setTab = useCallback((item: Item) => {
     switch (item.type) {
       case 'updatePage':
@@ -18,7 +19,7 @@ export const useSetTab = ({ dispatch, sliderOpenner }: UseSetTabProps) => {
           window.open(item.params.url, '_blank')?.focus();
         }
 
-        if (sliderOpenner) {
+        if (sliderOpenner && !showNativeSlider) {
           sliderOpenner(item)
         } else if (BX24) {
           BX24.openPath(item.params.url);
@@ -36,7 +37,7 @@ export const useSetTab = ({ dispatch, sliderOpenner }: UseSetTabProps) => {
 
           window.open(url, '_blank')?.focus();
         }
-        if (sliderOpenner) {
+        if (sliderOpenner && !showNativeSlider) {
           sliderOpenner(item)
         } else if (BX24) {
           BX24.openApplication(item.params);
@@ -48,7 +49,7 @@ export const useSetTab = ({ dispatch, sliderOpenner }: UseSetTabProps) => {
     if (item.type === 'openLink') {
       window.open(item.params.url);
     }
-  }, [dispatch, sliderOpenner]);
+  }, [dispatch, showNativeSlider, sliderOpenner]);
 
   return { setTab };
 };

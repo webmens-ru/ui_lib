@@ -9,6 +9,7 @@ export type State = {
   isReadyForRender: boolean;
   countTopItems: number;
   isEditable: boolean;
+  showNativeSlider: boolean;
   itemsMutation: (items: Item[]) => void
   sliderOpenner?: SliderOpenner
 };
