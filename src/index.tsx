@@ -22,6 +22,7 @@ export { ResetStyles } from './components/reset_styles';
 export { Select } from './components/select/Select';
 export { Title } from './components/title';
 export { Toolbar } from './components/toolbar';
+export { Tooltip } from "./components/tooltip/index";
 export * as hooks from './hooks';
 export { OpenSans } from './styles/fonts/Fonts';
 
