@@ -25,9 +25,14 @@ export interface IDateFormatterValue {
   format: string;
   title: string;
 }
+export interface IMetricFormatterValue {
+  value: number;
+  title: string;
+}
 
 export type CommonFormatterProps = IFormatterProps<ICommonFormatterValue>
 export type DateFormatterProps = IFormatterProps<IDateFormatterValue>
+export type MetricFormatterProps = IFormatterProps<IMetricFormatterValue>
 export type ImageFormatterProps = IFormatterProps<IImageFormatterValue>
 export type LinkFormatterProps = IFormatterProps<ILinkFormatterValue>
 export type EmptyFormatterProps = IFormatterProps<IEmptyFormatterValue>
@@ -38,6 +43,7 @@ export interface IFormattersCollection {
   string: (props: CommonFormatterProps) => JSX.Element;
   number: (props: CommonFormatterProps) => JSX.Element;
   date: (props: DateFormatterProps) => JSX.Element;
+  metric: (props: MetricFormatterProps) => JSX.Element;
   image: (props: ImageFormatterProps) => JSX.Element;
   link: (props: LinkFormatterProps) => JSX.Element;
   empty: (props: EmptyFormatterProps) => JSX.Element

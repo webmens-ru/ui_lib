@@ -4,7 +4,7 @@ import { DraggableHeaderRenderer } from "../components/DraggableHeader";
 import SettingsCellHeader from "../components/SettingsCellHeader";
 import { IGNORED_COLUMN_KEYS } from "../consts";
 import { EditorProps } from "../types/editors";
-import { CellColorKey, TColumnItem, TRowItem } from "../types/types";
+import { CellColorKey, TColumnItem, TRawColumnItem, TRowItem } from "../types/types";
 import { getSuitableEditor } from "../utils/editor";
 import { updateInstance } from "../utils/grid_parser";
 
@@ -23,21 +23,23 @@ export default function useColumns({ createColumns, cellColorKey, onReorder, onC
   useEffect(() => setColumns(createColumns), [createColumns])
 
   const generateCellClassname = useCallback((column: TColumnItem, row: TRowItem) => {
-    if (!cellColorKey) return
+    const columnColor = column.instance.color
 
     if (Array.isArray(cellColorKey)) {
       const cellKey = cellColorKey.find((item) => item.column === column.key)
       if (!cellKey) return
 
       return row[cellKey.key]
-    } else {
+    } else if (cellColorKey) {
       return row[cellColorKey.key]
+    } else {
+      return columnColor
     }
   }, [cellColorKey])
 
   const draggableColumns = useMemo(() => {
-    function HeaderRenderer(props: HeaderRendererProps<TRowItem>) {
-      return <DraggableHeaderRenderer {...props} onColumnsReorder={handleColumnsReorder} />;
+    function HeaderRenderer(props: HeaderRendererProps<TRowItem>, instance: TRawColumnItem) {
+      return <DraggableHeaderRenderer {...props} instance={instance} onColumnsReorder={handleColumnsReorder} />;
     }
 
     function handleColumnsReorder(sourceKey: string, targetKey: string) {
@@ -67,8 +69,9 @@ export default function useColumns({ createColumns, cellColorKey, onReorder, onC
         };
         return {
           ...c,
-          headerRenderer: HeaderRenderer,
+          headerRenderer: (props: any) => HeaderRenderer(props, c.instance),
           cellClass: (row: TRowItem) => generateCellClassname(c, row),
+          headerCellClass: c.instance.color,
           editable: !!c.instance.editable,
           editor: (props: EditorProps) => getSuitableEditor({ ...props, onChangeEnd  })
         };

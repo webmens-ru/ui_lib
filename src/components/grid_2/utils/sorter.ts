@@ -1,5 +1,5 @@
-import { IDateFormatterValue, ILinkFormatterValue } from './../types/formatters';
 import { TRawColumnItem, TRowItem } from './../types';
+import { IDateFormatterValue, ILinkFormatterValue, IMetricFormatterValue } from './../types/formatters';
 
 export const getSorter = (columnKey: string, rawColumns: TRawColumnItem[]) => {
   const column = rawColumns.find(item => item.code === columnKey)  
@@ -8,6 +8,7 @@ export const getSorter = (columnKey: string, rawColumns: TRawColumnItem[]) => {
     case "string": return stringSorter
     case "number": return numberSorter
     case "date": return dateSorter
+    case "metric": return metricSorter
     case "link": return linkSorter
     default: return stringSorter
   }
@@ -30,6 +31,13 @@ export const dateSorter = (a: TRowItem, b: TRowItem, columnKey: string) => {
   const [aTitle, bTitle] = [aValue?.title || "", bValue?.title || ""]
   
   return aTitle.localeCompare(bTitle)
+}
+
+export const metricSorter = (a: TRowItem, b: TRowItem, columnKey: string) => {
+  const [aValue, bValue] = [a[columnKey] as IMetricFormatterValue, b[columnKey] as IMetricFormatterValue]
+  const [aVal, bVal] = [aValue.value, bValue.value]
+  
+  return aVal - bVal
 }
 
 export const linkSorter = (a: TRowItem, b: TRowItem, columnKey: string) => {

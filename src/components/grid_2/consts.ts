@@ -7,6 +7,7 @@ import { DateFormatter } from './formatters/DateFormatter';
 import { EmptyFormatter } from './formatters/EmptyFormatter';
 import { ImageFormatter } from './formatters/ImageFormatter';
 import { LinkFormatter } from './formatters/LinkFormatter';
+import { MetricFormatter } from './formatters/MetricFormatter';
 import { IFormattersCollection, TColumnItem, TRawColumnItem } from './types';
 import { EditorsCollection } from './types/editors';
 
@@ -46,6 +47,7 @@ export const FORMATTERS: IFormattersCollection = {
   image: ImageFormatter,
   link: LinkFormatter,
   date: DateFormatter,
+  metric: MetricFormatter,
   empty: EmptyFormatter
 }
 

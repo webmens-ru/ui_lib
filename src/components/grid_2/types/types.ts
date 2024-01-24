@@ -21,8 +21,14 @@ export interface IGridProps {
   onCellClick?: (cell: TCellItem) => void;
 }
 
-export type TColumnType = "string" | "number" | "date" | "image" | "link"
-export type GridColors = "red" | "blue" | "green" | "yellow" | "orange"
+export type TColumnType = "string" | "number" | "date" | "metric" | "image" | "link"
+export enum GridColor {
+  "red" = "#FCA7A4",
+  "blue" = "#A1E5FB",
+  "green" = "#D8EB9E",
+  "yellow" = "#FDFD95",
+  "orange" = "#FFD587"
+}
 
 export type TRawColumnItem = {
   id: number;
@@ -35,6 +41,8 @@ export type TRawColumnItem = {
   reordering?: boolean | null;
   sortable?: boolean | null;
   editable?: boolean | null;
+  color?: GridColor;
+  info?: string;
   editor?: {
     type: EditorTypes,
     editorProps?: {

@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
+import { GridColor } from "../types";
 
 export const GridStyle = createGlobalStyle`
   .wm-grid {
@@ -28,6 +29,26 @@ export const GridStyle = createGlobalStyle`
         &:nth-child(2) {
           z-index: 100;
         }
+
+        &.red {
+          background: ${GridColor.red};
+        }
+
+        &.blue {
+          background: ${GridColor.blue};
+        }
+
+        &.green {
+          background: ${GridColor.green};
+        }
+
+        &.yellow {
+          background: ${GridColor.yellow};
+        }
+
+        &.orange {
+          background: ${GridColor.orange};
+        }
       }
     }
 
@@ -40,24 +61,24 @@ export const GridStyle = createGlobalStyle`
         z-index: 99;
       }
 
-      &.red .rdg-cell {
-        background: #FCA7A4;
+      &.red .rdg-cell, .rdg-cell.red {
+        background: ${GridColor.red};
       }
 
-      &.blue .rdg-cell {
-        background: #A1E5FB;
+      &.blue .rdg-cell, .rdg-cell.blue {
+        background: ${GridColor.blue};
       }
 
-      &.green .rdg-cell {
-        background: #D8EB9E;
+      &.green .rdg-cell, .rdg-cell.green {
+        background: ${GridColor.green};
       }
 
-      &.yellow .rdg-cell {
-        background: #FDFD95;
+      &.yellow .rdg-cell, .rdg-cell.yellow {
+        background: ${GridColor.yellow};
       }
 
-      &.orange .rdg-cell {
-        background: #FFD587;
+      &.orange .rdg-cell, .rdg-cell.orange {
+        background: ${GridColor.orange};
       }
     }
 
@@ -97,6 +118,10 @@ export const GridStyle = createGlobalStyle`
 export const GridContainer = styled.div`
   position: relative;
   overflow: hidden;
+`
+
+export const DraggableHeaderContainer = styled.div`
+  position: relative;
 `
 
 export const LeftSideArrow = styled.span`
@@ -147,4 +172,15 @@ export const LockIcon = styled.img.attrs({ alt: "", width: 16 })`
   &:hover {
     opacity: 1 !important;
   }
+`
+
+export const InfoIconContainer = styled.div`
+  top: 15px;
+  right: 0;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  margin-left: 4px;
+  border: 1px solid grey;
+  border-radius: 50%;
 `
