@@ -8,7 +8,7 @@ import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
  * @return .toggleShow
  */
 
-export const useShowControl = (propsRef?: RefObject<HTMLDivElement>) => {
+export const useShowControl = (propsRef?: RefObject<HTMLDivElement>, excluedElement?: Node | null) => {
   const defaultRef = useRef<HTMLDivElement>(null);
   const ref = propsRef || defaultRef;
   const [isShow, setShow] = useState<boolean>(false);
@@ -29,11 +29,12 @@ export const useShowControl = (propsRef?: RefObject<HTMLDivElement>) => {
       //     setShow(false);
       //   }
       // }
-      if (ref.current && !ref.current.contains(e.target as Node) && isShow) {
+      console.log(e.target)
+      if (ref.current && !ref.current.contains(e.target as Node) && !excluedElement?.contains(e.target as Node) && isShow) {
         setShow(false);
       }
     },
-    [isShow, ref]
+    [excluedElement, isShow, ref]
   );
 
   useEffect(() => {

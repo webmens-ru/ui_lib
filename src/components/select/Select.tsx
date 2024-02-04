@@ -24,8 +24,9 @@ export const Select = ({
   onChange = () => { },
 }: ISelectProps) => {
   const [dropdownPosition, setDropdownPosition] = useState<DOMRect>()
-  const { ref, isShow, setShow } = useShowControl()
   const filterRef = useRef(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const { ref, isShow, setShow } = useShowControl(undefined, dropdownRef.current)
   const [select, dispatch] = useReducer(reducer, {
     data,
     minInputLength,
@@ -189,6 +190,7 @@ export const Select = ({
 
       {isShow && (
         <SelectDropdown
+          ref={dropdownRef}
           multiple={multiple}
           isShowLettersCount={minInputLength > 0 && !isEnoughFilterLength}
           lettersRemaining={minInputLength - select.filterValue.length}
