@@ -79,7 +79,6 @@ export const useButtonProps = (
 
   const insideBefore = useMemo(
     () => {
-      console.log(svgBefore, svgBeforeList)
       const icon = svgBeforeList[svgBefore] ? <img src={svgBeforeList[svgBefore]} alt='' /> : null
       return variant !== 'square' ? icon : null
     },
