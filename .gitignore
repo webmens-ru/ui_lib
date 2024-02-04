@@ -10,3 +10,4 @@ storybook-static
 .idea/ui_lib_webmens.iml
 .idea/vcs.xml
 .idea/inspectionProfiles/Project_Default.xml
+stories/_test_platform/test_component.tsx
