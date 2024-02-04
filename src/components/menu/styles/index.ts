@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import draggableIcon from "../assets/draggable.svg";
-import { DRAG_TYPE } from "../components/Tab";
+import { MENU_DRAG_TYPE } from "../components/Tab";
 import { MenuStyles } from './../types/index';
 
 export const TabsContainer = styled.div<{ menuStyle: MenuStyles }>`
@@ -99,7 +99,7 @@ export const SettingBtn = styled.button`
   }
 `;
 
-export const TabContainer = styled.button<{ menuStyle: MenuStyles, disabled: boolean, current: boolean, position: keyof typeof DRAG_TYPE }>`
+export const TabContainer = styled.button<{ menuStyle: MenuStyles, disabled: boolean, current: boolean, position: keyof typeof MENU_DRAG_TYPE }>`
   display: flex;
   align-items: center;
   gap: 3px;

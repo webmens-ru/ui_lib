@@ -7,7 +7,7 @@ import { Item } from "../types";
 interface MenuTabProps {
   tab: Item;
   isDraggable: boolean;
-  dragType: keyof typeof DRAG_TYPE
+  dragType: keyof typeof MENU_DRAG_TYPE
   isCurrent: boolean;
   title: string;
   onClick: React.MouseEventHandler;
@@ -20,7 +20,7 @@ interface DragMenuItem {
   id: number;
 }
 
-export const DRAG_TYPE = {
+export const MENU_DRAG_TYPE = {
   TOP_TAB: 'TOP_TAB',
   HIDDEN_TAB: 'HIDDEN_TAB'
 }
@@ -30,15 +30,15 @@ export default function Tab({ tab, isDraggable, dragType, isCurrent, title, onCl
   const { state } = useCustomContext()
 
   const [, drop] = useDrop<DragMenuItem, void, any>({
-    accept: [DRAG_TYPE.TOP_TAB, DRAG_TYPE.HIDDEN_TAB],
+    accept: [MENU_DRAG_TYPE.TOP_TAB, MENU_DRAG_TYPE.HIDDEN_TAB],
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       }
     },
     hover(item, monitor) {
-      const [dragId, dragTypeDrag] = [item.id, monitor.getItemType() as keyof typeof DRAG_TYPE]
-      const [hoverId, hoverTypeDrag] = [tab.id, dragType as keyof typeof DRAG_TYPE]
+      const [dragId, dragTypeDrag] = [item.id, monitor.getItemType() as keyof typeof MENU_DRAG_TYPE]
+      const [hoverId, hoverTypeDrag] = [tab.id, dragType as keyof typeof MENU_DRAG_TYPE]
 
       if (!ref.current || dragId === hoverId) {
         return
