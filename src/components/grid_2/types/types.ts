@@ -23,11 +23,33 @@ export interface IGridProps {
 
 export type TColumnType = "string" | "number" | "date" | "metric" | "image" | "link"
 export enum GridColor {
-  "red" = "#FCA7A4",
-  "blue" = "#A1E5FB",
-  "green" = "#D8EB9E",
-  "yellow" = "#FDFD95",
-  "orange" = "#FFD587"
+  "red" = "#ffa5a5",
+  "light-red" = "#ffb9b9",
+  "dark-red" = "#ff9191",
+
+  "blue" = "#a5c8ff",
+  "light-blue" = "#b9dcff",
+  "dark-blue" = "#91b4ff",
+
+  "green" = "#a5dca5",
+  "light-green" = "#b9dcb9",
+  "dark-green" = "#91dc91",
+
+  "yellow" = "#ffffa5",
+  "light-yellow" = "#ffffb9",
+  "dark-yellow" = "#ffff91",
+
+  "orange" = "#ffdca5",
+  "light-orange" = "#ffdcb9",
+  "dark-orange" = "#ffdc91",
+
+  "grey" = "#a5a5a5",
+  "light-grey" = "#b9b9b9",
+  "dark-grey" = "#919191",
+
+  "purple" = "#c8a5ff",
+  "light-purple" = "#dcb9ff",
+  "dark-purple" = "#b491ff",
 }
 
 export type TRawColumnItem = {

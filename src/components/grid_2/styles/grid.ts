@@ -33,21 +33,73 @@ export const GridStyle = createGlobalStyle`
         &.red {
           background: ${GridColor.red};
         }
+        &.light-red {
+          background: ${GridColor["light-red"]};
+        }
+        &.dark-red {
+          background: ${GridColor["dark-red"]};
+        }
 
         &.blue {
           background: ${GridColor.blue};
+        }
+        &.light-blue {
+          background: ${GridColor["light-blue"]};
+        }
+        &.dark-blue {
+          background: ${GridColor["dark-blue"]};
         }
 
         &.green {
           background: ${GridColor.green};
         }
+        &.light-green {
+          background: ${GridColor["light-green"]};
+        }
+        &.dark-green {
+          background: ${GridColor["dark-green"]};
+        }
 
         &.yellow {
           background: ${GridColor.yellow};
         }
+        &.light-yellow {
+          background: ${GridColor["light-yellow"]};
+        }
+        &.dark-yellow {
+          background: ${GridColor["dark-yellow"]};
+        }
 
         &.orange {
           background: ${GridColor.orange};
+        }
+        &.light-orange {
+          background: ${GridColor["light-orange"]};
+        }
+        &.dark-orange {
+          background: ${GridColor["dark-orange"]};
+        }
+
+        &.grey {
+          color: #fff;
+          background: ${GridColor.grey};
+        }
+        &.light-grey {
+          background: ${GridColor["light-grey"]};
+        }
+        &.dark-grey {
+          color: #fff;
+          background: ${GridColor["dark-grey"]};
+        }
+
+        &.purple {
+          background: ${GridColor.purple};
+        }
+        &.light-purple {
+          background: ${GridColor["light-purple"]};
+        }
+        &.dark-purple {
+          background: ${GridColor["dark-purple"]};
         }
       }
     }
@@ -64,21 +116,73 @@ export const GridStyle = createGlobalStyle`
       &.red .rdg-cell, .rdg-cell.red {
         background: ${GridColor.red};
       }
+      &.light-red .rdg-cell, .rdg-cell.light-red {
+        background: ${GridColor["light-red"]};
+      }
+      &.dark-red .rdg-cell, .rdg-cell.dark-red {
+        background: ${GridColor["dark-red"]};
+      }
 
       &.blue .rdg-cell, .rdg-cell.blue {
         background: ${GridColor.blue};
+      }
+      &.light-blue .rdg-cell, .rdg-cell.light-blue {
+        background: ${GridColor["light-blue"]};
+      }
+      &.dark-blue .rdg-cell, .rdg-cell.dark-blue {
+        background: ${GridColor["dark-blue"]};
       }
 
       &.green .rdg-cell, .rdg-cell.green {
         background: ${GridColor.green};
       }
+      &.light-green .rdg-cell, .rdg-cell.light-green {
+        background: ${GridColor["light-green"]};
+      }
+      &.dark-green .rdg-cell, .rdg-cell.dark-green {
+        background: ${GridColor["dark-green"]};
+      }
 
       &.yellow .rdg-cell, .rdg-cell.yellow {
         background: ${GridColor.yellow};
       }
+      &.light-yellow .rdg-cell, .rdg-cell.light-yellow {
+        background: ${GridColor["light-yellow"]};
+      }
+      &.dark-yellow .rdg-cell, .rdg-cell.dark-yellow {
+        background: ${GridColor["dark-yellow"]};
+      }
 
       &.orange .rdg-cell, .rdg-cell.orange {
         background: ${GridColor.orange};
+      }
+      &.light-orange .rdg-cell, .rdg-cell.light-orange {
+        background: ${GridColor["light-orange"]};
+      }
+      &.dark-orange .rdg-cell, .rdg-cell.dark-orange {
+        background: ${GridColor["dark-orange"]};
+      }
+
+      &.grey .rdg-cell, .rdg-cell.grey {
+        color: #fff;
+        background: ${GridColor.grey};
+      }
+      &.light-grey .rdg-cell, .rdg-cell.light-grey {
+        background: ${GridColor["light-grey"]};
+      }
+      &.dark-grey .rdg-cell, .rdg-cell.dark-grey {
+        color: #fff;
+        background: ${GridColor["dark-grey"]};
+      }
+
+      &.purple .rdg-cell, .rdg-cell.purple {
+        background: ${GridColor.purple};
+      }
+      &.light-purple .rdg-cell, .rdg-cell.light-purple {
+        background: ${GridColor["light-purple"]};
+      }
+      &.dark-purple .rdg-cell, .rdg-cell.dark-purple {
+        background: ${GridColor["dark-purple"]};
       }
     }
 
