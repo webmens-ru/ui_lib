@@ -1,7 +1,7 @@
 import { IMenuProps, Item, SliderOpenner } from "../types";
 import { MenuStyles } from './../types/index';
 
-export type State = {
+export type MenuState = {
   items: Item[];
   disabled: boolean;
   menuStyle: MenuStyles;
@@ -9,9 +9,8 @@ export type State = {
   isReadyForRender: boolean;
   countTopItems: number;
   isEditable: boolean;
-  showNativeSlider: boolean;
   itemsMutation: (items: Item[]) => void
-  sliderOpenner?: SliderOpenner
+  sliderOpenner: SliderOpenner
 };
 
 export type Action =
@@ -21,7 +20,7 @@ export type Action =
   | { type: "set_disabled"; disabled: boolean };
 
 export interface IContext {
-  state: State;
+  state: MenuState;
   dispatch: (act: Action) => void;
 }
 

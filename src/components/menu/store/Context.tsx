@@ -1,9 +1,9 @@
 import React, {
   createContext, useCallback, useContext, useEffect, useReducer
 } from "react";
-import { Action, IContext, IPropsContext, State } from "./types";
+import { Action, IContext, IPropsContext, MenuState } from "./types";
 
-const reducer = (state: State, action: Action): State => {
+const reducer = (state: MenuState, action: Action): MenuState => {
   switch (action.type) {
     case "set_items":
       return {
@@ -34,7 +34,7 @@ const reducer = (state: State, action: Action): State => {
 export const Context = createContext<IContext>({} as IContext);
 
 export function ContextProvider(props: IPropsContext) {
-  const init = useCallback((props: IPropsContext): State => {
+  const init = useCallback((props: IPropsContext): MenuState => {
     const items = (props.items || []).slice().sort((a, b) => a.order - b.order);
 
     const currentItem =
@@ -49,9 +49,8 @@ export function ContextProvider(props: IPropsContext) {
       isReadyForRender: false,
       countTopItems: 0,
       isEditable: props.isEditable || true,
-      showNativeSlider: props.showNativeSlider || true,
       itemsMutation: props.itemsMutation || (() => { }),
-      sliderOpenner: props.sliderOpenner
+      sliderOpenner: props.sliderOpenner || (() => {})
     };
   }, []);
 

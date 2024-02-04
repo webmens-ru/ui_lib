@@ -11,7 +11,7 @@ export default function MainRender() {
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
 
   const { state, dispatch } = useCustomContext();
-  const { setTab } = useSetTab({ dispatch, sliderOpenner: state.sliderOpenner, showNativeSlider: state.showNativeSlider });
+  const { setTab } = useSetTab({ dispatch, sliderOpenner: state.sliderOpenner });
   const { ref, isShow, setShow } = useShowControl();
 
   const updateTabs = () => {

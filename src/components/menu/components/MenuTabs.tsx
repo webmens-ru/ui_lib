@@ -1,7 +1,8 @@
 import React from "react";
+import { useDrop } from "react-dnd";
 import { useCustomContext } from "../store";
 import { IMenuTabs } from "../types";
-import Tab from "./Tab";
+import Tab, { MENU_DRAG_TYPE } from "./Tab";
 
 export default function MenuTabs({
   abroadTabs,
@@ -30,13 +31,23 @@ export default function MenuTabs({
     ] })
   }
 
-  const hideTab = (dragId: number, _hoverId: number) => {
-    const [dragItem] = [state.items.find(item => item.id === dragId)!]    
+  const hideTab = (dragId: number) => {
+    const dragItem = state.items.find(item => item.id === dragId)!
 
     dragItem.visible = false
 
     dispatch({ type: "set_items", items: [ ...state.items.filter(item => item.id !== dragItem.id), dragItem ] })
   }
+
+  const [, dropRef] = useDrop<{ id: number }, void, any>({
+    accept: [MENU_DRAG_TYPE.TOP_TAB, MENU_DRAG_TYPE.HIDDEN_TAB],
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      }
+    },
+    drop: (item, monitor) => hideTab(item.id)
+  })
 
   return (
     <>
@@ -55,7 +66,9 @@ export default function MenuTabs({
       ))}
       <span>Скрытые</span>
       {hiddenTabs.length === 0 && (
-        <p>Перетащите сюда, чтобы скрыть</p>
+        <div ref={dropRef}>
+          <p>Перетащите сюда, чтобы скрыть</p>
+        </div>
       )}
       {hiddenTabs.sort((a, b) => a.order - b.order).map(item => (
         <Tab
