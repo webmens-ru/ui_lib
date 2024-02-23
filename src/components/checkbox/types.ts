@@ -1,4 +1,4 @@
-export interface ICheckboxProps {
+export interface CheckboxProps {
   value?: CheckboxValue;
   label?: string;
   disabled?: boolean;

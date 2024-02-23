@@ -1,6 +1,7 @@
 import React from "react";
 import { FileInputItem } from "../../../file_input/types";
 import { IMultifieldProps, MultifieldItem, MultifieldItemComboValue, MultifieldItemValue } from "../../../multifield/types";
+import { RichTextValue } from "../../../richtext/types";
 import { IDataItem, ISelectProps } from "../../../select/types";
 import { ViewFieldLink, ViewFieldList, ViewFieldText } from "./styles";
 
@@ -125,4 +126,12 @@ export const DateVF = ({ value }: IViewField<string>) => {
   } else {
     return <ViewFieldText children={FIELD_PLACEHOLDER} hasValue={false} />
   }
+}
+
+export const RichtextVF = ({ value }: IViewField<RichTextValue>) => {
+  if (!value) {
+    return <ViewFieldText children={FIELD_PLACEHOLDER} hasValue={false} />
+  }
+
+  return <div dangerouslySetInnerHTML={{ __html: value }} />
 }

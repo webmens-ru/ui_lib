@@ -1,7 +1,8 @@
 import { IDatePicker } from '../date_picker/types';
 import { IInputProps, InputValue } from '../input/types';
+import { RichTextProps, RichTextValue } from '../richtext/types';
 import { ISelectProps, SelectPropsValue } from '../select/types';
-import { CheckboxValue, ICheckboxProps } from './../checkbox/types';
+import { CheckboxProps, CheckboxValue } from './../checkbox/types';
 import { FileInputItem, FileInputPropsValue, IFileInputProps } from './../file_input/types';
 import { IMultifieldProps, MultifieldItemProps } from './../multifield/types';
 import { IDataItem } from './../select/types';
@@ -45,9 +46,10 @@ export type FormFieldsItem = FormFieldsItemGeneric &
     | {type: 'input', value?: InputValue, fieldParams?: IInputProps}
     | {type: 'select', value?: SelectPropsValue, fieldParams?: ISelectProps}
     | {type: 'date', value: string, fieldParams?: IDatePicker}
-    | {type: 'checkbox', value?: CheckboxValue, fieldParams?: ICheckboxProps}
+    | {type: 'checkbox', value?: CheckboxValue, fieldParams?: CheckboxProps}
     | {type: 'file', value?: FileInputPropsValue, fieldParams?: IFileInputProps}
     | {type: 'multifield', value?: MultifieldItemProps[], fieldParams?: IMultifieldProps}
+    | {type: 'richtext', value?: RichTextValue, fieldParams?: RichTextProps}
   )
 
 export type FormFieldsItemShort = {
@@ -60,7 +62,7 @@ export interface IFormProviderProps extends IFormProps {
 }
 
 export type FormValues = {
-  [key: string]: InputValue |IDataItem | IDataItem[] | CheckboxValue | string | FileInputItem[]
+  [key: string]: InputValue | IDataItem | IDataItem[] | CheckboxValue | string | FileInputItem[] | RichTextValue | MultifieldItemProps
 }
 
 export type IFormReducerAction = 

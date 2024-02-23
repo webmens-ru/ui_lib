@@ -17,19 +17,6 @@ export const useShowControl = (propsRef?: RefObject<HTMLDivElement>, excluedElem
 
   const handleClick = useCallback(
     (e: MouseEvent) => {
-      // if (ref && ref.current && isShow) {
-      //   const { left, top, right, bottom } =
-      //     ref.current.getBoundingClientRect();
-      //   if (
-      //     e.clientX < left ||
-      //     e.clientX > right ||
-      //     e.clientY < top ||
-      //     e.clientY > bottom
-      //   ) {
-      //     setShow(false);
-      //   }
-      // }
-      console.log(e.target)
       if (ref.current && !ref.current.contains(e.target as Node) && !excluedElement?.contains(e.target as Node) && isShow) {
         setShow(false);
       }

@@ -25,9 +25,7 @@ export function RightColumn({
     dispatch({ type: "SET_IS_CREATE_FILTER", isCreate: false });
   };
 
-  const saveChanges = () => {
-    console.log(state.isEditFilter);
-    
+  const saveChanges = () => {    
     if (state.isCreateFilter) {
       dispatch({ type: "SAVE_CREATE_FILTER" });
       state.createFilter({

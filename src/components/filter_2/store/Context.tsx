@@ -137,7 +137,6 @@ const reducer = (state: IState, action: Action) => {
       const index = state.fields.findIndex(item => item.id === action.field.id);
       const fields = state.fields.slice();
       
-      console.log(fields[index], action.field);
       fields[index].value = action.field.value;
 
       return { ...state, fields };

@@ -1,4 +1,5 @@
 import { FileInputItem } from '../../file_input';
+import { FileInputPropsValue } from './../../file_input/types';
 import { IMultifieldProps, MultifieldItem } from './../../multifield/types';
 import { IDataItem, ISelectProps } from './../../select/types';
 import { buildCallbackValue } from './../../select/utils/selectUtils';
@@ -17,7 +18,7 @@ export const prepareFormData = ({ fields, tempValues: values }: IFormReducerStat
       parsedValue = buildCallbackValue(parsedValue as IDataItem[], multiple)
     }
     if (field?.type === 'multifield') {
-      const fieldType = (field?.fieldParams as IMultifieldProps).type
+      const fieldType = (field?.fieldParams as IMultifieldProps)?.type
       const multifieldValue = (value as unknown as MultifieldItem[])
       switch (fieldType) {
         case 'input':
@@ -26,14 +27,20 @@ export const prepareFormData = ({ fields, tempValues: values }: IFormReducerStat
         case 'select':
           parsedValue = multifieldValue.map(item => buildCallbackValue(item.value as IDataItem[], false))
           break;
+        default:
+          parsedValue = value
       }
     }
 
     if (field?.type === "file") {
-      const fileValue = (value as unknown as FileInputItem[])
-      const fileInstances = fileValue.filter(item => !!item.instance).map(item => item.instance)
-      
-      parsedValue = fileInstances.length ? fileInstances[0] : fileValue
+      const fileValue = (value as unknown as FileInputPropsValue | FileInputItem[])
+
+      if (!Array.isArray(fileValue)) {
+        parsedValue = fileValue
+      } else {
+        const fileInstances = fileValue.filter(item => !!item.instance).map(item => item.instance)
+        parsedValue = fileInstances.length ? fileInstances[0] : fileValue
+      }
     }
 
     result[name] = parsedValue

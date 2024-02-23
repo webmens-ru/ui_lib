@@ -19,6 +19,7 @@ export { Modal } from './components/modal_2/Modal';
 export { Multifield } from './components/multifield/Multifield';
 export { useNotification } from "./components/notification/hooks/useNotification";
 export { ResetStyles } from './components/reset_styles';
+export { Richtext } from "./components/richtext/Richtext";
 export { Select } from './components/select/Select';
 export { Title } from './components/title';
 export { Toolbar } from './components/toolbar';

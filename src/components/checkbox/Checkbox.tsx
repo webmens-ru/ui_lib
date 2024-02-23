@@ -1,13 +1,14 @@
 import React, { useMemo } from "react";
-import { ICheckboxProps } from "./types";
+import { makeID } from "../../app/utils/strings";
+import { CheckboxProps } from "./types";
 
 export const Checkbox = ({
   value = false,
   label = "",
   disabled = false,
   onCheck = () => { }
-}: ICheckboxProps) => {
-  const randomId = useMemo(() => `wm-checkbox-${Math.random() * 100}`, [])
+}: CheckboxProps) => {
+  const randomId = useMemo(() => `wm-checkbox-${makeID(6)}`, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.value === 'on'

@@ -36,9 +36,7 @@ export default function FieldWrapper({ field, children, onMoveFields, onHideFiel
 
       const hoverBoundingRect = ref.current.parentElement!.getBoundingClientRect()
       const clientOffset = monitor.getClientOffset() as XYCoord
-      const [hoverMiddleY, hoverClientY] = [(hoverBoundingRect.top + hoverBoundingRect.bottom) / 2, clientOffset.y]
-      console.log(hoverMiddleY, hoverClientY);
-      
+      const [hoverMiddleY, hoverClientY] = [(hoverBoundingRect.top + hoverBoundingRect.bottom) / 2, clientOffset.y]      
 
       if (hoverClientY > hoverMiddleY) {
         onMoveFields(dragField, hoverField)

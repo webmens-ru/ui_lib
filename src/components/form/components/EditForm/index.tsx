@@ -9,6 +9,8 @@ import Input from "../../../input";
 import { InputValue } from "../../../input/types";
 import Multifield from "../../../multifield";
 import { MultifieldItem, MultifieldItemComboValue } from "../../../multifield/types";
+import { Richtext } from "../../../richtext/Richtext";
+import { RichTextValue } from "../../../richtext/types";
 import Select from "../../../select";
 import { SelectPropsValue } from "../../../select/types";
 import { validator } from "../../utils/validator";
@@ -21,9 +23,9 @@ export const EditForm = ({
   dispatch,
   validationRules = [],
 }: IEditFormProps) => {
-  const handleFieldChange = (field: FormFieldsItem, value: any) => {    
+  const handleFieldChange = (field: FormFieldsItem, value: any) => {
     let parsedValue = value
-    
+
     switch (field.type) {
       case "multifield":
         parsedValue = (value as MultifieldItem[]).map(item => typeof item.value === 'object'
@@ -31,13 +33,16 @@ export const EditForm = ({
           : item.value
         )
         break;
+      case "richtext":
+        parsedValue = (value as string).replace(/<\/?[^>]+(>|$)/g, "").replaceAll('&nbsp;', ' ')
+        break;
     }
 
     const errors = validateField({ name: field.name, value: parsedValue })
     dispatch({ type: 'set_form', form: { field: { name: field.name, value }, errors } })
   }
 
-  const validateField = ({ name, value }: FormFieldsItemShort) => {    
+  const validateField = ({ name, value }: FormFieldsItemShort) => {
     const errors = validator(name, value, validationRules)
 
     if (!errors.length) {
@@ -63,7 +68,7 @@ export const EditForm = ({
         case "boolean":
           params[key] = value
           break;
-        case "object":          
+        case "object":
           if (!Array.isArray(value)) {
             params[key] = value.value
             break;
@@ -122,6 +127,7 @@ export const EditForm = ({
       case 'checkbox':
         return (
           <Checkbox
+            {...field.fieldParams}
             value={formValue as CheckboxValue}
             onCheck={(value) => handleFieldChange(field, value)}
           />
@@ -140,6 +146,14 @@ export const EditForm = ({
             {...field.fieldParams}
             fields={formValue as unknown as MultifieldItem[]}
             onChange={(values) => handleFieldChange(field, values)}
+          />
+        )
+      case 'richtext':
+        return (
+          <Richtext
+            {...field.fieldParams}
+            value={formValue as RichTextValue}
+            onChange={(value) => handleFieldChange(field, value)}
           />
         )
       default:

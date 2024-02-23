@@ -9,7 +9,6 @@ export function SelectWrapper({ item, updateField, ...props }: IField) {
 
   const updateValue = (options: IDataItem[]) => {
     const field = { ...item, value: options as unknown as any };
-    console.log(field);
     
     dispatch({ type: "SET_FILTER_FIELD_VALUE", field });
     updateField(field, "valueWithRefetch");
