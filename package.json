@@ -1,6 +1,6 @@
 {
   "name": "@webmens-ru/ui_lib",
-  "version": "0.24.50",
+  "version": "0.24.51",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

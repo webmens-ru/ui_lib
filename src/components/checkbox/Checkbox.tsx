@@ -11,8 +11,7 @@ export const Checkbox = ({
   const randomId = useMemo(() => `wm-checkbox-${makeID(6)}`, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.value === 'on'
-    onCheck(isChecked)
+    onCheck(e.target.checked)
   }
 
   return (

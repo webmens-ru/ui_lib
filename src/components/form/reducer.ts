@@ -32,7 +32,7 @@ export const init = function ({ fields, values: defaultValues, mode, validationR
   fields.forEach(field => {
     switch (field.type) {
       case 'input':
-        values[field.name] = values[field.name] || ''
+        values[field.name] = (values[field.name] === undefined || values[field.name] === null) ? '' : values[field.name]
         break;
       case 'select':
       case 'multifield':
