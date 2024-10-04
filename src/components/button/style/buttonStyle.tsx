@@ -108,7 +108,7 @@ export const DropdownContainer = styled.div`
   right: ${({ dropdownDirection }) =>
     dropdownDirection === "right" ? "auto" : "0"};
   width: ${({ variant, dropdownWidth }: IContainer) =>
-    variant === "default" ? "calc(100% - 40px)" : dropdownWidth};
+    variant === "default"&&!dropdownWidth ? "calc(100% - 40px)" : dropdownWidth};
   padding: 8px 0;
   display: flex;
   flex-direction: column;
