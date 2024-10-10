@@ -1,14 +1,10 @@
-import React, { useState } from "react";
-import { useCustomContext } from "../../../store/Context";
-import {
-  FilterFieldTitle,
-  SelectTextStyle,
-  SelectTextInput,
-} from "../../../styles";
-import { stringDropDownValues, TStringValue } from "./const";
-import DropDownWithAttr from "../../mini_components/dropdown/DropDownWithAttr";
-import { IField } from "../../../types";
-import { useFieldsDraggable } from "../../../utils/useFieldsDraggble";
+import React, { useState } from 'react';
+import Input from '../../../../input';
+import Select, { IDataItem } from '../../../../select';
+import { useCustomContext } from '../../../store/Context';
+import { SelectTextStyle } from '../../../styles';
+import { IField } from '../../../types';
+import { stringDropDownValues } from './const';
 
 export default function SelectStringField({
   item,
@@ -16,66 +12,71 @@ export default function SelectStringField({
   ...props
 }: IField) {
   const { dispatch } = useCustomContext();
-  const [selectValue, setSelectValue] = useState(
-    stringDropDownValues.find((val) => val.attr === item.value[0]) ||
-      stringDropDownValues[0],
+  const [selectValue, setSelectValue] = useState<IDataItem>(
+    stringDropDownValues.find((val) => val.value === item.value[0]) ||
+    stringDropDownValues[0]
   );
 
-  const checkFirstValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const checkFirstValue = (value: string) => {
     dispatch({
-      type: "SET_FILTER_FIELD_VALUE",
-      field: {
-        ...item,
-        value: [item.value[0], e.target.value, item.value[2]],
-      },
+      type: 'SET_FILTER_FIELD_VALUE',
+      field: { ...item, value: [item.value[0], value, item.value[2]] },
     });
   };
 
-  const changeAttr = (valuesItem: TStringValue) => {
-    const field = {
-      ...item,
-      value: [valuesItem.attr, item.value[1], item.value[2]],
-    };
+  const changeAttr = (valuesItem: IDataItem[]) => {
+    const field = { ...item, value: [`${valuesItem[0].value}`, item.value[1], item.value[2]] };
     dispatch({
       type: "SET_FILTER_FIELD_VALUE",
       field,
     });
-    setSelectValue(valuesItem);
+    setSelectValue(valuesItem[0]);
     updateField(field, "value");
   };
 
-  const hideField = () => {
-    const field = {
-      ...item,
-      visible: false,
-    };
-    updateField(field, "hide");
-    dispatch({ type: "UPDATE_FILTER_FIELD", field });
-  };
-
-  const { draggable, events } = useFieldsDraggable();
-
   return (
-    <SelectTextStyle draggable={draggable} {...props}>
-      <FilterFieldTitle>{item.title}</FilterFieldTitle>
-      <div {...events}>
-        <DropDownWithAttr
-          items={stringDropDownValues}
-          width="30%"
-          currentItem={selectValue}
-          setCurrentItem={changeAttr}
+    <SelectTextStyle {...props}>
+      {selectValue.value === 'isNotUsed' || selectValue.value === 'isNull' || selectValue.value === 'isNotNull' ? (
+        <Select
+          filterable={false}
+          value={selectValue}
+          data={item?.options?.variants || stringDropDownValues}
+          closeOnSelect={true}
+          selectWidth="100%"
+          onChange={changeAttr}
         />
-        <SelectTextInput
-          type="text"
-          width="67%"
-          draggable={false}
-          value={item.value[1]}
-          onChange={checkFirstValue}
-          onBlur={() => updateField(item, "value")}
-        />
-      </div>
-      <span></span>
-      <span onClick={hideField}></span>
+      ) : (
+        <>
+          <Select
+            filterable={false}
+            value={selectValue}
+            data={item?.options?.variants || stringDropDownValues}
+            closeOnSelect={true}
+            selectWidth="33%"
+            onChange={changeAttr}
+          />
+          <Input
+            width="67%"
+            value={item.value[1]}
+            onChange={checkFirstValue}
+            onBlur={() => updateField(item, 'value')}
+          />
+        </>
+      )}
+      {/* <Select
+        filterable={false}
+        value={selectValue}
+        data={item?.options?.variants || stringDropDownValues}
+        closeOnSelect={true}
+        selectWidth="33%"
+        onChange={changeAttr}
+      />
+      <Input
+        width="67%"
+        value={item.value[1]}
+        onChange={checkFirstValue}
+        onBlur={() => updateField(item, 'value')}
+      /> */}
     </SelectTextStyle>
   );
 }

@@ -10,13 +10,19 @@ export default function TestComponent() {
     //   onChange={console.log}
     // />
     <Form
-      values={{
-        test: [{ value: { text: "hteheth", type: "test" } }] as unknown as any
-      }}
-      fields={[
-        { name: "test", type: "multifield", fieldParams: { onChange: console.log, type: "combo" }, value: [{ value: { text: "hteheth", type: ["test"] } }] },
-        { name: "test1", type: "input", value: "grekphtekmthkm" }
-      ]}
+      // @ts-ignore
+      values={{ test: [{ value: 1 }] }}
+      fields={[{ name: "test", type: "multifield", fieldParams: { type: "select", onChange: console.log, fieldParams: { data: [{ title: "test", options: [{ value: 1, title: "child test" }] }] } } }]}
     />
+    // <Multifield
+    //   type="select"
+    //   fields={[{ value: [{ value: 1, title: "test" }] }]}
+    //   fieldParams={{ data: [{ title: "test", options: [{ value: 1, title: "child test" }] }] }}
+    //   onChange={console.log}
+    //  />
+    // <Select
+    //   value={[{ value: 1, title: "test" }]}
+    //   data={[{ title: "test", options: [{ value: 1, title: "child test" }] }]}
+    // />
   )
 }

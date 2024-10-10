@@ -28,5 +28,8 @@ export const Simple = Template.bind({});
 Simple.args = {
   filters: filterGenerator(2),
   fields: fieldGenerator(1),
-  updateField: test
+  updateField: test,
+  updateTextSearch: console.log,
+  textSearch: "test",
+  onSearch: console.log
 };

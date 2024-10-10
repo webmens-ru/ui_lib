@@ -2,6 +2,7 @@ import { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { Grid2 } from '../../src';
+import { IGridProps } from '../../src/components/grid_2';
 import {
   mockBurgerGenerator,
   mockColumnGenerator,
@@ -75,9 +76,25 @@ Col10Row10.args = {
 export const Col25Row25 = Template.bind({});
 Col25Row25.args = {
   columns: mockColumnGenerator(25),
-  rows: mockRowGenerator(25, 25),
+  // rows: mockRowGenerator(25, 25),
+  rows: [
+    { id: 1, actions: ["test"] },
+    { id: 2, actions: ["test"] },
+    { id: 3, actions: ["test"] },
+    { id: 4, actions: ["test"] },
+    { id: 5, actions: ["test"] },
+    { id: 6, actions: ["test"] },
+    { id: 7, actions: ["test"] },
+    { id: 8, actions: ["test"] },
+    { id: 9, actions: ["test"] },
+    { id: 10, actions: ["test"] },
+    { id: 11, actions: ["test"] },
+    { id: 12, actions: ["test"] },
+    { id: 13, actions: ["test"] },
+  ],
+  burgerItems: [{ title: "test", id: "test", type: "openApplication", handler: "test", params: {} }],
   height: 500,
-};
+} as IGridProps;
 
 export const Col50Row50 = Template.bind({});
 Col50Row50.args = {

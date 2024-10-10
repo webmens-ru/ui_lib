@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import searchSvg from "../../icon/assets/ui-search-white.svg";
-import spriteSvg from "../../icon/assets/sprite-interface.min.svg";
-import gearSvg from "../../icon/assets/grid-gear.svg";
+import gearSvg from "../assets/svg/grid-gear.svg";
+import spriteSvg from "../assets/svg/sprite-interface.min.svg";
+import searchSvg from "../assets/svg/ui-search-white.svg";
 
 export const FilterContainer = styled.div`
   position: relative;
@@ -32,20 +32,6 @@ export const FilterContainer = styled.div`
       font-weight: 500;
       opacity: 0.5;
     }
-    & > div {
-      margin: 4px;
-      padding: 5px;
-      display: flex;
-      background: #bcedfc;
-      border-radius: 2px;
-      & > button {
-        margin: 3px 0px auto 10px;
-        width: 13px;
-        height: 13px;
-        background: url(${spriteSvg}) no-repeat 0px -10px/80%;
-        opacity: 0.5;
-      }
-    }
     & > button {
       position: absolute;
       top: 10px;
@@ -68,64 +54,28 @@ export const FilterMenuContainer = styled.div`
   z-index: 4;
   width: 100%;
   display: flex;
+  border: 1px solid transparent;
+  border-radius: 10px;
   background: #fff;
-  cursor: auto;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
   opacity: ${({ isShow }) => (isShow ? "1" : "0")};
   transform: scaleY(${({ isShow }) => (isShow ? "1" : "0")});
   transition: transform 0s, top 200ms, opacity 200ms;
   & > menu {
     position: relative;
+    margin: 0;
     padding: 12px 0px 100px;
     width: 215px;
     background: #f8fafb;
     border-right: 1px solid #e7eaec;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
     & > h3 {
       margin-bottom: 10px;
       color: #a0a5ab;
       font-size: 8px;
       text-align: center;
       text-transform: uppercase;
-    }
-    & > div {
-      display: grid;
-      grid-template: 100% / 20px 158px 20px 20px;
-      & > button:nth-of-type(1) {
-        margin: auto 3px;
-        width: 15px;
-        height: 15px;
-        background: url(${spriteSvg}) no-repeat 0 -201px;
-        cursor: move;
-      }
-      & > input {
-        grid-column: 2;
-        padding: 10px 5px;
-        width: 100%;
-        list-style: none;
-        font-weight: 600;
-        font-size: 12px;
-        text-transform: uppercase;
-        cursor: pointer;
-        border-top: 1px solid #e7eaec;
-        &:hover {
-          color: #000;
-        }
-      }
-      & > button:nth-of-type(2) {
-        margin: auto 3px;
-        width: 15px;
-        height: 15px;
-        background: url(${spriteSvg}) no-repeat 0 3px/80%;
-      }
-      & > button:nth-of-type(3) {
-        margin: auto 3px;
-        width: 15px;
-        height: 15px;
-        background: url(${spriteSvg}) no-repeat 0 -12px/80%;
-      }
-      &:last-of-type input {
-        border-bottom: 1px solid #e7eaec;
-      }
     }
 
     & > input {
@@ -178,6 +128,36 @@ export const FilterMenuContainer = styled.div`
     }
   }
 `;
+
+export const SquaresContainer = styled.div`
+  display: flex;
+  height: 100%;
+  max-width: 100%;
+  justify-content: start;
+`
+
+export const SquareItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 180px;
+  padding: 0 13px;
+  margin: 3px 3px 3px 0;
+  border-radius: 2px;
+  color: #333;
+  background: #b4e4f5;
+
+  &:first-child {
+    margin-left: 4px;
+  }
+
+  & > span {
+    line-height: 25px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+`
 
 export const PopUp = styled.div`
   position: absolute;
@@ -278,13 +258,12 @@ export const FilterSearchContainer = styled.button`
 
 const FieldContainer = styled.div`
   position: relative;
-  padding: 0 25px;
   &:hover > span {
     display: block;
   }
   & > span {
     position: absolute;
-    top: 33px;
+    top: 50%;
     left: 5px;
     display: none;
     width: 15px;
@@ -305,30 +284,22 @@ const FieldContainer = styled.div`
 export const DropDownFieldStyle = styled(FieldContainer)``;
 
 export const SelectTextStyle = styled(FieldContainer)`
-  & > div {
-    display: flex;
-    justify-content: space-between;
-  }
-`;
-
-export const SelectTextInput = styled.input`
-  margin-left: 10px;
-  padding-left: 10px;
-  height: 40px;
-  width: ${({ width }: { width: string }) => width};
-  border: 1px solid rgba(83, 92, 105, 0.2);
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  justify-content: space-between;
 `;
 
 export const DateFieldContainer = styled(FieldContainer)`
-  & > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: space-between;
+  min-width: 0;
+  width: 100%;
 `;
 
 export const FilterFieldTitle = styled.h3`
-  margin: 7px 0 2px;
+  margin: 7px 1px 6px;
+  cursor: default;
   font-size: 13px;
   font-weight: 400;
   color: #a9adb2;
@@ -399,9 +370,7 @@ export const AddFieldsMenu = styled.div`
 `;
 
 export const SelectContainer = styled(FieldContainer)`
-  & > div {
-    position: relative;
-  }
+  width: 100%;
 `;
 
 export const SelectHeader = styled.div`
@@ -434,7 +403,7 @@ export const SelectHeader = styled.div`
 
 export const SelectBody = styled.div`
   position: absolute;
-  top: ${({ isShow }: {isShow: boolean}) => (isShow ? "40px" : "80px")};
+  top: ${({ isShow }: { isShow: boolean }) => (isShow ? "40px" : "80px")};
   z-index: 1;
   width: 100%;
   max-height: 200px;
@@ -442,8 +411,8 @@ export const SelectBody = styled.div`
   transition: opacity 0.3s, top 0.3s;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  transform: ${({ isShow }: {isShow: boolean}) => (isShow ? "scale(1)" : "scale(0)")};
-  opacity: ${({ isShow }: {isShow: boolean}) => (isShow ? "1" : "0")};
+  transform: ${({ isShow }: { isShow: boolean }) => (isShow ? "scale(1)" : "scale(0)")};
+  opacity: ${({ isShow }: { isShow: boolean }) => (isShow ? "1" : "0")};
   & div {
     display: flex;
   }

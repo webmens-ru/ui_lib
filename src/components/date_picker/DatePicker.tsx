@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { DatePickerContainer} from './styles';
+import React, { useEffect, useState } from "react";
 import { useShowControl } from "../../hooks";
-import { Calendar } from "../calendar";
-import { Field } from "../field";
+import { Calendar } from "./components/calendar";
+import { Field } from "./components/field";
+import { DatePickerContainer } from './styles';
 import { IDatePicker } from "./types";
 
 /**

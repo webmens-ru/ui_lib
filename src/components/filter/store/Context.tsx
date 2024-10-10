@@ -1,25 +1,21 @@
-import React, { createContext, useReducer, useContext, useEffect } from "react";
-import {
-  TField,
-  TFilter,
-  TFilterFieldsItem,
-  TGetSelectItems,
-  TProps,
-  TUpdateFilter,
-} from "../types";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { TField, TFilter, TGetSelectItems, TProps, TUpdateFilter } from "../types";
 import { propsFormatter } from "../utils/propsFormatter";
 
-interface IState {
+export interface IState {
   filters: TFilter[];
   currentFilter: TFilter;
+  fields: TField[];
+  getSelectItems: TGetSelectItems;
+  textSearch: string;
   setCurrentFilter: (f: TFilter) => void;
   createFilter: (f: TFilter) => void;
   updateFilter: (f: TUpdateFilter) => void;
   deleteFilter: (f: TFilter) => void;
-  updateFiltersOrder: (f: TFilter[]) => void;
-  fields: TField[];
+  updateFiltersOrder: (f: Array<{id: number, order: number}>) => void;
   updateField: (f: TField, param: string) => void;
   updateFieldsOrder: (f: TField[]) => void;
+  updateTextSearch: (text: string) => void;
   returnDefaultFields: () => void;
   onSearch: (fields: TField[]) => void;
   onClearFilter: () => void;
@@ -27,23 +23,24 @@ interface IState {
   isCreateFilter: boolean;
   isEditFilter: boolean;
   filterTemplate: TFilter;
-  getSelectItems: TGetSelectItems;
 }
 
 const initialState = {
   filters: [],
   currentFilter: {} as TFilter,
+  fields: [],
+  textSearch: "",
   setCurrentFilter: () => {},
   createFilter: () => {},
   updateFilter: () => {},
   deleteFilter: () => {},
   updateFiltersOrder: () => {},
-  fields: [],
   updateField: () => {},
   updateFieldsOrder: () => {},
   returnDefaultFields: () => {},
   onSearch: () => {},
-  onClearFilter: () => {},
+  onClearFilter: () => { },
+  updateTextSearch: () => {},
   isSetup: false,
   filterTemplate: {} as TFilter,
   isCreateFilter: false,
@@ -56,13 +53,14 @@ type Action =
   | { type: "INITIAL"; props: TProps }
   | { type: "SET_CURRENT_FILTER"; filter: TFilter }
   | { type: "SET_IS_SETUP"; isSetup: boolean }
+  | { type: "SET_FILTERS", filters: TFilter[] }
   | { type: "SET_FILTER_TEMPLATE_VALUE"; title: string }
   | { type: "SET_RENAME_FILTER"; filter: TFilter }
   | { type: "SAVE_RENAME_FILTER" }
   | { type: "SET_IS_CREATE_FILTER"; isCreate: boolean }
   | { type: "SAVE_CREATE_FILTER" }
   | { type: "DELETE_CURRENT_FILTER" }
-  | { type: "SET_FILTER_FIELDS"; fields: TFilterFieldsItem[] }
+  | { type: "SET_FILTER_FIELDS"; fields: TField[] }
   | { type: "UPDATE_FILTER_FIELD"; field: TField }
   | { type: "SET_FILTER_FIELD_VALUE"; field: TField };
 
@@ -79,6 +77,10 @@ const reducer = (state: IState, action: Action) => {
         ...state,
         currentFilter: action.filter,
       };
+    case "SET_FILTERS":
+      return { ...state, filters: action.filters }
+    case "SET_FILTER_FIELDS":
+      return { ...state, fields: action.fields }
     case "SET_IS_SETUP": {
       return {
         ...state,
@@ -135,15 +137,13 @@ const reducer = (state: IState, action: Action) => {
           .map((item) => (item.id === action.field.id ? action.field : item)),
       };
     case "SET_FILTER_FIELD_VALUE":
-      const index: number = state.fields.findIndex(
-        (item) => item.id === action.field.id,
-      );
-      let fields = state.fields.slice();
+      
+      const index = state.fields.findIndex(item => item.id === action.field.id);
+      const fields = state.fields.slice();
+      
       fields[index].value = action.field.value;
-      return {
-        ...state,
-        fields,
-      };
+
+      return { ...state, fields };
     default:
       return state;
   }

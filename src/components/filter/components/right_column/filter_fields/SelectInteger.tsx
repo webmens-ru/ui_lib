@@ -1,113 +1,131 @@
-import React, { useState } from "react";
-import { useCustomContext } from "../../../store/Context";
-import { IField } from "../../../types";
-import {
-  FilterFieldTitle,
-  SelectTextInput,
-  SelectTextStyle,
-} from "../../../styles";
-import { integerDropDownValues, TIntegerValue } from "./const";
-import DropDownWithAttr from "../../mini_components/dropdown/DropDownWithAttr";
-import { useFieldsDraggable } from "../../../utils/useFieldsDraggble";
+import React, { useState } from 'react';
+import { Input, Select } from '../../../../../';
+import { IDataItem } from '../../../../select';
+import { useCustomContext } from '../../../store/Context';
+import { SelectTextStyle } from '../../../styles';
+import { IField } from '../../../types';
+import { integerDropDownValues } from './const';
 
 export default function SelectIntegerField({
   item,
   updateField,
   ...props
 }: IField) {
-  const [selectValue, setSelectValue] = useState<TIntegerValue>(
-    integerDropDownValues.find((val) => val.attr === item.value[0]) ||
-      integerDropDownValues[0],
-  );
   const { dispatch } = useCustomContext();
 
-  const checkFirstValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(/^\d*$/)) {
-      dispatch({
-        type: "SET_FILTER_FIELD_VALUE",
-        field: {
-          ...item,
-          value: [item.value[0], e.target.value, item.value[2]],
-        },
-      });
+  const [selectValue, setSelectValue] = useState<IDataItem>(
+    integerDropDownValues.find((val) => val.value === item.value[0]) ||
+    integerDropDownValues[0]
+  );
+
+  const checkFirstValue = (value: string) => {
+    if (value.match(/^\d*$/)) {
+      dispatch({ type: 'SET_FILTER_FIELD_VALUE', field: { ...item, value: [item.value[0], value, item.value[2]] } });
     }
   };
 
-  const checkSecondValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(/^\d*$/)) {
-      dispatch({
-        type: "SET_FILTER_FIELD_VALUE",
-        field: {
-          ...item,
-          value: [item.value[0], item.value[1], e.target.value],
-        },
-      });
+  const checkSecondValue = (value: string) => {
+    if (value.match(/^\d*$/)) {
+      dispatch({ type: 'SET_FILTER_FIELD_VALUE', field: { ...item, value: [item.value[0], item.value[1], value] } });
     }
   };
 
-  const changeAttr = (valuesItem: TIntegerValue) => {
-    const field = {
-      ...item,
-      value: [valuesItem.attr, item.value[1], item.value[2]],
-    };
-    dispatch({
-      type: "SET_FILTER_FIELD_VALUE",
-      field,
-    });
-    setSelectValue(valuesItem);
+  const changeAttr = (valuesItem: IDataItem[]) => {
+    const field = { ...item, value: [`${valuesItem[0].value}`, item.value[1], item.value[2]] };
+    dispatch({ type: "SET_FILTER_FIELD_VALUE", field, });
+    setSelectValue(valuesItem[0]);
     updateField(field, "value");
   };
 
-  const hideField = () => {
-    const field = {
-      ...item,
-      visible: false,
-    };
-    updateField(field, "hide");
-    dispatch({ type: "UPDATE_FILTER_FIELD", field });
-  };
+  let field;
 
-  const { draggable, events } = useFieldsDraggable();
+  if (selectValue.value === 'isNotUsed' || selectValue.value === 'isNull' || selectValue.value === 'isNotNull') {
+    field = <Select
+      filterable={false}
+      value={selectValue}
+      data={item?.options?.variants || integerDropDownValues}
+      closeOnSelect={true}
+      selectWidth="100%"
+      onChange={changeAttr}
+    />
+  } else if (selectValue.value === 'range') {
+    field = 
+    <>
+      <Select
+        filterable={false}
+        value={selectValue}
+        data={item?.options?.variants || integerDropDownValues}
+        closeOnSelect={true}
+        selectWidth="33%"
+        onChange={changeAttr}
+      />
+      <Input
+        width="33%"
+        value={item.value[1]}
+        onChange={checkFirstValue}
+        onBlur={() => updateField(item, 'value')}
+      />
+      <Input
+        width="33%"
+        value={item.value[2]}
+        onChange={checkSecondValue}
+        onBlur={() => updateField(item, 'value')}
+      />
+    </>
+  } else {
+    field = <>
+      <Select
+        filterable={false}
+        value={selectValue}
+        data={item?.options?.variants || integerDropDownValues}
+        closeOnSelect={true}
+        selectWidth="33%"
+        onChange={changeAttr}
+      />
+      <Input
+          width="67%"
+          value={item.value[1]}
+          onChange={checkFirstValue}
+          onBlur={() => updateField(item, 'value')}
+        />
+    </>
+  }
+
 
   return (
-    <SelectTextStyle draggable={draggable} {...props}>
-      <FilterFieldTitle>{item.title}</FilterFieldTitle>
-      <div {...events}>
-        <DropDownWithAttr
-          items={integerDropDownValues}
-          width="30%"
-          currentItem={selectValue}
-          setCurrentItem={changeAttr}
-        />
-        {selectValue.id === 4 ? (
-          <>
-            <SelectTextInput
-              type="text"
-              width="32%"
-              value={item.value[1]}
-              onChange={checkFirstValue}
-              onBlur={() => updateField(item, "value")}
-            />
-            <SelectTextInput
-              type="text"
-              width="32%"
-              value={item.value[2]}
-              onChange={checkSecondValue}
-              onBlur={() => updateField(item, "value")}
-            />
-          </>
-        ) : (
-          <SelectTextInput
-            type="text"
-            width="67%"
+    <SelectTextStyle {...props}>
+      {field}
+      {/* {<Select
+        filterable={false}
+        value={selectValue}
+        data={item?.options?.variants || integerDropDownValues}
+        closeOnSelect={true}
+        selectWidth="33%"
+        onChange={changeAttr}
+      />
+      {selectValue.title === 'range' ? (
+        <>
+          <Input
+            width="33%"
             value={item.value[1]}
             onChange={checkFirstValue}
-            onBlur={() => updateField(item, "value")}
+            onBlur={() => updateField(item, 'value')}
           />
-        )}
-      </div>
-      <span></span>
-      <span onClick={hideField}></span>
+          <Input
+            width="33%"
+            value={item.value[2]}
+            onChange={checkSecondValue}
+            onBlur={() => updateField(item, 'value')}
+          />
+        </>
+      ) : (
+        <Input
+          width="67%"
+          value={item.value[1]}
+          onChange={checkFirstValue}
+          onBlur={() => updateField(item, 'value')}
+        />
+      )} */}
     </SelectTextStyle>
   );
 }

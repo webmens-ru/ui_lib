@@ -1,41 +1,76 @@
-import React from 'react';
-import { useCustomContext } from '../store';
-import { BurgerMenuContainer } from '../styles';
-import { TRowItem } from '../types';
-import { useShowControl } from '../../../hooks/useShowControl';
-import { useWindowBound } from '../../../hooks';
+import React, { useEffect, useState } from "react";
+import { DataGridHandle } from "react-data-grid";
+import { useShowControl, useWindowBound } from "../../../hooks";
+import { BodyPortal } from "../../body_portal";
+import { BurgerMenuContainer, MenuContainer, MenuItem } from "../styles/burger";
+import { BurgerItem } from "../types";
 
-export function BurgerMenu({ item }: { item?: TRowItem }) {  
-  const { ref, isShow, setShow } = useShowControl();
+interface IBurgerMenuProps {
+  items: BurgerItem[];
+  gridRef: React.RefObject<DataGridHandle>;
+  onBurgerItemClick: (item: BurgerItem) => void;
+}
+interface IMenuProps {
+  items: BurgerItem[];
+  top: number;
+  left: number;
+  onBurgerItemClick: (item: BurgerItem) => void;
+}
+
+export function BurgerMenu({ items = [], gridRef, onBurgerItemClick }: IBurgerMenuProps) {
+  const [pos, setPos] = useState({ top: 0, left: 0 })
+  const { ref, isShow, toggleShow } = useShowControl();
+
+  const handleBurgerClick = (_event: React.MouseEvent<HTMLDivElement>) => {
+    updateBurgerMenuPosition()
+    toggleShow()
+  }
+
+  const updateBurgerMenuPosition = () => {
+    const gridElement = gridRef.current!.element!;
+    const burgerPos = ref.current!.getBoundingClientRect();
+    const gridPos = gridElement.getBoundingClientRect();
+
+    const top = burgerPos.top;
+    const left = burgerPos.left - gridPos.left;
+
+    setPos({ top, left });
+  };
+
+  useEffect(() => {
+    const gridElement = gridRef.current!.element!;
+    gridElement.addEventListener("scroll", updateBurgerMenuPosition);
+
+    return () => {
+      gridElement.removeEventListener("scroll", updateBurgerMenuPosition);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <BurgerMenuContainer ref={ref} onClick={() => setShow(!isShow)}>
+    <BurgerMenuContainer ref={ref} onClick={handleBurgerClick} >
       <span />
       <span />
       <span />
-      {isShow && <Menu row={item} />}
+      {(isShow && !!items.length) && <Menu items={items} left={pos.left} top={pos.top} onBurgerItemClick={onBurgerItemClick} />}
     </BurgerMenuContainer>
   );
 }
 
-function Menu({ row }: { row?: TRowItem }) {
-  const { state } = useCustomContext();
+function Menu({ items, top, left, onBurgerItemClick }: IMenuProps) {
   const { ref } = useWindowBound();
 
-  if (state.burgerItems.length === 0) {
-    return null;
-  }
-
   return (
-    <div ref={ref}>
-      {state.burgerItems.map((ddItem) => (
-        <button
-          key={ddItem.label}
-          onClick={() => state.onBurgerItemClick(ddItem, row)}
-        >
-          {ddItem.label}
-        </button>
-      ))}
-    </div>
+    <BodyPortal>
+      <MenuContainer top={top} left={left} ref={ref} >
+        {items.map((item) => (
+          <MenuItem
+            key={item.title}
+            children={item.title}
+            onClick={() => onBurgerItemClick(item)}
+          />
+        ))}
+      </MenuContainer>
+    </BodyPortal>
   );
 }

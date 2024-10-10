@@ -1,233 +1,233 @@
-export type TStringValue = {
-  id: number;
-  title: string;
-  attr: string;
-};
+import { IDataItem } from '../../../../select';
+import { IDateFieldDataItem } from "../../../types";
 
 export const stringDropDownValues = [
   {
-    id: 1,
-    title: 'Не указан',
-    attr: '',
+    title: 'Не используется',
+    value: 'isNotUsed',
   },
   {
-    id: 2,
     title: 'Точно',
-    attr: '=',
+    value: '=',
   },
   {
-    id: 3,
-    title: 'Не задан',
-    attr: 'isNull',
+    title: 'Не заполнено',
+    value: 'isNull',
   },
   {
-    id: 4,
+    title: 'Заполнено',
+    value: 'isNotNull',
+  },
+  {
     title: 'Содержится',
-    attr: '==%%',
+    value: '%like%',
+  },
+  {
+    title: 'Начинается с',
+    value: 'like%',
+  },
+  {
+    title: 'Заканчивается на',
+    value: '%like',
   },
 ];
 
-export type TIntegerValue = {
-  id: number;
-  title: string;
-  attr: string;
-};
-
 export const integerDropDownValues = [
   {
-    id: 1,
+    title: 'Не используется',
+    value: 'isNotUsed',
+  },
+  {
     title: 'Не заполнено',
-    attr: 'isNull',
+    value: 'isNull',
   },
   {
-    id: 2,
+    title: 'Заполнено',
+    value: 'isNotNull',
+  },
+  {
     title: 'Точно',
-    attr: '=',
+    value: '=',
   },
   {
-    id: 3,
     title: 'Не равно',
-    attr: '=<>',
+    value: '<>',
   },
   {
-    id: 4,
     title: 'Диапазон',
-    attr: '=[>f,<s]',
+    value: 'range',
   },
   {
-    id: 5,
     title: 'Больше чем',
-    attr: '=>',
+    value: '>',
   },
   {
-    id: 6,
     title: 'Меньше чем',
-    attr: '=<',
+    value: '<',
   },
   {
-    id: 7,
     title: 'Больше или равно',
-    attr: '=>=',
+    value: '>=',
   },
   {
-    id: 8,
     title: 'Меньше или равно',
-    attr: '=<=',
+    value: '<=',
   },
 ];
 
 export type TDateDropDown = {
-  id: number;
+  value: number;
   title: string;
   attr: string;
 };
 
 export const dateDropDown = [
   {
-    id: 0,
     title: 'Любая дата',
-    attr: '=[>f,<s]',
+    value: 'anyDate',
   },
   {
-    id: 1,
     title: 'Вчера',
-    attr: '=[>f,<s]',
+    value: 'yesterday',
   },
   {
-    id: 2,
     title: 'Сегодня',
-    attr: '=[>f,<s]',
+    value: 'today',
   },
   {
-    id: 3,
     title: 'Завтра',
-    attr: '=[>f,<s]',
+    value: 'tomorrow',
   },
   {
-    id: 4,
     title: 'Текущая неделя',
-    attr: '=[>f,<s]',
+    value: 'currentWeek',
   },
   {
-    id: 5,
     title: 'Текущий месяц',
-    attr: '=[>f,<s]',
+    value: 'currentMonth',
   },
   {
-    id: 6,
     title: 'Текущий квартал',
-    attr: '=[>f,<s]',
+    value: 'currentQuarter',
   },
   {
-    id: 7,
     title: 'Последние 7 дней',
-    attr: '=[>f,<s]',
+    value: 'last7Days',
   },
   {
-    id: 8,
     title: 'Последние 30 дней',
-    attr: '=[>f,<s]',
+    value: 'last30Days',
   },
   {
-    id: 9,
     title: 'Последние 60 дней',
-    attr: '=[>f,<s]',
+    value: 'last60Days',
   },
   {
-    id: 10,
     title: 'Последние 90 дней',
-    attr: '=[>f,<s]',
+    value: 'last90Days',
   },
   {
-    id: 11,
     title: 'Последние N дней',
-    attr: '=[>f,<s]',
+    value: 'lastNDays',
   },
   {
-    id: 12,
     title: 'Следующие N дней',
-    attr: '=[>f,<s]',
+    value: 'nextNDays',
   },
   {
-    id: 13,
-    title: 'Месяц',
-    attr: '=[>f,<s]',
-  },
-  {
-    id: 14,
-    title: 'Квартал',
-    attr: '=[>f,<s]',
-  },
-  {
-    id: 15,
-    title: 'Год',
-    attr: '=[>f,<s]',
-  },
-  {
-    id: 16,
-    title: 'Точная дата',
-    attr: '=[>f,<s]',
-  },
-  {
-    id: 17,
-    title: 'Прошлая неделя',
-    attr: '=[>f,<s]',
-  },
-  {
-    id: 18,
-    title: 'Прошлый месяц',
-    attr: '=[>f,<s]',
-  },
-  {
-    id: 19,
-    title: 'Диапазон',
-    attr: '=[>f,<s]',
-  },
-  {
-    id: 20,
     title: 'Следующая неделя',
-    attr: '=[>f,<s]',
+    value: 'nextWeek',
   },
   {
-    id: 21,
     title: 'Следующий месяц',
-    attr: '=[>f,<s]',
+    value: 'nextMonth',
   },
-];
-
-export type TMonth = { id: number; title: string };
+  {
+    title: 'Месяц',
+    value: 'month',
+  },
+  {
+    title: 'Квартал',
+    value: 'quarter',
+  },
+  {
+    title: 'Год',
+    value: 'year',
+  },
+  {
+    title: 'Точная дата',
+    value: 'exactDate',
+  },
+  {
+    title: 'Прошлая неделя',
+    value: 'lastWeek',
+  },
+  {
+    title: 'Прошлый месяц',
+    value: 'lastMonth',
+  },
+  {
+    title: 'Диапазон',
+    value: 'range',
+  },
+] as IDateFieldDataItem[];
 
 export const monthsDropDown = [
-  { id: 1, title: 'Январь' },
-  { id: 2, title: 'Февраль' },
-  { id: 3, title: 'Март' },
-  { id: 4, title: 'Апрель' },
-  { id: 5, title: 'Май' },
-  { id: 6, title: 'Июнь' },
-  { id: 7, title: 'Июль' },
-  { id: 8, title: 'Август' },
-  { id: 9, title: 'Сентябрь' },
-  { id: 10, title: 'Октябрь' },
-  { id: 11, title: 'Ноябрь' },
-  { id: 12, title: 'Декабрь' },
+  { value: 1, title: 'Январь' },
+  { value: 2, title: 'Февраль' },
+  { value: 3, title: 'Март' },
+  { value: 4, title: 'Апрель' },
+  { value: 5, title: 'Май' },
+  { value: 6, title: 'Июнь' },
+  { value: 7, title: 'Июль' },
+  { value: 8, title: 'Август' },
+  { value: 9, title: 'Сентябрь' },
+  { value: 10, title: 'Октябрь' },
+  { value: 11, title: 'Ноябрь' },
+  { value: 12, title: 'Декабрь' },
 ];
 
-export type TYear = { id: number; title: string };
+export const yearsDropDown = [
+  { value: 0, title: '2000' },
+  { value: 1, title: '2001' },
+  { value: 2, title: '2002' },
+  { value: 3, title: '2003' },
+  { value: 4, title: '2004' },
+  { value: 5, title: '2005' },
+  { value: 6, title: '2006' },
+  { value: 7, title: '2007' },
+  { value: 8, title: '2008' },
+  { value: 9, title: '2009' },
+  { value: 10, title: '2010' },
+  { value: 11, title: '2011' },
+  { value: 12, title: '2012' },
+  { value: 13, title: '2013' },
+  { value: 14, title: '2014' },
+  { value: 15, title: '2015' },
+  { value: 16, title: '2016' },
+  { value: 17, title: '2017' },
+  { value: 18, title: '2018' },
+  { value: 19, title: '2019' },
+  { value: 20, title: '2020' },
+  { value: 21, title: '2021' },
+];
 
-export const yearsDropDown = () => {
-  return Array.from({ length: 150 }, (_item, index) => ({
-    id: index + 1,
-    title: `${1950 + index}`,
-  }));
-};
+export const getYearsDropDown = (): IDataItem[] => {
+  const currentYear = new Date().getFullYear()
+  const result: IDataItem[] = []
+  for (let i = -20; i < 6; i++) {
+    const year = currentYear + i
+    result.push({ value: year, title: year })
+  }
 
-export type TQuarter = { id: number; title: string };
+  return result
+}
 
 export const quartersDropDown = [
-  { id: 1, title: 'I' },
-  { id: 2, title: 'II' },
-  { id: 3, title: 'III' },
-  { id: 4, title: 'IV' },
+  { value: 1, title: 'I' },
+  { value: 2, title: 'II' },
+  { value: 3, title: 'III' },
+  { value: 4, title: 'IV' },
 ];
 
 export const exampleCheckbox = [
@@ -250,19 +250,19 @@ export const example = [
     title: 'dropdown',
     dropdownValues: [
       {
-        id: 1,
+        value: 1,
         title: 'Не указан',
       },
       {
-        id: 2,
+        value: 2,
         title: 'Информация',
       },
       {
-        id: 3,
+        value: 3,
         title: 'Телефонный звонок',
       },
       {
-        id: 4,
+        value: 4,
         title: 'Отправлен email',
       },
     ],
@@ -276,15 +276,15 @@ export const example = [
     title: 'multiple_select',
     dropdownValues: [
       {
-        id: 1,
+        value: 1,
         title: 'Нет дел',
       },
       {
-        id: 2,
+        value: 2,
         title: 'На сегодня',
       },
       {
-        id: 3,
+        value: 3,
         title: 'Просрочены',
       },
     ],
