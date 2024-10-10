@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 type InputContainerProps = {
   readonly?: boolean;
@@ -9,7 +9,8 @@ type InputContainerProps = {
 export const InputContainer = styled.div`
   font-family: 'Open Sans';
   display: flex;
-  border: 1px solid;
+  border: 1px solid transparent;
+  border-radius: 4px;
   height: 40px;
   font-size: 14px;
   width: ${({ width }: InputContainerProps) => width ? width : '100%'};
@@ -32,7 +33,8 @@ export const InputContainer = styled.div`
     padding: 0 11px;
     color: #535c69;
     outline: none;
-    border: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
   }
 `
 

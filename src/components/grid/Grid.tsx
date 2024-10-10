@@ -1,89 +1,113 @@
-import React, { StrictMode, useCallback, useEffect, useState } from 'react';
-import { Column } from './components/Column';
-import { FirstColumn } from './components/FirstColumn';
-import { ContextProvider, useCustomContext } from './store';
-import { GridContainer } from './styles';
-import { IGridProps, TColumnItem } from './types';
-import { useDragAndDrop } from './hooks/column/useDragAndDrop';
-import { useScroll } from './hooks/grid/useScroll';
-import { useHorizontalScroll } from './hooks/grid/useHorizontalScroll';
-import { BufferColumn } from './components/BufferColumn';
+import React, { useEffect, useState } from "react";
+import DataGrid from 'react-data-grid';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from "react-dnd-html5-backend";
+import SettingsModal from "./components/SettingsModal";
+import SideScroll from "./components/SideScroll";
+import { Pagination } from "./components/pagination";
+import CheckboxFormatter from "./formatters/CheckboxFormatter";
+import useColumnResize from "./hooks/useColumnResize";
+import useColumns from "./hooks/useColumns";
+import useGridRef from "./hooks/useGridRef";
+import useGridReload from "./hooks/useGridReload";
+import useRows from "./hooks/useRows";
+import { GridContainer, GridStyle } from "./styles/grid";
+import { IGridProps, TColumnItem, TRowItem } from "./types/types";
+import { fromRawColumns, toRawColumns } from "./utils/grid_parser";
 
-/**
- * @param column
- * @param row
- * @param footer
- * @param {number} height calc(100vh - height)
- * @param {number} minHeight string
- * @param {{title: string}[]} burgerItems array of object with key title
- * @param {boolean} isShowCheckboxes default false
- * @callback columnMutation returns column after change order or width
- * @callback onBurgerItemClick returns dropdown item after click
- * @callback onChangeCheckboxes returns array of rows id
- * @callback onCellClick returns row item after click
- */
-export function Grid(props: IGridProps) {
-  if (!props.column?.length) return null;
+export const Grid2 = ({
+  columns = [],
+  rows = [],
+  footer = [],
+  burgerItems = [],
+  isShowCheckboxes = true,
+  height = 400,
+  rowKey = "id",
+  burgerKey = "actions",
+  pagination,
+  rowColorKey = "wmRowColor",
+  cellColorKey,
+  columnMutation = () => { },
+  onChangeCheckboxes = () => { },
+  onBurgerItemClick = () => { },
+  onRowMutation = () => {},
+  onCellClick = () => {}
+}: IGridProps) => {
+  const [mutableColumns, setMutableColumns] = useState<TColumnItem[]>(fromRawColumns(columns, isShowCheckboxes, onCellClick))
+  const [createRows, setCreateRows] = useState<TRowItem[]>(rows)
+  
+  const { gridKey, reloadGrid } = useGridReload()
+  const { gridRef, refReady } = useGridRef()
 
-  return (
-    <ContextProvider {...props}>
-      <ContextWrapper height={props.height} minHeight={props.minHeight} />
-    </ContextProvider>
-  );
-}
+  const { draggableColumns, sortColumns, showSettings, setShowSettings, setSortColumns } = useColumns({ createColumns: mutableColumns, cellColorKey, onReorder: handleColumnsMutation, onChangeEnd: onRowMutation })
+  const { sortedRows, selectedRows, setSelectedRows } = useRows({ createColumns: columns, createRows, sortColumns, burgerItems, burgerKey, gridRef, onBurgerItemClick })
+  // @ts-ignore
+  const { onColumnResize } = useColumnResize({ mutableColumns, draggableColumns, onResizeEnd: handleColumnsMutation })    
+  
+  useEffect(() => {
+    onChangeCheckboxes(Array.from(selectedRows))
+  }, [onChangeCheckboxes, selectedRows])
 
-function ContextWrapper({ height, minHeight }: { height?: number, minHeight?: string }) {
-  const { state, dispatch } = useCustomContext();
-  const onScroll = useScroll();
+  function handleColumnsMutation(columns: TColumnItem[]) {
+    setMutableColumns(columns)
+    columnMutation(toRawColumns(columns))
+  }
 
-  const sendResultFunc = useCallback(
-    (column: TColumnItem[]) => {
-      dispatch({ type: 'SET_COLUMN', column });
-      state.columnMutation(column);
-    },
-    [dispatch, state]
-  );
+  function handleSettingsUpdate(columns: TColumnItem[]) {
+    setMutableColumns(columns)
+    columnMutation(toRawColumns(columns))
+    reloadGrid()
+  }
 
-  const { draggableItems, setDraggableItems, getDraggableProps } =
-    useDragAndDrop(sendResultFunc);
+  const rowKeyGetter = (row: TRowItem) => {
+    const id = typeof row[rowKey] !== "object" ? row[rowKey] : row[rowKey].title
+    return typeof id === "string" ? parseInt(id) : id
+  }
+
+  const generateRowClassname = (row: TRowItem) => {
+    if (!rowColorKey) return
+
+    return row[rowColorKey]
+  }
 
   useEffect(() => {
-    setDraggableItems(state.column.filter((item) => item.visible === 1));
-  }, [setDraggableItems, state.column]);
-
-  const { ref, leftSpan, rightSpan } = useHorizontalScroll(state.column);
-
-  const [bufferWidth, setBufferWidth] = useState(0);
-
-  useEffect(() => {
-    if (draggableItems.length && ref.current) {
-      const widthFirstColumn = 70;
-      const sumWidth = draggableItems
-        .slice()
-        .map((item) => item.width)
-        .reduce((acc, item) => acc + item) + widthFirstColumn;
-      if (sumWidth < ref.current.clientWidth) {
-        setBufferWidth(ref.current.clientWidth - sumWidth);
-      }
-    }
-  }, [draggableItems, ref]);
+    setCreateRows(rows)
+  }, [rows])
 
   return (
-    <StrictMode>
-      <GridContainer
-        ref={ref}
-        rowHeight={typeof height === 'number' ? height : 0}
-        minRowHeight={minHeight}
-        onScroll={onScroll}
-      >
-        <FirstColumn />
-        {draggableItems.map((item, index) => (
-          <Column item={item} key={index} {...getDraggableProps(item)} />
-        ))}
-        <BufferColumn width={bufferWidth} key="bufferColumn" />
-        {leftSpan}
-        {rightSpan}
+    <>
+      <GridStyle />
+      {showSettings && <SettingsModal columns={mutableColumns} onClose={() => setShowSettings(false)} onSubmit={handleSettingsUpdate} />}
+      <GridContainer>
+        {refReady && <SideScroll gridRef={gridRef} />}
+        <DndProvider backend={HTML5Backend} >
+          <DataGrid
+            key={gridKey}
+            ref={gridRef}
+            
+            // @ts-ignore
+            columns={draggableColumns}
+            sortColumns={sortColumns}
+            rows={sortedRows}
+            selectedRows={selectedRows}
+            onSelectedRowsChange={setSelectedRows}
+            className="rdg-light wm-grid"
+            headerRowHeight={47}
+            rowHeight={47}
+            rowClass={generateRowClassname}
+            summaryRows={footer}
+            rowKeyGetter={rowKeyGetter}
+            onColumnResize={onColumnResize}
+            onRowsChange={setCreateRows}
+            onSortColumnsChange={setSortColumns}
+            components={{ checkboxFormatter: CheckboxFormatter }}
+            style={{ height }}
+          />
+          {pagination && (
+            <Pagination {...pagination} />
+          )}
+        </DndProvider>
       </GridContainer>
-    </StrictMode>
+    </>
   );
 }

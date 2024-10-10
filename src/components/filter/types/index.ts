@@ -1,23 +1,29 @@
-import { TDateDropDown } from "../components/right_column/filter_fields/const";
+import { IDataItem } from "../../select";
+
 
 export type TProps = {
   filters?: TFilter[];
   currentFilter?: TFilter;
+  fields?: TField[];
+  getSelectItems?: TGetSelectItems;
+  textSearch?: string;
   setCurrentFilter?: (f: TFilter) => void;
   createFilter?: (f: TFilter) => void;
   updateFilter?: (f: TUpdateFilter) => void;
   deleteFilter?: (f: TFilter) => void;
-  updateFiltersOrder?: (f: TFilter[]) => void;
-  fields?: TField[];
+  updateFiltersOrder?: (f: Array<{id: number, order: number}>) => void;
   updateField?: (f: TField, param: string) => void;
   updateFieldsOrder?: (f: TField[]) => void;
+  updateTextSearch?: (text: string) => void;
   returnDefaultFields?: () => void;
   onSearch?: (fields: TField[]) => void;
   onClearFilter?: () => void;
-  getSelectItems?: TGetSelectItems;
 }
 
 export type TGetSelectItems = (type: string, queryKey: string) => Promise<any[]>;
+export type FieldTypes = "integer" | "number" | "string" | "select" | "multiple_select" | "select_dynamic" | "multiple_select_dynamic" | "date"
+export type FieldOperator = "" | "=" | "in" | "isNull" | "isNotNull" | "isNotUsed" | "range" | "%like%" | "%like" | "like%" | "=<>" | ">=" | "<=" | "=>=" | "=<=";
+export type DateFieldOperator = "anyDate"|"yesterday"|"today"|"tomorrow"|"currentWeek"|"currentMonth"|"currentQuarter"|"last7Days"|"last30Days"|"last60Days"|"last90Days"|"lastNDays"|"nextNDays"|"nextWeek"|"nextMonth"|"month"|"quarter"|"year"|"exactDate"|"lastWeek"|"lastMonth"|"range"
 
 export type TFilter = {
   id: number;
@@ -40,12 +46,14 @@ export type TField = {
   filterId: number;
   order: number;
   value: string[];
-  type: string;
+  type: FieldTypes;
   title: string;
   queryKey: string;
   code: string;
   visible: boolean | number;
-  params: any
+  params: any;
+  options: any;
+  queryParams?: { [key: string]: any }
 };
 
 export type TFilterFieldsItem = {
@@ -65,6 +73,11 @@ export type TUpdateFieldParams = {
     value: string[];
   };
 };
+
+export interface FilterSquare {
+  title: string;
+  value: string;
+}
 
 
 export type TMouseEvent = React.MouseEvent<HTMLElement>;
@@ -90,28 +103,19 @@ export interface IDashedGreyBtn {
 
 export interface IField {
   item: TField;
-  onDragStart: () => void;
-  onDragEnter: (e: React.MouseEvent<HTMLElement>) => void;
-  onDragEnd: (e: React.MouseEvent<HTMLElement>) => void;
   updateField: (props: TField, param: string) => void;
 }
 
-export interface IOneField {
-  value: TDateDropDown;
-  setValue: (props: TDateDropDown) => void;
-  updateValue: (props: string[]) => void;
-}
-
 export interface ITwoField {
-  value: TDateDropDown;
-  setValue: (props: TDateDropDown) => void;
+  value: IDataItem;
+  setValue: (props: IDataItem[]) => void;
   updateValue: (props: string[]) => void;
   item: TField;
 }
 
 export interface IThreeField {
-  value: TDateDropDown;
-  setValue: (props: TDateDropDown) => void;
+  value: IDataItem;
+  setValue: (props: IDataItem[]) => void;
   updateValue: (props: string[]) => void;
   item: TField;
 }
@@ -146,4 +150,10 @@ export interface IBodyMultiplySelectDynamic {
   item: TFilterFieldsItem;
   setDefaultSelectedItems: (item: TMultiplySelectDynamicItem[]) => void;
   searchInputValue: string;
+}
+
+export type TFilterDates = "anyDate"|"yesterday"|"today"|"tomorrow"|"currentWeek"|"currentMonth"|"currentQuarter"|"last7Days"|"last30Days"|"last60Days"|"last90Days"|"lastNDays"|"nextNDays"|"nextWeek"|"nextMonth"|"month"|"quarter"|"year"|"exactDate"|"lastWeek"|"lastMonth"|"range"
+
+export interface IDateFieldDataItem extends IDataItem {
+  value: TFilterDates;
 }

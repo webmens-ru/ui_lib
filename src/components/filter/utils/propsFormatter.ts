@@ -14,7 +14,8 @@ export const propsFormatter = (props: TProps) => {
     setCurrentFilter:
       typeof props.setCurrentFilter === "function"
         ? props.setCurrentFilter
-        : () => {},
+        : () => { },
+    textSearch: props.textSearch || "",
     createFilter:
       typeof props.createFilter === "function" ? props.createFilter : () => {},
     updateFilter:
@@ -34,6 +35,10 @@ export const propsFormatter = (props: TProps) => {
     updateFieldsOrder:
       typeof props.updateFieldsOrder === "function"
         ? props.updateFieldsOrder
+        : () => { },
+    updateTextSearch:
+      typeof props.updateTextSearch === "function"
+        ? props.updateTextSearch
         : () => {},
     returnDefaultFields:
       typeof props.returnDefaultFields === "function"
@@ -57,6 +62,6 @@ const formattedFields = (fields: TField[] = []) => {
     .sort((a, b) => a.order - b.order)
     .map((item: TField) => ({
       ...item,
-      value: [item.value[0] || "", item.value[1] || "", item.value[2] || ""],
+      value: item.value || [],
     }));
 };

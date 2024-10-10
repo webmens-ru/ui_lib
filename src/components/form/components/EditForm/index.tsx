@@ -57,7 +57,7 @@ export const EditForm = ({
   const buildSelectQueryParams = (fieldNames?: string[], queryParams: any = {}) => {
     if (!fieldNames) return queryParams
 
-    const valuesEntities = Object.entries(form.values)
+    const valuesEntities = Object.entries(form.tempValues)
     const parentFields = valuesEntities.filter(([key]) => fieldNames.includes(key))
     const params = { ...queryParams }
 

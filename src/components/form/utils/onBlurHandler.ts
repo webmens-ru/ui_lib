@@ -1,4 +1,4 @@
-import { IValidationErrorItem, ValidationItem, IAutoHandlingValidator, IPrimitiveValidator, IMatchValidator, IInValidator } from './../types';
+import { IAutoHandlingValidator, IInValidator, IMatchValidator, IPrimitiveValidator, IValidationErrorItem, ValidationItem } from './../types';
 
 export const validator = (name: string, value: any, array: ValidationItem[]) => {
   const target = { name, value }
@@ -43,7 +43,7 @@ export const validator = (name: string, value: any, array: ValidationItem[]) => 
 };
 
 const requiredCase = ({ item, target, result }: IAutoHandlingValidator) => {
-  const invalidLength = target.value.length === 0;
+  const invalidLength = target.value?.length === 0;
   let message = "Поле обязательно для заполнения";
   if (item.hasOwnProperty("rules")) {
     if (item.rules.hasOwnProperty("message")) {
